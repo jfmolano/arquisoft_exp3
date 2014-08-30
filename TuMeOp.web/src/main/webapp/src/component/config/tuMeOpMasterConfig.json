@@ -1,0 +1,11 @@
+{
+    "displayName" : "TuMeOp",
+    "name" : "tumeop",
+    "templateName" : "tumeop",
+    "url" : "tumeop.html",
+    "server": "localhost:8080",
+    "server": "localhost:8080",
+    "context": "/TuMeOp.web/webresources/TuMeOpMaster",
+    
+    "el" : "#main"
+}

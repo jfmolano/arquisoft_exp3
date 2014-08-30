@@ -1,0 +1,42 @@
+<script type="text/template" id="tuMeOpList">
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <table class="table striped">
+    <thead>
+    <tr>
+		 <th>Name</th>
+    <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(tuMeOps, function(tuMeOp) { %>
+    <tr>
+		<td><%= htmlEncode(tuMeOp.getDisplay('name')) %></td>
+    <td>
+    <% if(showEdit) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-tuMeOp-edit',{id:<%= tuMeOp.id %>}); return false" >Edit</a> |
+	<% } %> 
+	<% if(showDelete) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-tuMeOp-delete',{id:<%= tuMeOp.id %>}); return false" >Delete</a> 
+	<% } %>    
+	</td>
+    </tr>
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/template" id="tuMeOp">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-tuMeOpForm">
+    <% if(tuMeOp.id) {%>
+    <input type="hidden" name="id" value="<%= tuMeOp.id %>"/>
+    <% }%>
+		<div class="form-group" >
+		<label for="name">Name</label>
+    	<input type="text" class="form-control" id="name" name="name" placeholder="Enter value" value="<%= tuMeOp.get('name') %>"/>	
+		</div>
+    </form>
+    </div>
+</script> 

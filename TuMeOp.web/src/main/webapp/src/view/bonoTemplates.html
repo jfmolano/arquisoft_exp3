@@ -1,0 +1,82 @@
+<script type="text/template" id="bonoList">
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <table class="table striped">
+    <thead>
+    <tr>
+		 <th>Name</th>
+		 <th>Fecha</th>
+		 <th>Valor</th>
+		 <th>Usuariobn Id</th>
+		 <th>Tienda_bono Id</th>
+    <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(bonos, function(bono) { %>
+    <tr>
+		<td><%= htmlEncode(bono.getDisplay('name')) %></td>
+		<td><%= htmlEncode(bono.getDisplay('fecha')) %></td>
+		<td><%= htmlEncode(bono.getDisplay('valor')) %></td>
+		<td><%= htmlEncode(bono.getDisplay('usuariobnId')) %></td>
+		<td><%= htmlEncode(bono.getDisplay('tienda_bonoId')) %></td>
+    <td>
+    <% if(showEdit) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-bono-edit',{id:<%= bono.id %>}); return false" >Edit</a> |
+	<% } %> 
+	<% if(showDelete) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-bono-delete',{id:<%= bono.id %>}); return false" >Delete</a> 
+	<% } %>    
+	</td>
+    </tr>
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/template" id="bono">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-bonoForm">
+    <% if(bono.id) {%>
+    <input type="hidden" name="id" value="<%= bono.id %>"/>
+    <% }%>
+		<div class="form-group" >
+		<label for="name">Name</label>
+    	<input type="text" class="form-control" id="name" name="name" placeholder="Enter value" value="<%= bono.get('name') %>"/>	
+		</div>
+		<div class="form-group" >
+			<label for="fecha">Fecha</label>
+    		<input type="text" data-converter="date" data-date-format="dd/mm/yyyy" class="form-control" id="fecha"  name="fecha" placeholder="Enter value" />
+    		<%= '<scr'+'ipt>' %>
+        	$('#fecha').datepicker({autoclose:true});
+        	$('#fecha').datepicker('setDate',App.Utils.Converter.date.toDate("<%= bono.get('fecha') %>"));
+    		<%= '</scr'+'ipt>' %>
+		</div>
+		<div class="form-group" >
+		<label for="valor">Valor</label>
+    	<input type="text" class="form-control" id="valor" name="valor" placeholder="Enter value" value="<%= bono.get('valor') %>"/>	
+		</div>
+		<div class="form-group" >
+ 
+			<label for="usuariobnidId">Usuariobn Id</label> 
+            <select class="form-control" id="usuariobnId" name="usuariobnId">
+			  <option value="">None</option>
+            <% usuarioBn.each(function(usuariobnid) { %> 
+              <option value="<%=usuariobnid.get('id')%>" <% if(bono.get('usuariobnId')==usuariobnid.get('id')) {%>selected<%}%> ><%=usuariobnid.get('name')%></option>
+            <% }); %>                
+            </select>  
+		</div>
+		<div class="form-group" >
+ 
+			<label for="tienda_bonoidId">Tienda_bono Id</label> 
+            <select class="form-control" id="tienda_bonoId" name="tienda_bonoId">
+			  <option value="">None</option>
+            <% tienda_bono.each(function(tienda_bonoid) { %> 
+              <option value="<%=tienda_bonoid.get('id')%>" <% if(bono.get('tienda_bonoId')==tienda_bonoid.get('id')) {%>selected<%}%> ><%=tienda_bonoid.get('name')%></option>
+            <% }); %>                
+            </select>  
+		</div>
+    </form>
+    </div>
+</script> 

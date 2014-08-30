@@ -1,0 +1,9 @@
+{
+    "displayName" : "Bono",
+    "name" : "bono",
+    "templateName" : "bono",
+    "url" : "user.html",
+    "server": "localhost:8080",
+    "context": "/TuMeOp.web/webresources/Bono",
+    "el" : "#main"
+}
