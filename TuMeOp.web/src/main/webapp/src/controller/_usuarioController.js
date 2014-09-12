@@ -45,16 +45,38 @@ define(['model/usuarioModel'], function(usuarioModel) {
             if(self.postInit){
             	self.postInit(options);
             }
+            
+            Backbone.on('show-productos-cliente', function() {
+               alert("Hola");
+            });
+        },
+         nuevoEvento: function(){
+            alert('Nuevo Evento');
+            FB.login();
         },
         create: function() {
-            if (App.Utils.eventExists(this.componentId + '-' +'instead-usuario-create')) {
-                Backbone.trigger(this.componentId + '-' + 'instead-usuario-create', {view: this});
-            } else {
-                Backbone.trigger(this.componentId + '-' + 'pre-usuario-create', {view: this});
-                this.currentUsuarioModel = new this.modelClass({componentId: this.componentId});
-                this._renderEdit();
-                Backbone.trigger(this.componentId + '-' + 'post-usuario-create', {view: this});
-            }
+//            if (App.Utils.eventExists(this.componentId + '-' +'instead-usuario-create')) {
+//                Backbone.trigger(this.componentId + '-' + 'instead-usuario-create', {view: this});
+//            } else {
+//                Backbone.trigger(this.componentId + '-' + 'pre-usuario-create', {view: this});
+//                this.currentUsuarioModel = new this.modelClass({componentId: this.componentId});
+//                this._renderEdit();
+//                Backbone.trigger(this.componentId + '-' + 'post-usuario-create', {view: this});
+//            }
+                alert("create");
+                
+              FB.login(function(response) {
+                console.log('login - '+JSON.stringify(response));
+                }, {scope: 'user_friends'});
+               
+               FB.api('/me', function(response) {
+                console.log('me - '+JSON.stringify(response));
+                });
+                
+                 FB.api('/friends', function(response) {
+                console.log('friends - '+JSON.stringify(response));
+                });
+            
         },
         list: function(params) {
             if (params) {
@@ -166,7 +188,8 @@ define(['model/usuarioModel'], function(usuarioModel) {
 				}));
                 self.$el.slideDown("fast");
             });
-        }
+        },
+        
     });
     return App.Controller._UsuarioController;
 });

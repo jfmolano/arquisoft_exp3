@@ -32,7 +32,19 @@ define(['component/_CRUDComponent', 'controller/toolbarController', 'model/toolb
         name: 'usuario',
         model: App.Model.UsuarioModel,
         listModel: App.Model.UsuarioList,
-        controller : App.Controller.UsuarioController
+        controller : App.Controller.UsuarioController,
+        postInit: function (){
+            
+            var self=this;
+            
+                
+                this.addButton({name: "Productos", icon: "glyphicon-list", }, function() {
+                 
+                 App.Controller.UsuarioController().nuevoEvento();
+                 
+            });
+        }
+        
     });
     return App.Component.UsuarioComponent;
 });
