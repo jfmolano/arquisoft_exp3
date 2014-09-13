@@ -52,7 +52,7 @@ define(['model/usuarioModel'], function(usuarioModel) {
         },
          nuevoEvento: function(){
             alert('Nuevo Evento');
-            FB.login();
+            
         },
         create: function() {
 //            if (App.Utils.eventExists(this.componentId + '-' +'instead-usuario-create')) {

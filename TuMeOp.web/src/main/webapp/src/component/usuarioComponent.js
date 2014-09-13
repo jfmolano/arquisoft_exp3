@@ -40,7 +40,7 @@ define(['component/_CRUDComponent', 'controller/toolbarController', 'model/toolb
                 
                 this.addButton({name: "Productos", icon: "glyphicon-list", }, function() {
                  
-                 App.Controller.UsuarioController().nuevoEvento();
+                    self.usuarioController.nuevoEvento();
                  
             });
         }
