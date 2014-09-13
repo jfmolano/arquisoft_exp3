@@ -63,19 +63,21 @@ define(['model/usuarioModel'], function(usuarioModel) {
 //                this._renderEdit();
 //                Backbone.trigger(this.componentId + '-' + 'post-usuario-create', {view: this});
 //            }
-                alert("create");
+              
                 
               FB.login(function(response) {
                 console.log('login - '+JSON.stringify(response));
-                }, {scope: 'user_friends'});
+                }, {scope: 'user_friends,user_likes'});
                
-               FB.api('/me', function(response) {
-                console.log('me - '+JSON.stringify(response));
-                });
-                
-                 FB.api('/friends', function(response) {
-                console.log('friends - '+JSON.stringify(response));
-                });
+             FB.api('/me/likes', function(response) {
+                console.log('Likes :'+JSON.stringify(response));
+             });
+             
+             FB.api('/me/feed', function(response) {
+                console.log('Feed: '+JSON.stringify(response));
+             });
+             
+             
             
         },
         list: function(params) {
@@ -155,23 +157,84 @@ define(['model/usuarioModel'], function(usuarioModel) {
             }
         },
         save: function() {
-            var self = this;
-            var model = $('#' + this.componentId + '-usuarioForm').serializeObject();
-            if (App.Utils.eventExists(this.componentId + '-' +'instead-usuario-save')) {
-                Backbone.trigger(this.componentId + '-' + 'instead-usuario-save', {view: this, model : model});
-            } else {
-                Backbone.trigger(this.componentId + '-' + 'pre-usuario-save', {view: this, model : model});
-                this.currentUsuarioModel.set(model);
-                this.currentUsuarioModel.save({},
-                        {
-                            success: function(model) {
-                                Backbone.trigger(self.componentId + '-' + 'post-usuario-save', {model: self.currentUsuarioModel});
-                            },
-                            error: function(error) {
-                                Backbone.trigger(self.componentId + '-' + 'error', {event: 'usuario-save', view: self, error: error});
-                            }
-                        });
-            }
+//            var self = this;
+//            var model = $('#' + this.componentId + '-usuarioForm').serializeObject();
+//            if (App.Utils.eventExists(this.componentId + '-' +'instead-usuario-save')) {
+//                Backbone.trigger(this.componentId + '-' + 'instead-usuario-save', {view: this, model : model});
+//            } else {
+//                Backbone.trigger(this.componentId + '-' + 'pre-usuario-save', {view: this, model : model});
+//                this.currentUsuarioModel.set(model);
+//                this.currentUsuarioModel.save({},
+//                        {
+//                            success: function(model) {
+//                                Backbone.trigger(self.componentId + '-' + 'post-usuario-save', {model: self.currentUsuarioModel});
+//                            },
+//                            error: function(error) {
+//                                Backbone.trigger(self.componentId + '-' + 'error', {event: 'usuario-save', view: self, error: error});
+//                            }
+//                        });
+//            }
+            console.log('1');
+            FB.api('/me/friends', function(response) {
+                console.log('2');
+                if (response.data) {
+                    console.log('3');
+                    console.log('Response'+JSON.stringify(response));
+                    console.log('Response data'+JSON.stringify(response.data));
+                    console.log('Response data type'+JSON.stringify(response.data.valueOf()));
+                     console.log('Response data length '+JSON.stringify(response.data.length));
+                     console.log('Response data summary '+JSON.stringify(response.summary));
+                     
+                    
+                     
+                     var amigos = response.data;
+                     var respuesta = '';
+                    for (var i = 0; i < amigos.length; i++) {
+                        console.log('i: '+i);
+                        console.log('amigo all:'+JSON.stringify(amigos[i]))
+                        console.log('amigo '+i+' - nombre:'+amigos[i].name)
+                        FB.api("/"+amigos[i].id+"/likes",function(res){
+                            console.log('Res:'+res);
+                            console.log('Res JSON:'+JSON.stringify(res));
+                        })
+                    }
+                    console.log('4');
+                } else {
+                    console.log('5');
+                    console.log('Error al obtener amigos');
+                }
+            });
+            
+            FB.api('/me/friendlists', function(response) {
+                console.log('2');
+                if (response.data) {
+                    console.log('3');
+                    console.log('Response'+JSON.stringify(response));
+                    console.log('Response data'+JSON.stringify(response.data));
+                    console.log('Response data type'+JSON.stringify(response.data.valueOf()));
+                     console.log('Response data length '+JSON.stringify(response.data.length));
+                     console.log('Response data summary '+JSON.stringify(response.summary));
+                     
+                    
+                     
+                     var amigos = response.data;
+                     var respuesta = '';
+                    for (var i = 0; i < amigos.length; i++) {
+                        console.log('i: '+i);
+                        console.log('amigo all:'+JSON.stringify(amigos[i]))
+                        console.log('amigo '+i+' - nombre:'+amigos[i].name)
+                        FB.api("/"+amigos[i].id+"/likes",function(res){
+                            console.log('Res:'+res);
+                            console.log('Res JSON:'+JSON.stringify(res));
+                        })
+                    }
+                    console.log('4');
+                } else {
+                    console.log('5');
+                    console.log('Error al obtener amigos');
+                }
+            });
+        
         },
         _renderList: function() {
             var self = this;
