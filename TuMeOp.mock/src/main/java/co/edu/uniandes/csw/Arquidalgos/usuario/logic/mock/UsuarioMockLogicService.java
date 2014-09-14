@@ -33,7 +33,12 @@ import javax.enterprise.inject.Alternative;
 import javax.inject.Singleton;
 
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.api.IUsuarioLogicService;
+import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
 @Singleton
 public class UsuarioMockLogicService extends _UsuarioMockLogicService implements IUsuarioLogicService {
+
+    public UsuarioDTO loginUsuario(UsuarioDTO usuario) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 	
 }

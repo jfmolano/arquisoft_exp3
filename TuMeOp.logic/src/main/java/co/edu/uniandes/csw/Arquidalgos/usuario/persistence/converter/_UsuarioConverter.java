@@ -49,6 +49,7 @@ public abstract class _UsuarioConverter {
 					dto.setId(entity.getId());
 					dto.setName(entity.getName());
 					dto.setContrasena(entity.getContrasena());
+                                        dto.setEmail(entity.getEmail());
 			return dto;
 		}else{
 			return null;
@@ -63,6 +64,7 @@ public abstract class _UsuarioConverter {
 					entity.setName(dto.getName());
 			
 					entity.setContrasena(dto.getContrasena());
+                                        entity.setEmail(dto.getEmail());
 			
 			return entity;
 		}else {

@@ -48,6 +48,8 @@ public abstract class _UsuarioPersistence implements _IUsuarioPersistence {
 	protected EntityManager entityManager;
 	
 	public UsuarioDTO createUsuario(UsuarioDTO usuario) {
+            
+                
 		UsuarioEntity entity=UsuarioConverter.persistenceDTO2Entity(usuario);
 		entityManager.persist(entity);
 		return UsuarioConverter.entity2PersistenceDTO(entity);

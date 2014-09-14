@@ -38,10 +38,37 @@ import javax.inject.Inject;
 import javax.enterprise.inject.Default;
 
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.api.IUsuarioLogicService;
+import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
+import java.util.List;
 
 @Default
 @Stateless
 @LocalBean
 public class UsuarioLogicService extends _UsuarioLogicService implements IUsuarioLogicService {
+
+    public UsuarioDTO loginUsuario(UsuarioDTO usuario) throws Exception{
+        UsuarioDTO prueba = new UsuarioDTO();
+        prueba.setEmail("a");
+        prueba.setContrasena("a");
+        prueba.setName("a");
+        createUsuario(prueba);
+        
+        UsuarioDTO usuarioActual = searchClienteByEmail(usuario);
+        if ( usuarioActual == null)
+        {
+            throw new Exception("El usuario: "+usuario.getEmail()+" con contraseña :"+usuario.getContrasena()
+                    +"no existe");
+        }
+        else if ( usuarioActual.getContrasena().equals(usuario.getContrasena()))
+        {
+            return usuarioActual;
+        }
+        else
+        {
+            throw new Exception("Clave incorrecta. Intente de nuevo");
+        }
+    }
+    
+    
 
 }

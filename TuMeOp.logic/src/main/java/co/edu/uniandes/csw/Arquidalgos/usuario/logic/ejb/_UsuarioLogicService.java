@@ -42,9 +42,23 @@ public abstract class _UsuarioLogicService implements _IUsuarioLogicService {
 	protected IUsuarioPersistence persistance;
 
 	public UsuarioDTO createUsuario(UsuarioDTO usuario){
+            
+            if ( searchClienteByEmail(usuario)== null)
 		return persistance.createUsuario( usuario); 
+            
+            else return null;
     }
 
+        public UsuarioDTO searchClienteByEmail(UsuarioDTO cliente) {
+        
+        
+        List<UsuarioDTO> clientesP = getUsuarios();
+        int i = 0;
+        while (i != clientesP.size() && !clientesP.get(i).getEmail().equals(cliente.getEmail()))
+        {System.out.println("cliente "+i+" con email "+clientesP.get(i).getEmail());
+            i++;}
+        return (i == clientesP.size())? null: clientesP.get(i);
+    }
 	public List<UsuarioDTO> getUsuarios(){
 		return persistance.getUsuarios(); 
 	}

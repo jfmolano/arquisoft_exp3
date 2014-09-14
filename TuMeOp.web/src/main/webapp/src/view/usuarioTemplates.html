@@ -1,4 +1,5 @@
-<script type="text/template" id="usuarioList">
+<script type="text/template" id="usuarioList2">
+    <% alert('usuarioList'); %>
     <div class="panel panel-default">
     <!-- Default panel contents -->
     <table class="table striped">
@@ -30,6 +31,7 @@
 </script>
 
 <script type="text/template" id="usuario">
+    <% alert('usuario'); %>
     <div class="form-group">
     <form role="form" id="<%= componentId %>-usuarioForm">
     <% if(usuario.id) {%>
@@ -46,3 +48,117 @@
     </form>
     </div>
 </script> 
+
+<!-- Template Registrarse -->
+<script type="text/template" id="usuarioList">
+        <% console.log('logIn id:'+componentId); %>
+     <div class="container">
+
+      <form class="form-signin" role="form" id="<%= componentId %>-FormLogin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input id ="email" name ="email" type="text" class="input-block-level" placeholder="Email address">
+        <input id ="contrasena" name ="contrasena" type="password" class="input-block-level" placeholder="Password">
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+        <button id="<%= componentId %>-loginButton" class="btn btn-large btn-primary" 
+            onclick="Backbone.trigger('<%= componentId %>-login',{}); return false" 
+            type="button" class="btn btn-info">
+                        
+        Sign in
+        </button>
+        <ul onclick="Backbone.trigger('<%= componentId %>-renderRegistrarse',{}); return false"
+            text="Registrarse">
+            
+        </ul>
+      </form>
+
+    </div>
+    
+</script>
+<script type="text/template" id="registrarse">
+        <% console.log('logIn id:'+componentId); %>
+     <div class="container">
+
+      <form class="form-signin" role="form" id="<%= componentId %>-FormRegistrarse">
+        <h2 class="form-signin-heading">Por favor ingrese sus datos</h2>
+        <label>Nombre: </label>
+        <input id ="name" name ="name" type="text" class="input-block-level" placeholder="Nombre">
+        <label>Correo electronico: </label>
+        <input id ="email" name ="email" type="text" class="input-block-level" placeholder="Email address">
+        <label>Contraseña: </label>
+        <input id ="contrasena" name ="contrasena" type="password" class="input-block-level" placeholder="Password">
+        <button id="<%= componentId %>-registrarseButton" class="btn btn-large btn-primary" 
+            onclick="Backbone.trigger('<%= componentId %>-registrarse',{}); return false" 
+            type="submit" class="btn btn-info">
+                        
+        Registrarse
+        </button>
+        
+      </form>
+
+    </div>
+    
+</script>
+
+<script type="text/template" id="principal">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>
+    
+    
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Sidebar</li>
+              <li class="active" 
+                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
+                <a> Amigos </a>
+              </li>
+              <li  onclick="alert('Onclick');">
+                   <a> Agregar Amigos </a>
+              </li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2013</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+    
+</script>

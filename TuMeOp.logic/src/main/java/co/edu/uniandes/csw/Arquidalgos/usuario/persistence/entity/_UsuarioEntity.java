@@ -46,7 +46,17 @@ public abstract class _UsuarioEntity {
 	private Long id;
 	private String name;
 	private String contrasena;
+        private String email;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+        
+        
 	public Long getId(){
 		return id;
 	}
