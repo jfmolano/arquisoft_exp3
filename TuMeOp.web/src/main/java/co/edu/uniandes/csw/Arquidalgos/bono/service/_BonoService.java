@@ -35,12 +35,14 @@ import co.edu.uniandes.csw.Arquidalgos.bono.logic.dto.BonoDTO;
 import co.edu.uniandes.csw.Arquidalgos.bono.logic.dto.PrecioDTO;
 import java.util.List;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 
 public abstract class _BonoService {
@@ -66,13 +68,39 @@ public abstract class _BonoService {
                 if(bono==null)
                 {
                     PrecioDTO p = new PrecioDTO();
-                    p.setValor(-1);
+                    p.setValor(0);
                     return p;
                 }
                 else
                 {
                     PrecioDTO p = new PrecioDTO();
                     p.setValor(bono.getValor());
+                    return p;
+                }
+	}
+        
+        @GET
+	@Path("/cancelar/{id}") 
+	public PrecioDTO cancelarBono(@PathParam("id") Long id){
+                BonoDTO bono_ant = bonoLogicService.getBono(id);
+                if(bono_ant!=null)
+                {
+                    BonoDTO bono = new BonoDTO();
+                    bono.setFecha(bono_ant.getFecha());
+                    bono.setId(bono_ant.getId());
+                    bono.setName(bono_ant.getName());
+                    bono.setTienda_bonoId(bono_ant.getTienda_bonoId());
+                    bono.setUsuariobnId(bono_ant.getUsuariobnId());
+                    bono.setValor(0-bono_ant.getValor());
+                    bonoLogicService.updateBono(bono);
+                    PrecioDTO p = new PrecioDTO();
+                    p.setValor(bono.getValor());
+                    return p;
+                }
+                else
+                {
+                    PrecioDTO p = new PrecioDTO();
+                    p.setValor(0);
                     return p;
                 }
 	}
@@ -89,7 +117,7 @@ public abstract class _BonoService {
 	}
 	
 	@PUT
-    @Path("{id}")
+        @Path("{id}")
 	public void updateBono(@PathParam("id") Long id, BonoDTO bono){
 		bonoLogicService.updateBono(bono);
 	}
