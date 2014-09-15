@@ -101,9 +101,22 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
                 
                 
             }
-            union.setUsuarioId(id);
-            union.setAmigoId(getUsuarioEmail(actual.getEmail()).getId());
-            entityManager.persist(union);
+            boolean hayRelacion=false;
+            List<UsuarioDTO> amigos2 = darAmigosUsuario(id);
+            for (int j = 0; j < amigos2.size()&&!hayRelacion; j++) {
+                if ( amigos2.get(i).getEmail().equals(actual.getEmail())){
+                    hayRelacion=true;
+                }
+            }
+            if ( !hayRelacion){
+                union.setUsuarioId(id);
+                union.setAmigoId(getUsuarioEmail(actual.getEmail()).getId());
+                entityManager.persist(union);
+
+            }
+
+            
+            
             
         }      
         

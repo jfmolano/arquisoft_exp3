@@ -19,6 +19,8 @@ public abstract class _UsuarioAmigoEntity {
 
 	@Id
 	@GeneratedValue(generator = "UsuarioAmigo")
+        private Long id;
+        
 	private Long usuarioId;
 	private Long amigoId;
 
@@ -36,6 +38,14 @@ public abstract class _UsuarioAmigoEntity {
 
     public void setAmigoId(Long amigoId) {
         this.amigoId = amigoId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
         

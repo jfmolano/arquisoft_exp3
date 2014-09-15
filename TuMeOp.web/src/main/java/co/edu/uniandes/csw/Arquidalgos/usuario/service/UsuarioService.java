@@ -64,4 +64,10 @@ public class UsuarioService extends _UsuarioService {
     public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos) throws Exception {
         return this.usuarioLogicService.agregarAmigos(usuarioAmigos);
     }
+    
+    @POST
+    @Path("/darAmigos")
+    public List<UsuarioDTO> darAmigos(UsuarioDTO usuario) {
+        return this.usuarioLogicService.darAmigos(usuario.getId());
+    }
 }

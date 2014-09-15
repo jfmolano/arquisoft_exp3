@@ -84,4 +84,8 @@ public class UsuarioLogicService extends _UsuarioLogicService implements IUsuari
         return agregarAmigos(usuarioAmigos.getId(),usuarioAmigos.getAmigos());
     }
 
+    public List<UsuarioDTO> darAmigos(Long id) {
+        return darAmigosUsuario(id);
+    }
+
 }

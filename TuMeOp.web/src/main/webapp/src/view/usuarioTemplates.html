@@ -190,6 +190,122 @@
     
 </script>
 
+<script type="text/template" id="amigos">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>
+    
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Tu Mejor Opcion</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              Logged in as <a href="#" class="navbar-link">Username</a>
+            </p>
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+     </div>
+    
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Sidebar</li>
+              <li class="active" 
+                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
+                <a> Amigos </a>
+              </li>
+              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
+                   <a> Importar Amigos </a>
+              </li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <table class="table striped">
+                <thead>
+                <tr>
+                             <th>Name</th>
+                             <th>Email</th>
+                            <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% _.each(amigos, function(amigo) { %>
+                <tr>
+                            <td><%= htmlEncode(amigo.getDisplay('name')) %></td>
+                            <td><%= htmlEncode(amigo.getDisplay('email')) %></td>
+                <td>
+                
+                
+                 <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success" 
+                    onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.id %>}); return false"
+                     
+                    type="button" class="btn btn-success">
+                        Ver
+                 </button>
+                </td>
+                </tr>
+                <% }); %>
+                </tbody>
+                </table>
+            </div>
+        
+        </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2013</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+    
+</script>
+
 <script type="text/template" id="importarAmigos">
     <style type="text/css">
       body {
@@ -263,12 +379,14 @@
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
-        <button id="<%= componentId %>-importarFacebook" class="btn btn-large btn-primary" 
-            onclick="Backbone.trigger('<%= componentId %>-importarFacebook',{}); return false" 
-            type="button" class="btn btn-primary">
-                        
-        Importar Amigos Facebook
-        </button>
+        <div class"span9">
+            <button id="<%= componentId %>-importarFacebook" class="btn btn-medium btn-primary" 
+                onclick="Backbone.trigger('<%= componentId %>-importarFacebook',{}); return false" 
+                type="button" class="btn btn-primary">
+
+            Importar Amigos Facebook
+            </button>
+        </div>
 
       <hr>
 

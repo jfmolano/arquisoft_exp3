@@ -40,4 +40,6 @@ public interface IUsuarioLogicService extends _IUsuarioLogicService {
 
     public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos);
 
+    public List<UsuarioDTO> darAmigos(Long id);
+
 }

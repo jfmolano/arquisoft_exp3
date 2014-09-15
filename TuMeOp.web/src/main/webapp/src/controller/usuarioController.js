@@ -51,11 +51,18 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                 
 //                self.importarFacebook(params);
             });
+            Backbone.on(this.componentId+'-verAmigos', function(params) {
+                self.verAmigos(params);
+                
+//                self.importarFacebook(params);
+            });
             
             
             this.importarAmigosTemplate = _.template($('#importarAmigos').html());
             this.principalTemplate = _.template($('#principal').html());
             this.registrarseTemplate = _.template($('#registrarse').html());
+            this.amigosTemplate = _.template($('#amigos').html());
+            
             
         },
         login: function() {
@@ -81,6 +88,28 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
             function(data) {
                 Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
                 alert("Usuario o password invalidos");
+            });
+        },
+        verAmigos: function() {
+            var self = this;
+            
+            
+            self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+            self.usuarioDelegate.verAmigosDelegate(
+                self.usuarioActual,
+            
+                function(data) {
+                console.log("Ver Amigos respuesta: "+JSON.stringify(data))
+                self.currentAmigosUsuario=new App.Model.UsuarioList(data);
+                
+                //self._renderLogin();
+                self.renderAmigos();
+//                self._renderEdit();
+            }, 
+            
+            function(data) {
+                Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                alert("Error en ver los amigos");
             });
         },
         registrarse: function() {
@@ -113,6 +142,15 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
             var self = this;
             this.$el.slideUp("fast", function() {
                 self.$el.html(self.principalTemplate({usuarioActual: self.UsuarioActual, componentId: self.componentId}));
+                self.$el.slideDown("fast");
+            });
+        },
+        renderAmigos: function() {
+            var self = this;
+            this.$el.slideUp("fast", function() {
+                console.log("renderAmigos: "+JSON.stringify(self.currentAmigosUsuario));
+                console.log("renderAmigos models: "+JSON.stringify(self.currentAmigosUsuario.models));
+                self.$el.html(self.amigosTemplate({amigos: self.currentAmigosUsuario.models,usuarioActual: self.UsuarioActual, componentId: self.componentId}));
                 self.$el.slideDown("fast");
             });
         },
