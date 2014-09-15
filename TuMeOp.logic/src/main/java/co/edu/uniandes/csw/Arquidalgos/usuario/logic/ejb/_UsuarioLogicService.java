@@ -43,10 +43,19 @@ public abstract class _UsuarioLogicService implements _IUsuarioLogicService {
 
 	public UsuarioDTO createUsuario(UsuarioDTO usuario){
             
-            if ( searchClienteByEmail(usuario)== null)
+            UsuarioDTO nuevo = searchClienteByEmail(usuario);
+            if ( nuevo == null)
 		return persistance.createUsuario( usuario); 
             
-            else return null;
+            else{
+                
+                if ( nuevo.getContrasena().equals("")){
+                    nuevo.setContrasena(usuario.getContrasena());
+                    return nuevo;
+                }
+                else return null;
+            } 
+                
     }
 
         public UsuarioDTO searchClienteByEmail(UsuarioDTO cliente) {

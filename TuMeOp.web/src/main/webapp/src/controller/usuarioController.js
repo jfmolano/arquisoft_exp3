@@ -40,9 +40,20 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
             Backbone.on(this.componentId+'-renderRegistrarse', function(params) {
                 self.renderRegistrarse(params);
             });
-             Backbone.on(this.componentId+'-registrarse', function(params) {
+            Backbone.on(this.componentId+'-registrarse', function(params) {
                 self.registrarse(params);
             });
+            Backbone.on(this.componentId+'-importarAmigos', function(params) {
+                self.importarAmigos(params);
+            });
+            Backbone.on(this.componentId+'-importarFacebook', function(params) {
+                self.permisosFacebook(params);
+                
+//                self.importarFacebook(params);
+            });
+            
+            
+            this.importarAmigosTemplate = _.template($('#importarAmigos').html());
             this.principalTemplate = _.template($('#principal').html());
             this.registrarseTemplate = _.template($('#registrarse').html());
             
@@ -61,7 +72,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
             
                 function(data) {
                 self.currentUsuarioModel=new App.Model.UsuarioModel(data);
-                self.UsuarioActual = self.currentUsuarioModel;
+                self.usuarioActual = self.currentUsuarioModel;
                 //self._renderLogin();
                 self.renderPrincipal();
 //                self._renderEdit();
@@ -85,8 +96,9 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                 self.currentUsuarioModel,
             
                 function(data) {
+                console.log("Registrarse respuesta: "+JSON.stringify(data))
                 self.currentUsuarioModel=new App.Model.UsuarioModel(data);
-                self.UsuarioActual = self.currentUsuarioModel;
+                self.usuarioActual = self.currentUsuarioModel;
                 //self._renderLogin();
                 self.renderPrincipal();
 //                self._renderEdit();
@@ -110,7 +122,126 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                 self.$el.html(self.registrarseTemplate({componentId: self.componentId}));
                 self.$el.slideDown("fast");
             });
-        }
+        },
+        importarAmigos: function() {
+            var self = this;
+            this.$el.slideUp("fast", function() {
+                self.$el.html(self.importarAmigosTemplate({usuarioId: self.usuarioActual.id ,componentId: self.componentId}));
+                self.$el.slideDown("fast");
+            });
+        },
+        permisosFacebook: function(){
+            var self = this;
+            FB.login(function(response) {
+                console.log('login - '+JSON.stringify(response));
+                FB.api('/me', function(response) {
+                    console.log('Me :'+JSON.stringify(response));
+                });
+             
+                FB.api('/me/likes', function(response) {
+//                    console.log('Likes :'+JSON.stringify(response));
+                });
+             
+                FB.api('/me/posts', function(response) {
+//                    console.log('Posts : '+JSON.stringify(response));
+                });  
+                FB.api('/me/friends', function(response) {
+                    console.log('2');
+                    if (response.data) {
+                        console.log('3');
+                        console.log('Response'+JSON.stringify(response));
+                        console.log('Response data'+JSON.stringify(response.data));
+                        console.log('Response data type'+JSON.stringify(response.data.valueOf()));
+                         console.log('Response data length '+JSON.stringify(response.data.length));
+                         console.log('Response data summary '+JSON.stringify(response.summary));
+
+
+
+                         var amigos = response.data;
+                         var respuesta = '';
+                         
+                       self.amigosNuevos = new App.Model.UsuarioList ();
+                         
+                         
+                        for (var i = 0; i < amigos.length; i++) {
+                            console.log('i: '+i);
+                            console.log('amigo all:'+JSON.stringify(amigos[i]))
+                            console.log('amigo '+i+' - nombre:'+amigos[i].name)
+                            FB.api("/"+amigos[i].id+"/likes",function(res){
+                                console.log('Res:'+res);
+                                console.log('Res JSON:'+JSON.stringify(res));
+                            })
+                            
+                            var amigoActual = new App.Model.UsuarioModel();
+                            
+                            amigoActual.set('name', amigos[i].name);
+                            amigoActual.set('email', amigos[i].email);
+                            self.amigosNuevos.models.push(amigoActual);
+                        }
+                        
+                        self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        self.usuarioDelegate.agregarAmigos(self.usuarioActual.id, self.amigosNuevos, function(data) {
+                        
+
+                            console.log("Amigos agregados: "+JSON.stringify(data))
+                            alert("Agregó Amigos");
+                        }, function(data) {
+
+                            alert("Error Agregando Amigos")
+                        });
+                        console.log('4');
+                    } else {
+                        console.log('5');
+                        console.log('Error al obtener amigos');
+                    }
+                });
+
+                
+            }, {scope: 'public_profile,email,user_friends,user_likes,publish_actions,read_stream'});
+               
+                       
+        },
+        importarFacebook: function(){
+            
+             FB.api('/me/likes', function(response) {
+                console.log('Likes :'+JSON.stringify(response));
+             });
+             
+             FB.api('/me/posts', function(response) {
+                console.log('Posts : '+JSON.stringify(response));
+             });           
+            
+        },
+        statusChangeCallback: function (response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+              // Logged into your app and Facebook.
+              testAPI();
+            } else if (response.status === 'not_authorized') {
+              // The person is logged into Facebook, but not your app.
+              document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+            } else {
+              // The person is not logged into Facebook, so we're not sure if
+              // they are logged into this app or not.
+              document.getElementById('status').innerHTML = 'Please log ' +
+                'into Facebook.';
+            }
+        },
+
+      // This function is called when someone finishes with the Login
+      // Button.  See the onlogin handler attached to it in the sample
+      // code below.
+      checkLoginState:function() {
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
+      }
     
     });
     return App.Controller.UsuarioController;

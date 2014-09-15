@@ -54,6 +54,22 @@ define(['delegate/_usuarioDelegate'], function() {
             }, this)).error(_.bind(function(data) {
                 callbackError(data);
             }, this));
-        }
+        },
+        agregarAmigos: function(id,amigos,  callback,callbackError){
+	    
+            console.log("Agregar Amigos Delegate id: "+id+" amigos: "+JSON.stringify(amigos))
+            $.ajax({
+	          url: '/TuMeOp.web/webresources/Usuario/agregarAmigos',
+	          type: 'POST',
+	          data: '{ "id":' +  JSON.stringify(id) 
+                          + ', "amigos":' +  JSON.stringify(amigos.models) 
+                          + '}',
+	          contentType: 'application/json'
+	      }).done(_.bind(function(data){
+	    	  callback(data);
+	      },this)).error(_.bind(function(data){
+	    	  callbackError(data);
+	      },this));
+	}
     });
 });

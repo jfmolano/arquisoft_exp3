@@ -38,6 +38,7 @@ import javax.inject.Inject;
 import javax.enterprise.inject.Default;
 
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.api.IUsuarioLogicService;
+import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioAmigosDTO;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
 import java.util.List;
 
@@ -69,6 +70,18 @@ public class UsuarioLogicService extends _UsuarioLogicService implements IUsuari
         }
     }
     
+    public List<UsuarioDTO> darAmigosUsuario(Long id){
+        
+        return persistance.darAmigosUsuario(id);
+    }
     
+    public List<UsuarioDTO> agregarAmigos ( Long id, List<UsuarioDTO> amigos){
+        
+        return persistance.agregarAmigos(id, amigos);
+    }
+
+    public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos) {
+        return agregarAmigos(usuarioAmigos.getId(),usuarioAmigos.getAmigos());
+    }
 
 }
