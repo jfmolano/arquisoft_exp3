@@ -49,33 +49,35 @@
     </div>
 </script> 
 
-<!-- Template Registrarse -->
+<!-- Template Login -->
 <script type="text/template" id="usuarioList">
         <% console.log('logIn id:'+componentId); %>
      
      <div class="container">
 
-      <form class="form-signin" role="form" id="<%= componentId %>-FormLogin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input id ="email" name ="email" type="text" class="input-block-level" placeholder="Email address">
-        <input id ="contrasena" name ="contrasena" type="password" class="input-block-level" placeholder="Password">
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button id="<%= componentId %>-loginButton" class="btn btn-large btn-primary" 
-            onclick="Backbone.trigger('<%= componentId %>-login',{}); return false" 
+       <div class="span2">
+       <div>
+       <div class="span3">
+       <button id="<%= componentId %>-loginFacebook" class="btn btn-large btn-primary" 
+            onclick="Backbone.trigger('<%= componentId %>-loginFacebook',{}); return false" 
             type="button" class="btn btn-info">
                         
-        Sign in
+        Ingresa con Facebook
         </button>
-        <br>
-        <br>
-        <label>No estas registrado? </label>
-        <a onclick="Backbone.trigger('<%= componentId %>-renderRegistrarse',{}); return false">
-           Registrate!
-        </a>
-        
-      </form>
+       <div>
+       <div class="span2">
+       <div>
+       <div class="span3">
+       <button id="<%= componentId %>-loginGoogle" class="btn btn-large btn-danger" 
+            onclick="Backbone.trigger('<%= componentId %>-loginGoogle',{}); return false" 
+            type="button" class="btn btn-info">
+                        
+        Ingresa con Google+
+        </button>
+       <div>
+       <div class="span2">
+       <div>
+     
 
     </div>
     

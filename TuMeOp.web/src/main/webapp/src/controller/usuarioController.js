@@ -33,8 +33,8 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
         postInit: function(options) {
             var self = this;
             
-            Backbone.on(this.componentId+'-login', function(params) {
-                self.login(params);
+            Backbone.on(this.componentId+'-loginFacebook', function(params) {
+                self.permisosFacebook(params);
             });
             
             Backbone.on(this.componentId+'-renderRegistrarse', function(params) {
@@ -65,7 +65,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
             
             
         },
-        login: function() {
+        loginFacebook: function() {
             var self = this;
             console.log("component id1: "+this.componentId);
             var model = $('#' + this.componentId + '-FormLogin').serializeObject();
@@ -177,12 +177,17 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                 });
              
                 FB.api('/me/likes', function(response) {
-//                    console.log('Likes :'+JSON.stringify(response));
+                    console.log('Likes :'+JSON.stringify(response));
                 });
              
                 FB.api('/me/posts', function(response) {
 //                    console.log('Posts : '+JSON.stringify(response));
                 });  
+                
+               
+//                 FB.api('/me/feed', 'post', {message: 'http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.cosasdesalud.es%2Fimages%2Festre%25C3%25B1imiento.jpg&h=FAQEVwZDh\n\
+// Ayer no pude hacer popo. :('});
+             
                 FB.api('/me/friends', function(response) {
                     console.log('2');
                     if (response.data) {
@@ -233,23 +238,14 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                         console.log('Error al obtener amigos');
                     }
                 });
-
+                
+                self.verAmigos();
                 
             }, {scope: 'public_profile,email,user_friends,user_likes,publish_actions,read_stream'});
                
                        
         },
-        importarFacebook: function(){
-            
-             FB.api('/me/likes', function(response) {
-                console.log('Likes :'+JSON.stringify(response));
-             });
-             
-             FB.api('/me/posts', function(response) {
-                console.log('Posts : '+JSON.stringify(response));
-             });           
-            
-        },
+        
         statusChangeCallback: function (response) {
             console.log('statusChangeCallback');
             console.log(response);

@@ -71,11 +71,12 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
         
         List<UsuarioDTO> usuarios = getUsuarios();
         
-        for (int i = 0; i < usuarios.size(); i++) {
-            
-            if ( usuarios.get(i).getEmail().equals(email)){
-                return usuarios.get(i);
-            }
+        for (UsuarioDTO usuario : usuarios) {
+            if (usuario.getEmail()!=null){
+                if (usuario.getEmail().equals(email)) {
+                    return usuario;
+                }
+            }            
         }
         return null;
     }
@@ -87,9 +88,7 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
             
             UsuarioDTO actual = amigos.get(i);
            
-            if ( actual.getName().equals("Nicole Rojas")){
-                actual.setEmail("ln.rojas1902@uniandes.edu.co");
-            }
+            
             if (getUsuarioEmail(actual.getEmail())==null){
                 
                 UsuarioDTO amigo = new UsuarioDTO();
@@ -104,13 +103,19 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
             boolean hayRelacion=false;
             List<UsuarioDTO> amigos2 = darAmigosUsuario(id);
             for (int j = 0; j < amigos2.size()&&!hayRelacion; j++) {
-                if ( amigos2.get(i).getEmail().equals(actual.getEmail())){
+                if ( amigos2.get(j).getEmail().equals(actual.getEmail())){
                     hayRelacion=true;
                 }
             }
             if ( !hayRelacion){
                 union.setUsuarioId(id);
-                union.setAmigoId(getUsuarioEmail(actual.getEmail()).getId());
+                String em = actual.getEmail();
+                UsuarioDTO us = getUsuarioEmail(em);
+                Long idx = us.getId();
+                union.setAmigoId(idx);
+                System.out.println("Email actual: "+em);
+                System.out.println("Usuario actual: "+us);
+                System.out.println("Id actual: "+idx);
                 entityManager.persist(union);
 
             }
