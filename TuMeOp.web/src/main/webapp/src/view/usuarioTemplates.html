@@ -91,8 +91,11 @@
         <input id ="name" name ="name" type="text" class="input-block-level" placeholder="Nombre">
         <label>Correo electronico: </label>
         <input id ="email" name ="email" type="text" class="input-block-level" placeholder="Email address">
-        <label>Contraseña: </label>
+        <label>Contrasena: </label>
         <input id ="contrasena" name ="contrasena" type="password" class="input-block-level" placeholder="Password">
+        <label class="checkbox">
+          <input type="checkbox" value="aceptar-condiciones"> Aceptas los terminos y condiciones? 
+        </label>
         <button id="<%= componentId %>-registrarseButton" class="btn btn-large btn-primary" 
             onclick="Backbone.trigger('<%= componentId %>-registrarse',{}); return false" 
             type="submit" class="btn btn-info">
@@ -182,9 +185,7 @@
 
       <hr>
 
-      <footer>
-        <p>&copy; Company 2013</p>
-      </footer>
+      
 
     </div><!--/.fluid-container-->
     
@@ -298,10 +299,7 @@
 
       <hr>
 
-      <footer>
-        <p>&copy; Company 2013</p>
-      </footer>
-
+      
     </div><!--/.fluid-container-->
     
 </script>
@@ -380,19 +378,22 @@
           </div><!--/.well -->
         </div><!--/span-->
         <div class"span9">
-            <button id="<%= componentId %>-importarFacebook" class="btn btn-medium btn-primary" 
+            
+            <div class="span4"></div>
+            <div class="span4">
+                <button id="<%= componentId %>-importarFacebook" class="btn btn-medium btn-primary" 
                 onclick="Backbone.trigger('<%= componentId %>-importarFacebook',{}); return false" 
                 type="button" class="btn btn-primary">
 
-            Importar Amigos Facebook
-            </button>
+                Importar Amigos Facebook
+                </button>
+            <div>
+            <div class="span4"></div>
         </div>
 
       <hr>
 
-      <footer>
-        <p>&copy; Company 2013</p>
-      </footer>
+      
 
     </div><!--/.fluid-container-->
     

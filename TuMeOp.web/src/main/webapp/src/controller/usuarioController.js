@@ -81,7 +81,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                 self.currentUsuarioModel=new App.Model.UsuarioModel(data);
                 self.usuarioActual = self.currentUsuarioModel;
                 //self._renderLogin();
-                self.renderPrincipal();
+                self.verAmigos();
 //                self._renderEdit();
             }, 
             
@@ -129,7 +129,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                 self.currentUsuarioModel=new App.Model.UsuarioModel(data);
                 self.usuarioActual = self.currentUsuarioModel;
                 //self._renderLogin();
-                self.renderPrincipal();
+                self.verAmigos();
 //                self._renderEdit();
             }, 
             
@@ -222,7 +222,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                         
 
                             console.log("Amigos agregados: "+JSON.stringify(data))
-                            alert("Agregó Amigos");
+                            console.log("Agregó Amigos")
                         }, function(data) {
 
                             alert("Error Agregando Amigos")
