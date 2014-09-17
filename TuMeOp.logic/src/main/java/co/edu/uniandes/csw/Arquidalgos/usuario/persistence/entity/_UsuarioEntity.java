@@ -42,12 +42,24 @@ import javax.persistence.MappedSuperclass;
 public abstract class _UsuarioEntity {
 
 	@Id
-	@GeneratedValue(generator = "Usuario")
+        @GeneratedValue(generator = "Usuario")
 	private Long id;
 	private String name;
 	private String contrasena;
         private String email;
+        private String facebookId;
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+        
+        
+        
+        
     public String getEmail() {
         return email;
     }

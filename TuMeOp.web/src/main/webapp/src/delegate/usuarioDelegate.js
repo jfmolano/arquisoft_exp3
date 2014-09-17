@@ -84,6 +84,20 @@ define(['delegate/_usuarioDelegate'], function() {
 	      },this)).error(_.bind(function(data){
 	    	  callbackError(data);
 	      },this));
+	},
+        crearUsuarioDelegate: function(usuario,  callback,callbackError){
+	    
+            console.log("Crear usuario delegate : "+JSON.stringify(usuario))
+            $.ajax({
+	          url: '/TuMeOp.web/webresources/Usuario/crearUsuario',
+	          type: 'POST',
+	          data: JSON.stringify(usuario),
+	          contentType: 'application/json'
+	      }).done(_.bind(function(data){
+	    	  callback(data);
+	      },this)).error(_.bind(function(data){
+	    	  callbackError(data);
+	      },this));
 	}
     });
 });

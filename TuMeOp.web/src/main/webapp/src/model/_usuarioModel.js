@@ -32,7 +32,8 @@ define([], function() {
         defaults: {
                  'email': '',
 		 'name' : '' ,  
-		 'contrasena' : ''        },
+		 'contrasena' : '' ,
+                 'facebookId' :'' },
         initialize: function() {
           var self = this;
           this.on('invalid',function(error){

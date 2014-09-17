@@ -172,23 +172,66 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
             var self = this;
             FB.login(function(response) {
                 console.log('login - '+JSON.stringify(response));
+                  
+                FB.api('/ropaPRONTO', function(response) {
+                    console.log('Pronto : '+JSON.stringify(response));
+                    
+                });  
                 FB.api('/me', function(response) {
                     console.log('Me :'+JSON.stringify(response));
+                    
+                     self.usuarioActual = new App.Model.UsuarioModel();
+                                           
+                        
+                        self.usuarioActual.set('email',response.email);
+                        self.usuarioActual.set('name',response.name);
+                        self.usuarioActual.set('facebookId',response.id);
+                        console.log('Usuario actual a registrar en el model: '+JSON.stringify(self.usuarioActual));
+                        //TODO Registrar usuario en la aplicación
+                        self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        self.usuarioDelegate.crearUsuarioDelegate(
+                            self.usuarioActual,
+
+                            function(data) {
+                            console.log("Registrarse respuesta: "+JSON.stringify(data))
+                            self.currentUsuarioModel=new App.Model.UsuarioModel(data);
+                            self.usuarioActual = self.currentUsuarioModel;
+                           self.agregarDatosFacebook(response);
+                        }, 
+
+                        function(data) {
+                            Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                            alert("Usuario o password invalidos");
+                        });
+                        
                 });
              
-                FB.api('/me/likes', function(response) {
+              
+               
+//                 FB.api('/me/feed', 'post', {message: 'http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.cosasdesalud.es%2Fimages%2Festre%25C3%25B1imiento.jpg&h=FAQEVwZDh\n\
+// Ayer no pude hacer popo. :('});
+             
+                
+                
+                
+                
+            }, {scope: 'public_profile,email,user_friends,user_likes,publish_actions,read_stream'});
+               
+                       
+        },
+        agregarDatosFacebook: function (response){
+             var self = this;
+              FB.api('/me/likes', function(response) {
                     console.log('Likes :'+JSON.stringify(response));
                 });
              
                 FB.api('/me/posts', function(response) {
 //                    console.log('Posts : '+JSON.stringify(response));
                 });  
+              
                 
-               
-//                 FB.api('/me/feed', 'post', {message: 'http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.cosasdesalud.es%2Fimages%2Festre%25C3%25B1imiento.jpg&h=FAQEVwZDh\n\
-// Ayer no pude hacer popo. :('});
-             
-                FB.api('/me/friends', function(response) {
+            FB.api('/me/friends', function(response) {
                     console.log('2');
                     if (response.data) {
                         console.log('3');
@@ -197,9 +240,8 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                         console.log('Response data type'+JSON.stringify(response.data.valueOf()));
                          console.log('Response data length '+JSON.stringify(response.data.length));
                          console.log('Response data summary '+JSON.stringify(response.summary));
-
-
-
+                        
+                      
                          var amigos = response.data;
                          var respuesta = '';
                          
@@ -208,21 +250,23 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                          
                         for (var i = 0; i < amigos.length; i++) {
                             console.log('i: '+i);
-                            console.log('amigo all:'+JSON.stringify(amigos[i]))
-                            console.log('amigo '+i+' - nombre:'+amigos[i].name)
+                            console.log('amigo all:'+JSON.stringify(amigos[i]));
+                            console.log('amigo '+i+' - nombre:'+amigos[i].name);
                             FB.api("/"+amigos[i].id+"/likes",function(res){
-                                console.log('Res:'+res);
-                                console.log('Res JSON:'+JSON.stringify(res));
+                                console.log('Res amigo:'+res);
+                                console.log('Res amigo JSON:'+JSON.stringify(res));
                             })
                             
                             var amigoActual = new App.Model.UsuarioModel();
                             
                             amigoActual.set('name', amigos[i].name);
                             amigoActual.set('email', amigos[i].email);
+                            amigoActual.set('facebookId', amigos[i].id);
                             self.amigosNuevos.models.push(amigoActual);
                         }
                         
                         self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        //TODO facebook id
                         self.usuarioDelegate.agregarAmigos(self.usuarioActual.id, self.amigosNuevos, function(data) {
                         
 
@@ -233,19 +277,14 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                             alert("Error Agregando Amigos")
                         });
                         console.log('4');
+                        self.verAmigos();
                     } else {
                         console.log('5');
                         console.log('Error al obtener amigos');
                     }
                 });
-                
-                self.verAmigos();
-                
-            }, {scope: 'public_profile,email,user_friends,user_likes,publish_actions,read_stream'});
-               
-                       
+            
         },
-        
         statusChangeCallback: function (response) {
             console.log('statusChangeCallback');
             console.log(response);

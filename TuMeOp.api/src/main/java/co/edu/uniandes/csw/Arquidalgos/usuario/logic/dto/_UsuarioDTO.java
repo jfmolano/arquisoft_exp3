@@ -49,6 +49,17 @@ public abstract class _UsuarioDTO {
 
         private String email;
 
+        private String facebookId;
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+        
+        
     public String getEmail() {
         return email;
     }

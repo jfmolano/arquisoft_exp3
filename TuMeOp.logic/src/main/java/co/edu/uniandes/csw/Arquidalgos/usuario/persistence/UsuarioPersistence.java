@@ -95,6 +95,7 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
                 amigo.setContrasena("");
                 amigo.setEmail(actual.getEmail());
                 amigo.setName(actual.getName());
+                amigo.setFacebookId(actual.getFacebookId());
                 UsuarioEntity entity=UsuarioConverter.persistenceDTO2Entity(amigo);
 		entityManager.persist(entity);              
                 

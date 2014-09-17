@@ -53,7 +53,14 @@ public abstract class _UsuarioService {
 	public UsuarioDTO createUsuario(UsuarioDTO usuario){
 		return usuarioLogicService.createUsuario(usuario);
 	}
+        
+        @POST
+        @Path("/crearUsuario")
+        public UsuarioDTO crearUsuario(UsuarioDTO usuario) {
+            return createUsuario(usuario);
+        }
 	
+        
 	@DELETE
 	@Path("{id}")
 	public void deleteUsuario(@PathParam("id") Long id){
