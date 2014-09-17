@@ -18,16 +18,16 @@ public class UsuarioAmigosDTO {
 
  
     
-    protected Long id;
+    protected String facebookId;
    
     
     
-    public Long getId() {
-        return id;
+    public String getFacebookId() {
+        return facebookId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFacebookId(String id) {
+        this.facebookId = id;
     }
     
     

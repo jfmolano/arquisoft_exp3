@@ -36,10 +36,10 @@ import java.util.List;
 
 public interface IUsuarioLogicService extends _IUsuarioLogicService {
 
-    public UsuarioDTO loginUsuario(UsuarioDTO usuario) throws Exception;
+    
 
     public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos);
 
-    public List<UsuarioDTO> darAmigos(Long id);
+    public List<UsuarioDTO> darAmigosUsuario(String facebookId);
 
 }

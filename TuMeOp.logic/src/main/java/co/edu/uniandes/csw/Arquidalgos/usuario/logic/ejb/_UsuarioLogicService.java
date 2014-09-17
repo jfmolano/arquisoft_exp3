@@ -35,6 +35,7 @@ import javax.inject.Inject;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.api._IUsuarioLogicService;
 import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.api.IUsuarioPersistence;
+import java.util.ArrayList;
 
 public abstract class _UsuarioLogicService implements _IUsuarioLogicService {
 
@@ -43,31 +44,37 @@ public abstract class _UsuarioLogicService implements _IUsuarioLogicService {
 
 	public UsuarioDTO createUsuario(UsuarioDTO usuario){
             
-            UsuarioDTO nuevo = searchClienteByEmail(usuario);
+            UsuarioDTO nuevo = searchClienteByFacebookId(usuario.getFacebookId());
+            
             if ( nuevo == null)
 		return persistance.createUsuario( usuario); 
             
-            else{
+            else {
                 
-                if ( nuevo.getContrasena().equals("")){
-                    nuevo.setContrasena(usuario.getContrasena());
-                    return nuevo;
-                }
-                else return null;
-            } 
+                if ( nuevo.getEmail()==null || nuevo.getEmail().equals(""))
+                    nuevo.setEmail(usuario.getEmail());
                 
-    }
+                if ( nuevo.getName()==null || nuevo.getName().equals(""))
+                    nuevo.setEmail(usuario.getEmail());
+                
+                return nuevo;
+            }
+        }
 
-        public UsuarioDTO searchClienteByEmail(UsuarioDTO cliente) {
+        public UsuarioDTO searchClienteByFacebookId(String fbId) {
+            
+            List<UsuarioDTO> usuariosApp = getUsuarios();
+            
+            for (int i = 0; i < usuariosApp.size(); i++) {
+                
+                if ( usuariosApp.get(i).getFacebookId().equals(fbId))
+                    return usuariosApp.get(i);
+            }
+            
+            return null;
+        }
         
         
-        List<UsuarioDTO> clientesP = getUsuarios();
-        int i = 0;
-        while (i != clientesP.size() && !clientesP.get(i).getEmail().equals(cliente.getEmail()))
-        {System.out.println("cliente "+i+" con email "+clientesP.get(i).getEmail());
-            i++;}
-        return (i == clientesP.size())? null: clientesP.get(i);
-    }
 	public List<UsuarioDTO> getUsuarios(){
 		return persistance.getUsuarios(); 
 	}

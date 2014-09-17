@@ -173,10 +173,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
             FB.login(function(response) {
                 console.log('login - '+JSON.stringify(response));
                   
-                FB.api('/ropaPRONTO', function(response) {
-                    console.log('Pronto : '+JSON.stringify(response));
-                    
-                });  
+                
                 FB.api('/me', function(response) {
                     console.log('Me :'+JSON.stringify(response));
                     
@@ -216,33 +213,24 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                 
                 
                 
-            }, {scope: 'public_profile,email,user_friends,user_likes,publish_actions,read_stream'});
+            }, {scope: 'email,public_profile,user_friends,user_likes,publish_actions,read_stream'});
                
                        
         },
         agregarDatosFacebook: function (response){
              var self = this;
-              FB.api('/me/likes', function(response) {
-                    console.log('Likes :'+JSON.stringify(response));
-                });
-             
-                FB.api('/me/posts', function(response) {
-//                    console.log('Posts : '+JSON.stringify(response));
-                });  
               
                 
             FB.api('/me/friends', function(response) {
                     console.log('2');
                     if (response.data) {
                         console.log('3');
+                         
                         console.log('Response'+JSON.stringify(response));
-                        console.log('Response data'+JSON.stringify(response.data));
-                        console.log('Response data type'+JSON.stringify(response.data.valueOf()));
-                         console.log('Response data length '+JSON.stringify(response.data.length));
-                         console.log('Response data summary '+JSON.stringify(response.summary));
                         
-                      
-                         var amigos = response.data;
+                       
+                        
+                        var amigos = response.data;
                          var respuesta = '';
                          
                        self.amigosNuevos = new App.Model.UsuarioList ();
@@ -252,32 +240,39 @@ define(['controller/_usuarioController','delegate/usuarioDelegate'], function() 
                             console.log('i: '+i);
                             console.log('amigo all:'+JSON.stringify(amigos[i]));
                             console.log('amigo '+i+' - nombre:'+amigos[i].name);
-                            FB.api("/"+amigos[i].id+"/likes",function(res){
-                                console.log('Res amigo:'+res);
-                                console.log('Res amigo JSON:'+JSON.stringify(res));
-                            })
+                            FB.api("/"+amigos[i].id,function(res){
+                                
+                                console.log('Amigo con /{user-id} JSON: '+JSON.stringify(res));
+                            });
+//                            
+//                            FB.api("/"+amigos[i].id+"/likes",function(res){
+//                               
+//                                console.log('Res amigo JSON:'+JSON.stringify(res));
+//                            });
                             
                             var amigoActual = new App.Model.UsuarioModel();
                             
                             amigoActual.set('name', amigos[i].name);
                             amigoActual.set('email', amigos[i].email);
                             amigoActual.set('facebookId', amigos[i].id);
+                           
                             self.amigosNuevos.models.push(amigoActual);
                         }
                         
                         self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
-                        //TODO facebook id
-                        self.usuarioDelegate.agregarAmigos(self.usuarioActual.id, self.amigosNuevos, function(data) {
+                        console.log('Usuario Actual facebook ID: '+self.usuarioActual.getDisplay('facebookId'));
+                        self.usuarioDelegate.agregarAmigos(self.usuarioActual.getDisplay('facebookId'), self.amigosNuevos, function(data) {
                         
 
-                            console.log("Amigos agregados: "+JSON.stringify(data))
-                            console.log("Agregó Amigos")
+                            console.log("Amigos agregados: "+JSON.stringify(data));
+                            console.log("Agregó Amigos");
+                            self.verAmigos();
                         }, function(data) {
 
-                            alert("Error Agregando Amigos")
+                            alert("Error Agregando Amigos");
                         });
                         console.log('4');
-                        self.verAmigos();
+                        
                     } else {
                         console.log('5');
                         console.log('Error al obtener amigos');

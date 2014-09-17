@@ -47,11 +47,7 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class UsuarioService extends _UsuarioService {
 
-    @POST
-    @Path("/login")
-    public UsuarioDTO loginCliente(UsuarioDTO usuario) throws Exception {
-        return this.usuarioLogicService.loginUsuario(usuario);
-    }
+    
 
     @POST
     @Path("/registrarse")
@@ -68,6 +64,7 @@ public class UsuarioService extends _UsuarioService {
     @POST
     @Path("/darAmigos")
     public List<UsuarioDTO> darAmigos(UsuarioDTO usuario) {
-        return this.usuarioLogicService.darAmigos(usuario.getId());
+        System.out.println("Dar amigos service de: "+usuario.getFacebookId());
+        return this.usuarioLogicService.darAmigosUsuario(usuario.getFacebookId());
     }
 }

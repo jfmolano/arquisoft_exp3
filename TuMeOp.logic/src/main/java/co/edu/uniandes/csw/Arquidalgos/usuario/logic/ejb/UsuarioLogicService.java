@@ -47,45 +47,22 @@ import java.util.List;
 @LocalBean
 public class UsuarioLogicService extends _UsuarioLogicService implements IUsuarioLogicService {
 
-    public UsuarioDTO loginUsuario(UsuarioDTO usuario) throws Exception{
-        UsuarioDTO prueba = new UsuarioDTO();
-        prueba.setEmail("a");
-        prueba.setContrasena("a");
-        prueba.setName("a");
-        createUsuario(prueba);
-        
-        UsuarioDTO usuarioActual = searchClienteByEmail(usuario);
-        if ( usuarioActual == null)
-        {
-            throw new Exception("El usuario: "+usuario.getEmail()+" con contraseña :"+usuario.getContrasena()
-                    +"no existe");
-        }
-        else if ( usuarioActual.getContrasena().equals(usuario.getContrasena()))
-        {
-            return usuarioActual;
-        }
-        else
-        {
-            throw new Exception("Clave incorrecta. Intente de nuevo");
-        }
+    
+    
+    public List<UsuarioDTO> darAmigosUsuario(String facebookId){
+        System.out.println("Dar amigos ejb de: "+facebookId);
+        return persistance.darAmigosUsuario(facebookId);
     }
     
-    public List<UsuarioDTO> darAmigosUsuario(Long id){
+    public List<UsuarioDTO> agregarAmigos ( String facebookId, List<UsuarioDTO> amigos){
         
-        return persistance.darAmigosUsuario(id);
-    }
-    
-    public List<UsuarioDTO> agregarAmigos ( Long id, List<UsuarioDTO> amigos){
-        
-        return persistance.agregarAmigos(id, amigos);
+        return persistance.agregarAmigos(facebookId, amigos);
     }
 
     public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos) {
-        return agregarAmigos(usuarioAmigos.getId(),usuarioAmigos.getAmigos());
+        return agregarAmigos(usuarioAmigos.getFacebookId(),usuarioAmigos.getAmigos());
     }
 
-    public List<UsuarioDTO> darAmigos(Long id) {
-        return darAmigosUsuario(id);
-    }
+    
 
 }

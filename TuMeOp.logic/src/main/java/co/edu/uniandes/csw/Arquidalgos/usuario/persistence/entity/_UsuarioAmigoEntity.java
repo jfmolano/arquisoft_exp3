@@ -21,23 +21,23 @@ public abstract class _UsuarioAmigoEntity {
 	@GeneratedValue(generator = "UsuarioAmigo")
         private Long id;
         
-	private Long usuarioId;
-	private Long amigoId;
+	private String usuarioFacebookId;
+	private String amigoFacebookId;
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public String getUsuarioFacebookId() {
+        return usuarioFacebookId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuarioFacebookId(String usuarioId) {
+        this.usuarioFacebookId = usuarioId;
     }
 
-    public Long getAmigoId() {
-        return amigoId;
+    public String getAmigoFacebookId() {
+        return amigoFacebookId;
     }
 
-    public void setAmigoId(Long amigoId) {
-        this.amigoId = amigoId;
+    public void setAmigoFacebookId(String amigoId) {
+        this.amigoFacebookId = amigoId;
     }
 
     public Long getId() {

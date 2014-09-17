@@ -39,17 +39,14 @@ import java.util.List;
 @Singleton
 public class UsuarioMockLogicService extends _UsuarioMockLogicService implements IUsuarioLogicService {
 
-    public UsuarioDTO loginUsuario(UsuarioDTO usuario) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     
 
     public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<UsuarioDTO> darAmigos(Long id) {
+    public List<UsuarioDTO> darAmigosUsuario(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 	

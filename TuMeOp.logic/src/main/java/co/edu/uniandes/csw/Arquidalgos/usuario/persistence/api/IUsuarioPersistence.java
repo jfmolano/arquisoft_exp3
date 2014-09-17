@@ -35,7 +35,7 @@ import java.util.List;
 
 public interface IUsuarioPersistence extends _IUsuarioPersistence {
 
-    public List<UsuarioDTO> darAmigosUsuario( Long id);
+    public List<UsuarioDTO> darAmigosUsuario( String facebookId);
     
-    public List<UsuarioDTO> agregarAmigos( Long id, List<UsuarioDTO> amigos);
+    public List<UsuarioDTO> agregarAmigos( String facebookId, List<UsuarioDTO> amigos);
 }

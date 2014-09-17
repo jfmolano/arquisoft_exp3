@@ -48,8 +48,8 @@ import javax.persistence.Query;
 @LocalBean
 public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuarioPersistence {
 
-    public List<UsuarioDTO> darAmigosUsuario( Long id){
-        
+    public List<UsuarioDTO> darAmigosUsuario( String facebookId){
+        System.out.println("Dar amigos persistence de: "+facebookId);
         List<UsuarioDTO> resp = new ArrayList<UsuarioDTO>();
         
         Query q = entityManager.createQuery("select u from UsuarioAmigoEntity u");
@@ -58,8 +58,10 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
         
         for (int i = 0; i < amigos.size(); i++) {
             UsuarioAmigoEntity actual = (UsuarioAmigoEntity) amigos.get(i);
-            if ( actual.getUsuarioId().equals(id)){
-                resp.add(getUsuario(actual.getAmigoId()));
+            if ( actual.getUsuarioFacebookId().equals(facebookId)){
+                UsuarioDTO amigo = getUsuarioFacebookId(actual.getAmigoFacebookId());
+                resp.add(amigo);
+                System.out.println("Amigo agregado: "+amigo.getFacebookId()+" - "+amigo.getName());
             }
         }
         
@@ -67,66 +69,54 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
         return resp;
     }
     
-    public UsuarioDTO getUsuarioEmail( String email){
+    public UsuarioDTO getUsuarioFacebookId( String facebookId){
         
         List<UsuarioDTO> usuarios = getUsuarios();
         
         for (UsuarioDTO usuario : usuarios) {
-            if (usuario.getEmail()!=null){
-                if (usuario.getEmail().equals(email)) {
-                    return usuario;
-                }
-            }            
+            
+            if ( usuario.getFacebookId().equals(facebookId)){
+                return usuario;
+            }
         }
         return null;
     }
     
-    public List<UsuarioDTO> agregarAmigos( Long id, List<UsuarioDTO> amigos){
+    public List<UsuarioDTO> agregarAmigos( String facebookId, List<UsuarioDTO> amigos){
         
         for (int i = 0; i < amigos.size(); i++) {
             UsuarioAmigoEntity union = new UsuarioAmigoEntity();
             
-            UsuarioDTO actual = amigos.get(i);
+            UsuarioDTO amigoActual = amigos.get(i);
            
             
-            if (getUsuarioEmail(actual.getEmail())==null){
+            if (getUsuarioFacebookId(amigoActual.getFacebookId())==null){
                 
-                UsuarioDTO amigo = new UsuarioDTO();
-                amigo.setContrasena("");
-                amigo.setEmail(actual.getEmail());
-                amigo.setName(actual.getName());
-                amigo.setFacebookId(actual.getFacebookId());
-                UsuarioEntity entity=UsuarioConverter.persistenceDTO2Entity(amigo);
+                
+                UsuarioEntity entity=UsuarioConverter.persistenceDTO2Entity(amigoActual);
 		entityManager.persist(entity);              
                 
                 
             }
             boolean hayRelacion=false;
-            List<UsuarioDTO> amigos2 = darAmigosUsuario(id);
-            for (int j = 0; j < amigos2.size()&&!hayRelacion; j++) {
-                if ( amigos2.get(j).getEmail().equals(actual.getEmail())){
+            List<UsuarioDTO> amigosExistentes = darAmigosUsuario(facebookId);
+            for (int j = 0; j < amigosExistentes.size()&&!hayRelacion; j++) {
+                if ( amigosExistentes.get(j).getFacebookId().equals(amigoActual.getFacebookId())){
                     hayRelacion=true;
                 }
             }
             if ( !hayRelacion){
-                union.setUsuarioId(id);
-                String em = actual.getEmail();
-                UsuarioDTO us = getUsuarioEmail(em);
-                Long idx = us.getId();
-                union.setAmigoId(idx);
-                System.out.println("Email actual: "+em);
-                System.out.println("Usuario actual: "+us);
-                System.out.println("Id actual: "+idx);
+                union.setUsuarioFacebookId(facebookId);
+                
+                union.setAmigoFacebookId(amigoActual.getFacebookId());
+                
                 entityManager.persist(union);
 
-            }
-
-            
-            
+            }           
             
         }      
         
-        return darAmigosUsuario(id);
+        return darAmigosUsuario(facebookId);
     }
     
 }
