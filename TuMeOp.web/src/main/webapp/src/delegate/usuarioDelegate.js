@@ -73,6 +73,22 @@ define(['delegate/_usuarioDelegate'], function() {
 	    	  callbackError(data);
 	      },this));
 	},
+        verLikesDelegate: function(id, likes, callback,callbackError){
+	    console.log('Delegate id:'+JSON.stringify(id));
+            console.log('Delegate likes'+JSON.stringify(likes));
+            $.ajax({
+	          url: '/TuMeOp.web/webresources/Usuario/darLikesUsuario',
+	          type: 'POST',
+	          data: '{ "facebookId":' +  JSON.stringify(id) 
+                          + ', "tiendas":' +  JSON.stringify(likes.models) 
+                          + '}',
+	          contentType: 'application/json'
+	      }).done(_.bind(function(data){
+	    	  callback(data);
+	      },this)).error(_.bind(function(data){
+	    	  callbackError(data);
+	      },this));
+	},
         crearUsuarioDelegate: function(usuario,  callback,callbackError){
 	    
             console.log("Crear usuario delegate : "+JSON.stringify(usuario));
@@ -86,6 +102,22 @@ define(['delegate/_usuarioDelegate'], function() {
 	      },this)).error(_.bind(function(data){
 	    	  callbackError(data);
 	      },this));
-	}
+	},
+        agregarBonosDelegate: function(id,bonos,  callback,callbackError){
+        
+            console.log("Agregar Bonos Delegate id: "+id+" amigos: "+JSON.stringify(bonos));
+            $.ajax({
+              url: '/TuMeOp.web/webresources/Usuario/agregarBonos',
+              type: 'POST',
+              data: '{ "facebookId":' +  JSON.stringify(id)
+                          + ', "bonos":' +  JSON.stringify(bonos.models)
+                          + '}',
+              contentType: 'application/json'
+          }).done(_.bind(function(data){
+              callback(data);
+          },this)).error(_.bind(function(data){
+              callbackError(data);
+          },this));
+    }
     });
 });

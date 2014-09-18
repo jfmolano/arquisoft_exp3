@@ -53,7 +53,18 @@ public abstract class _TiendaDTO {
 
 	private Integer tipo;
 
+        private String facebookId;
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+        
+        
+        
 
 	public Long getId() {
 		return id;

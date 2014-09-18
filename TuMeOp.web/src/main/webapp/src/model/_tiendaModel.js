@@ -34,7 +34,8 @@ define([], function() {
 		 'name' : '' ,  
 		 'direccion' : '' ,  
 		 'nombre' : '' ,  
-		 'tipo' : ''        },
+		 'tipo' : '',
+                 'facebookId':''},
         initialize: function() {
           var self = this;
           this.on('invalid',function(error){

@@ -50,7 +50,8 @@ public abstract class _PreferenciaConverter {
 					dto.setName(entity.getName());
 					dto.setNumeroDeComentarios(entity.getNumeroDeComentarios());
 					dto.setMeGusta(entity.getMeGusta());
-					dto.setTienda_preId(entity.getTienda_preId());
+					dto.setTiendaFacebookId(entity.getTiendaFacebookId());
+                                        dto.setUsuarioFacebookId(entity.getUsuarioFacebookId());
 			return dto;
 		}else{
 			return null;
@@ -68,7 +69,9 @@ public abstract class _PreferenciaConverter {
 			
 					entity.setMeGusta(dto.getMeGusta());
 			
-					entity.setTienda_preId(dto.getTienda_preId());
+					entity.setUsuarioFacebookId(dto.getUsuarioFacebookId());
+                                        
+                                        entity.setTiendaFacebookId(dto.getTiendaFacebookId());
 			
 			return entity;
 		}else {

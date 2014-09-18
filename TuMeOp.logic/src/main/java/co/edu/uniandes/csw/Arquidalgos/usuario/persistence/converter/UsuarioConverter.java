@@ -35,4 +35,6 @@ import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.entity.UsuarioEntity;
 
 public class UsuarioConverter extends _UsuarioConverter {
 
+    
+    
 }

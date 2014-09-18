@@ -33,7 +33,11 @@ package co.edu.uniandes.csw.Arquidalgos.usuario.persistence;
 import co.edu.uniandes.csw.Arquidalgos.bono.logic.dto.BonoDTO;
 import co.edu.uniandes.csw.Arquidalgos.bono.persistence.converter.BonoConverter;
 import co.edu.uniandes.csw.Arquidalgos.bono.persistence.entity.BonoEntity;
+import co.edu.uniandes.csw.Arquidalgos.preferencia.persistence.entity.PreferenciaEntity;
+import co.edu.uniandes.csw.Arquidalgos.tienda.logic.dto.TiendaDTO;
+import co.edu.uniandes.csw.Arquidalgos.tienda.persistence.converter.TiendaConverter;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
+import co.edu.uniandes.csw.Arquidalgos.usuario.logic.ejb.SendEmail;
 import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.api.IUsuarioPersistence;
 import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.converter.UsuarioConverter;
 import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.entity.UsuarioAmigoEntity;
@@ -91,7 +95,28 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
             UsuarioAmigoEntity union = new UsuarioAmigoEntity();
             
             UsuarioDTO amigoActual = amigos.get(i);
-           
+            
+            if ( amigos.get(i).getFacebookId().equals("10152697649964929")){
+                
+                amigos.get(i).setEmail("molano_francisco@hotmail.com");
+            }
+            
+            if ( amigos.get(i).getFacebookId().equals("10152422965938108")){
+                
+                amigos.get(i).setEmail("ln.rojas1902@uniandes.edu.co");
+            }
+            if ( amigos.get(i).getFacebookId().equals("639083569524127")){
+                
+                amigos.get(i).setEmail("jose_suarez94@hotmail.com");
+            }
+            if ( amigos.get(i).getFacebookId().equals("579260092185903")){
+                
+                amigos.get(i).setEmail("vilcansoto18@hotmail.com");
+            }
+            if ( amigos.get(i).getFacebookId().equals("1481578408760798")){
+                
+                amigos.get(i).setEmail("arquidalgos@hotmail.com");
+            }
             
             if (getUsuarioFacebookId(amigoActual.getFacebookId())==null){
                 
@@ -121,10 +146,10 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
         
         return darAmigosUsuario(facebookId);
     }
-
-    public void agregarBonos(String facebookId, List<BonoDTO> bonos) {
+public List<BonoDTO> agregarBonos(String facebookId, List<BonoDTO> bonos) {
        
         for (BonoDTO bono : bonos) {
+            UsuarioDTO usuario = getUsuarioFacebookId(facebookId);
             
             BonoDTO bonoActual = bono;
             BonoEntity entity=BonoConverter.persistenceDTO2Entity(bonoActual);
@@ -134,7 +159,65 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
             union.setIdBono(bonoActual.getId());
             union.setIdUsuario(facebookId);
             entityManager.persist(union);
-        } 
+            new SendEmail(usuario.getEmail(), ""+bono.getValor(), "Pronto", ""+entity.getId()).start();
+        }
+        return bonos;
+    }
+
+    public List<TiendaDTO> darLikesUsuario(String facebookId, List<TiendaDTO> tiendasN) {
+        
+        System.out.println("Usuario id "+facebookId);
+        
+        
+        UsuarioDTO us = getUsuarioFacebookId(facebookId);
+        List<TiendaDTO> resp = new ArrayList<TiendaDTO> ();
+        
+        if ( us != null){
+            List <TiendaDTO> tiendas = getTiendas();
+            
+            for (TiendaDTO tiendaActual : tiendasN) {
+                
+                System.out.println("Tienda actual: "+tiendaActual.getName()+" - id: "+tiendaActual.getFacebookId());
+                boolean con = buscarTiendaID(tiendaActual.getFacebookId());
+                System.out.println("Condicion if "+con);
+                if ( con ){
+                    
+                    System.out.println("Entro al if preferencia: "+tiendaActual.getName());
+                    PreferenciaEntity p = new PreferenciaEntity();
+                    
+                    p.setMeGusta(true);
+                    p.setTiendaFacebookId(tiendaActual.getFacebookId());
+                    p.setUsuarioFacebookId(facebookId);
+                    
+                    entityManager.persist(p);
+                    
+                    resp.add(tiendaActual);
+                }
+                
+            }
+            
+            
+        }  
+        
+        return resp;
+    }
+    public List<TiendaDTO> getTiendas() {
+		Query q = entityManager.createQuery("select u from TiendaEntity u");
+		return TiendaConverter.entity2PersistenceDTOList(q.getResultList());
+    }
+    
+    public boolean buscarTiendaID(String id){
+        
+        List<TiendaDTO> tiendas = getTiendas();
+        
+        for (TiendaDTO tienda : tiendas) {
+            
+            if ( tienda.getFacebookId().equals(id))
+                return true;
+            
+        }
+        return false;
+        
     }
     
 }

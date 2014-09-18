@@ -54,10 +54,10 @@ public abstract class _TiendaService {
             List<TiendaDTO> resp = new ArrayList<TiendaDTO>();
             for (int i = 0; i < tiendaL.size(); i++) {
                 TiendaDTO tiendaAct = tiendaL.get(i);
-                long idnuevo = tiendaAct.getId();
+                String idnuevo = tiendaAct.getFacebookId();
                 boolean encontrado = false;
                 for (int j = 0; j < lista.size(); j++) {
-                    if(lista.get(j).getId()==idnuevo)
+                    if(lista.get(j).getFacebookId().equals(idnuevo))
                     {
                         encontrado=true;
                     }

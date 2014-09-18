@@ -48,7 +48,17 @@ public abstract class _TiendaEntity {
 	private String direccion;
 	private String nombre;
 	private Integer tipo;
+        private String facebookId;
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+        
+        
 	public Long getId(){
 		return id;
 	}

@@ -73,7 +73,7 @@ define(['controller/_tiendaController','delegate/tiendaDelegate'], function() {
                             self.amigosNuevos.models.push(amigoActual);
                             */
                            var tiendaActual = new App.Model.TiendaModel();
-                           tiendaActual.set('id', tiendas[i].id);
+                           tiendaActual.set('facebookId', tiendas[i].id);
                            tiendaActual.set('name', tiendas[i].name);
                            tiendaActual.set('nombre', tiendas[i].name);
                            console.log('i: '+i+JSON.stringify(tiendaActual));

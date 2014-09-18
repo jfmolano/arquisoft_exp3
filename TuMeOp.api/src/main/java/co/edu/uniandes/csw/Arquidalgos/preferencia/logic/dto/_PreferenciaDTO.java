@@ -50,8 +50,28 @@ public abstract class _PreferenciaDTO {
 
 	private Boolean meGusta;
 	
+        private String tiendaFacebookId;
+        
+        private String usuarioFacebookId;
 
-	private Long tienda_preId;
+    public String getTiendaFacebookId() {
+        return tiendaFacebookId;
+    }
+
+    public void setTiendaFacebookId(String tiendaFacebookId) {
+        this.tiendaFacebookId = tiendaFacebookId;
+    }
+
+    public String getUsuarioFacebookId() {
+        return usuarioFacebookId;
+    }
+
+    public void setUsuarioFacebookId(String usuarioFacebookId) {
+        this.usuarioFacebookId = usuarioFacebookId;
+    }
+        
+        
+	
 
 
 
@@ -91,12 +111,6 @@ public abstract class _PreferenciaDTO {
 	}
 
 
-	public Long getTienda_preId() {
-		return tienda_preId;
-	}
- 
-	public void setTienda_preId(Long tienda_preid) {
-		this.tienda_preId = tienda_preid;
-	}
+	
 	
 }

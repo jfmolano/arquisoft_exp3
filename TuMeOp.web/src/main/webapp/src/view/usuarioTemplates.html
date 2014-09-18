@@ -257,9 +257,9 @@
                 <td>
                 
                 
-                 <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success" 
-                    onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.facebookId %>}); return false"
-                     
+                 <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success"              
+                        onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.getDisplay('facebookId')%>})"
+                        
                     type="button" class="btn btn-success">
                         Ver
                  </button>
@@ -387,7 +387,7 @@
             <ul class="nav nav-list">
               <li class="nav-header">Sidebar</li>
               <li  
-                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
+                onclick="Backbone.trigger('<%= componentId %>-vert',{}); return false">
                 <a> Amigos </a>
               </li>
               <li class="active"  
@@ -444,6 +444,107 @@
 
       
 
+    </div><!--/.fluid-container-->
+    
+    
+    
+</script>
+
+<script type="text/template" id="likesList">
+    
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Tu Mejor Opcion</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              Logged in as <a href="#" class="navbar-link">Username</a>
+            </p>
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+     </div>
+    
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Sidebar</li>
+              <li class="active" 
+                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
+                <a> Amigos </a>
+              </li>
+              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
+                   <a> Importar Amigos </a>
+              </li>
+              <li  onclick="Backbone.trigger('<%= componentId %>-verHistorialBonos',{}); return false">
+                   <a> Historial de Bonos </a>
+              </li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <table class="table striped">
+                <thead>
+                <tr>
+                             <th>Nombre</th>
+                             <th>Id</th>
+                     <th>Tipo</th>
+                            <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% _.each(amigos, function(amigo) { %>
+                <tr>
+                            <td><%= htmlEncode(amigo.getDisplay('name')) %></td>
+                            <td><%= htmlEncode(amigo.getDisplay('facebookId')) %></td>
+                            <td><%= htmlEncode(amigo.getDisplay('tipo')) %></td>
+                <td>
+                
+                <div class="form-group"> 
+                    <form role="form" id="<%= componentId %>-bonoForm"> 
+                    <div class="form-group" > 
+                <input type="hidden" name="tienda_bonoId" value="<%= htmlEncode(amigo.getDisplay('facebookId')) %>"/> 
+                </div> </form> <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success" 
+        onclick="Backbone.trigger('<%= componentId %>-agregarBono',{usuaFacebookId:<%=usuarioActual.getDisplay('facebookId')%>, tFb:<%=amigo.getDisplay('facebookId')%>}); return false" type="button" class="btn btn-success"> 
+                Comprar Bono </button> </div>
+                 </td>
+                </tr>
+                <% }); %>
+                </tbody>
+                </table>
+            </div>
+        
+        </div>
+
+      <hr>
+
+      
     </div><!--/.fluid-container-->
     
     

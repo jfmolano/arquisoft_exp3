@@ -47,7 +47,26 @@ public abstract class _PreferenciaEntity {
 	private String name;
 	private Integer numeroDeComentarios;
 	private Boolean meGusta;
-	private Long tienda_preId;
+	private String tiendaFacebookId;
+        private String usuarioFacebookId;
+
+    public String getTiendaFacebookId() {
+        return tiendaFacebookId;
+    }
+
+    public void setTiendaFacebookId(String tiendaFacebookId) {
+        this.tiendaFacebookId = tiendaFacebookId;
+    }
+
+    public String getUsuarioFacebookId() {
+        return usuarioFacebookId;
+    }
+
+    public void setUsuarioFacebookId(String usuarioFacebookId) {
+        this.usuarioFacebookId = usuarioFacebookId;
+    }
+        
+        
 
 	public Long getId(){
 		return id;
@@ -77,11 +96,5 @@ public abstract class _PreferenciaEntity {
 	public void setMeGusta(Boolean meGusta){
 		this.meGusta = meGusta;
 	}
-	public Long getTienda_preId(){
-		return tienda_preId;
-	}
 	
-	public void setTienda_preId(Long tienda_preId){
-		this.tienda_preId = tienda_preId;
-	}
 }

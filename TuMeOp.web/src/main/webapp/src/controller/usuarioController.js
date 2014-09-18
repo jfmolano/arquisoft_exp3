@@ -59,13 +59,24 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
             //Bonos Historial
             Backbone.on(this.componentId+'-verHistorialBonos', function(params) {
                 self.verHistorialBonos();
+                
+                
             });
             
+            Backbone.on(this.componentId+'-verAmigo', function(params) {
+                console.log('ver amigo pos init params: '+JSON.stringify(params));
+                self.verAmigo(params);
+                
+                
+            });
+            
+            Backbone.on(this.componentId+'-agregarBono', function(params) { self.agregarBono(params); });
             
             this.importarAmigosTemplate = _.template($('#importarAmigos').html());
             this.principalTemplate = _.template($('#principal').html());
             this.registrarseTemplate = _.template($('#registrarse').html());
             this.amigosTemplate = _.template($('#amigos').html());
+            this.likesTemplate = _.template($('#likesList').html());
             this.bonosTemplate = _.template($('#bonoList').html());
             
             
@@ -160,6 +171,15 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
                 self.$el.slideDown("fast");
             });
         },
+        renderLikes: function() {
+            var self = this;
+            this.$el.slideUp("fast", function() {
+                
+                console.log("renderAmigos models: "+JSON.stringify(self.likesAmigoActual.models));
+                self.$el.html(self.likesTemplate({amigos: self.likesAmigoActual.models,usuarioActual: self.usuarioActual, componentId: self.componentId}));
+                self.$el.slideDown("fast");
+            });
+        },
         renderRegistrarse: function() {
             var self = this;
             this.$el.slideUp("fast", function() {
@@ -222,6 +242,69 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
             }, {scope: 'email,public_profile,user_friends,user_likes,publish_actions,read_stream'});
                
                        
+        },
+        verAmigo: function(response) {
+            var self = this;
+            console.log('ver amigo '+response.id);
+            self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+            
+            FB.api('/'+response.id+'/likes', function (res){
+                
+                console.log('Res amigo: '+JSON.stringify(res));
+                var likes = res.data;
+                console.log('likes: '+JSON.stringify(response)+ ' - '+JSON.stringify(likes));
+                if (likes){
+                    
+                    self.likesAmigo = new App.Model.TiendaList();
+                    for( var i =0; i<likes.length; i++){
+                        
+                        var tiendaActual = new App.Model.TiendaModel();
+                        console.log('Like actual: '+i+' '+JSON.stringify(likes[i]));
+                        tiendaActual.set('facebookId', likes[i].id);
+                         tiendaActual.set('name', likes[i].name);
+                         
+                         self.likesAmigo.models.push(tiendaActual);
+                    }
+                    self.usuarioDelegate.verLikesDelegate(
+                    response.id, self.likesAmigo,
+
+                    function(data) {
+                        
+                    console.log("Dato: "+JSON.stringify(data));
+                    
+                    
+                    self.likesAmigoActual= new App.Model.TiendaList();
+                    
+                    for(var j = 0 ; j<data.length; j++){
+                        
+                        var likeModel = new App.Model.TiendaModel();
+                        var likeActual = data[j];
+                        console.log('like acutal '+JSON.stringify(likeActual));
+                        likeModel.set('facebookId',likeActual.facebookId);
+                        likeModel.set('name',likeActual.name);
+                        likeModel.set('tipo',likeActual.tipo);
+                        
+                        self.likesAmigoActual.models.push(likeModel);
+                        
+                    }
+                    //self.currentLikesUsuario=new App.Model.UsuarioList(data);
+
+                    //self._renderLogin();
+                    self.renderLikes();
+    //                self._renderEdit();
+                    }, 
+
+                    function(data) {
+                    Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                    alert("Error en ver los amigos");
+                    }
+                
+                    );
+                
+                }
+            });
+            
+            
         },
         agregarDatosFacebook: function (response){
              var self = this;
@@ -341,6 +424,33 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
                 self.$el.slideDown("fast");
             });
         },
+        agregarBono: function(params){
+            var self = this;
+            var model = $('#' + this.componentId + '-bonoForm').serializeObject();
+            self.bonoNuevo = new App.Model.BonoModel();
+            self.bonoNuevo.set(model);
+            
+            self.bonosNuevos = new App.Model.BonoList ();
+            self.bonosNuevos.models.push(self.bonoNuevo);
+                            
+                            
+            self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+            self.usuarioDelegate.agregarBonosDelegate(
+                self.usuarioActual.getDisplay('facebookId'),
+                self.bonosNuevos,
+                function(data) {
+                    console.log("Ver Bonos respuesta: "+JSON.stringify(data));
+                    //Se debe tomar el resultado del  bono y mostrarlo en el alert
+                    alert("Se ha enviado su bono a su amigo. Puede ver el bono comprado en el historial de bonos");
+                    self.verHistorialBonos();
+                },
+                function(data) {
+                    Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                    alert("Error en crear un bono ");
+                }
+            );
+            
+        }
       
     });
     return App.Controller.UsuarioController;

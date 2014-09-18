@@ -51,6 +51,7 @@ public abstract class _TiendaConverter {
 					dto.setDireccion(entity.getDireccion());
 					dto.setNombre(entity.getNombre());
 					dto.setTipo(entity.getTipo());
+                                        dto.setFacebookId(entity.getFacebookId());
 			return dto;
 		}else{
 			return null;
@@ -69,6 +70,8 @@ public abstract class _TiendaConverter {
 					entity.setNombre(dto.getNombre());
 			
 					entity.setTipo(dto.getTipo());
+                                        
+                                        entity.setFacebookId(dto.getFacebookId());
 			
 			return entity;
 		}else {
