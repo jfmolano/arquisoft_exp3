@@ -50,7 +50,16 @@ public abstract class _BonoEntity {
 	private Integer valor;
 	private Long usuariobnId;
 	private Long tienda_bonoId;
+        private String tiendafId;
 
+    public String getTiendafId() {
+        return tiendafId;
+    }
+
+    public void setTiendafId(String tiendafId) {
+        this.tiendafId = tiendafId;
+    }
+        
 	public Long getId(){
 		return id;
 	}

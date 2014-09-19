@@ -224,6 +224,7 @@
                    <a> Historial de Bonos </a>
               </li>
               <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
               <li class="nav-header">Sidebar</li>
               <li><a href="#">Link</a></li>
               <li><a href="#">Link</a></li>
@@ -311,13 +312,15 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Sidebar</li>
-              <li  
+              <li class="active" 
                 onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
                 <a> Amigos </a>
               </li>
-              <li class="active"  
-                    onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
+              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
                    <a> Importar Amigos </a>
+              </li>
+              <li  onclick="Backbone.trigger('<%= componentId %>-verHistorialBonos',{}); return false">
+                   <a> Historial de Bonos </a>
               </li>
               <li><a href="#">Link</a></li>
               <li><a href="#">Link</a></li>
@@ -386,13 +389,15 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Sidebar</li>
-              <li  
-                onclick="Backbone.trigger('<%= componentId %>-vert',{}); return false">
+              <li class="active" 
+                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
                 <a> Amigos </a>
               </li>
-              <li class="active"  
-                    onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
+              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
                    <a> Importar Amigos </a>
+              </li>
+              <li  onclick="Backbone.trigger('<%= componentId %>-verHistorialBonos',{}); return false">
+                   <a> Historial de Bonos </a>
               </li>
               <li><a href="#">Link</a></li>
               <li><a href="#">Link</a></li>
@@ -415,24 +420,20 @@
     <div class="CSSTableGenerator">
     <!-- Default panel contents -->
     <table>
-    <thead>
     <tr>
-		 <td>Fecha</th>
-		 <td>Valor</th>
-		 <td>Amigo</th>
-		 <td>Tienda</th>
+		 <td>Fecha</td>
+		 <td>Amigo</td>
+		 <td>Tienda</td>
+                 <td>Valor</td>
     </tr>
-    </thead>
-    <tbody>
     <% _.each(bonos, function(bono) { %>
     <tr>
 		<td><%= htmlEncode(bono.getDisplay('fecha')) %></td>
                 <td><%= htmlEncode(bono.getDisplay('usuariobnId')) %></td>
-		<td><%= htmlEncode(bono.getDisplay('tienda_bonoId')) %></td>
+		<td><%= htmlEncode(bono.getDisplay('tiendafId')) %></td>
 		<td><%= htmlEncode(bono.getDisplay('valor')) %></td>   
     </tr>
     <% }); %>
-    </tbody>
     </table>
     </div>  
     
@@ -492,6 +493,7 @@
                    <a> Historial de Bonos </a>
               </li>
               <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
               <li class="nav-header">Sidebar</li>
               <li><a href="#">Link</a></li>
               <li><a href="#">Link</a></li>
@@ -512,28 +514,40 @@
                 <table class="table striped">
                 <thead>
                 <tr>
-                             <th>Nombre</th>
-                             <th>Id</th>
-                     <th>Tipo</th>
+                            <th>Nombre</th>
+                            <th>Id</th>
+                            <th>Valor</th>
                             <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <% _.each(amigos, function(amigo) { %>
                 <tr>
-                            <td><%= htmlEncode(amigo.getDisplay('name')) %></td>
-                            <td><%= htmlEncode(amigo.getDisplay('facebookId')) %></td>
-                            <td><%= htmlEncode(amigo.getDisplay('tipo')) %></td>
-                <td>
-                
-                <div class="form-group"> 
-                    <form role="form" id="<%= componentId %>-bonoForm"> 
-                    <div class="form-group" > 
-                <input type="hidden" name="tienda_bonoId" value="<%= htmlEncode(amigo.getDisplay('facebookId')) %>"/> 
-                </div> </form> <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success" 
-        onclick="Backbone.trigger('<%= componentId %>-agregarBono',{usuaFacebookId:<%=usuarioActual.getDisplay('facebookId')%>, tFb:<%=amigo.getDisplay('facebookId')%>}); return false" type="button" class="btn btn-success"> 
-                Comprar Bono </button> </div>
-                 </td>
+                    
+                    
+                    <td><%= htmlEncode(amigo.getDisplay('name')) %></td>
+                    <td><%= htmlEncode(amigo.getDisplay('facebookId')) %></td>
+                    
+                    
+                    <td>
+                        <div class="form-group"> 
+                        <form role="form" id="<%= componentId %>-bonoForm"> 
+                            <input type="hidden" name="tienda_bonoId" value="<%= htmlEncode(amigo.getDisplay('facebookId')) %>"/> 
+                            <select class="form-control" id="valor" name="valor">
+                                <option value="20000">$20.000</option>
+                                <option value="50000">$50.000</option>
+                                <option value="100000">$100.000</option>
+                                <option value="150000">$150.000</option>
+                            </select>
+                        </form>
+                        </div>
+                    </td>
+                    <td>
+                        <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success" onclick="Backbone.trigger('<%= componentId %>-agregarBono',{usuaFacebookId:<%=usuarioActual.getDisplay('facebookId')%>, tFb:<%=amigo.getDisplay('facebookId')%>}); return false" type="button" class="btn btn-success"> 
+                            Comprar Bono
+                        </button>
+                    </td>
+                    
                 </tr>
                 <% }); %>
                 </tbody>

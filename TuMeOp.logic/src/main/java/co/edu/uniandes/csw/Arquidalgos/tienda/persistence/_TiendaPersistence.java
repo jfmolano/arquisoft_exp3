@@ -72,5 +72,5 @@ public abstract class _TiendaPersistence implements _ITiendaPersistence {
 		TiendaEntity entity=entityManager.merge(TiendaConverter.persistenceDTO2Entity(detail));
 		TiendaConverter.entity2PersistenceDTO(entity);
 	}
-
+    
 }

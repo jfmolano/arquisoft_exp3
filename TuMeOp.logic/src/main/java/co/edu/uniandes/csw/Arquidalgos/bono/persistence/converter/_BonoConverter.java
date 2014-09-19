@@ -57,6 +57,7 @@ public abstract class _BonoConverter {
 					dto.setValor(entity.getValor());
 					dto.setUsuariobnId(entity.getUsuariobnId());
 					dto.setTienda_bonoId(entity.getTienda_bonoId());
+                                        dto.setTiendafId(entity.getTiendafId());
 			return dto;
 		}else{
 			return null;
@@ -84,6 +85,7 @@ public abstract class _BonoConverter {
 					entity.setUsuariobnId(dto.getUsuariobnId());
 			
 					entity.setTienda_bonoId(dto.getTienda_bonoId());
+                                        entity.setTiendafId(dto.getTiendafId());
 			
 			return entity;
 		}else {

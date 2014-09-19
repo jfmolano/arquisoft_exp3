@@ -56,7 +56,15 @@ public abstract class _BonoDTO {
 
 	private Long tienda_bonoId;
 
+        private String tiendafId;
 
+    public String getTiendafId() {
+        return tiendafId;
+    }
+
+    public void setTiendafId(String tiendafId) {
+        this.tiendafId = tiendafId;
+    }
 
 	public Long getId() {
 		return id;

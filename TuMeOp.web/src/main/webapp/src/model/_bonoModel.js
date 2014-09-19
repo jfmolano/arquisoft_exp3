@@ -34,7 +34,8 @@ define([], function() {
 		 'name' : '' ,  
 		 'fecha' : '' ,  
 		 'valor' : '' ,  
-		 'usuariobnId' : '' ,  
+		 'usuariobnId' : '' ,
+                 'tiendafId' : '' ,
 		 'tienda_bonoId' : ''        },
         initialize: function() {
           var self = this;

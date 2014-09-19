@@ -35,7 +35,9 @@ import co.edu.uniandes.csw.Arquidalgos.bono.persistence.converter.BonoConverter;
 import co.edu.uniandes.csw.Arquidalgos.bono.persistence.entity.BonoEntity;
 import co.edu.uniandes.csw.Arquidalgos.preferencia.persistence.entity.PreferenciaEntity;
 import co.edu.uniandes.csw.Arquidalgos.tienda.logic.dto.TiendaDTO;
+import co.edu.uniandes.csw.Arquidalgos.tienda.persistence.TiendaPersistence;
 import co.edu.uniandes.csw.Arquidalgos.tienda.persistence.converter.TiendaConverter;
+import co.edu.uniandes.csw.Arquidalgos.tienda.persistence.entity.TiendaEntity;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.ejb.SendEmail;
 import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.api.IUsuarioPersistence;
@@ -44,6 +46,7 @@ import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.entity.UsuarioAmigoEn
 import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.entity.UsuarioBonoTUEntity;
 import co.edu.uniandes.csw.Arquidalgos.usuario.persistence.entity.UsuarioEntity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -149,17 +152,20 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
 public List<BonoDTO> agregarBonos(String facebookId, List<BonoDTO> bonos) {
        
         for (BonoDTO bono : bonos) {
+            Query q = entityManager.createQuery("select u from TiendaEntity u where u.facebookId = '"+ bono.getTiendafId() + "'");
+            String nombreTienda = TiendaConverter.entity2PersistenceDTO((TiendaEntity) q.getSingleResult()).getName();
+            System.out.println("Bono Nuevo: " + bono.getTiendafId() + "  " + bono.getUsuariobnId() + " valor: " + bono.getValor());
             UsuarioDTO usuario = getUsuarioFacebookId(facebookId);
-            
-            BonoDTO bonoActual = bono;
-            BonoEntity entity=BonoConverter.persistenceDTO2Entity(bonoActual);
+            bono.setFecha(null);
+            BonoEntity entity=BonoConverter.persistenceDTO2Entity(bono);
+            entity.setFecha(new Date());
             entityManager.persist(entity);
             
             UsuarioBonoTUEntity union = new UsuarioBonoTUEntity();
-            union.setIdBono(bonoActual.getId());
+            union.setIdBono(bono.getId());
             union.setIdUsuario(facebookId);
             entityManager.persist(union);
-            new SendEmail(usuario.getEmail(), ""+bono.getValor(), "Pronto", ""+entity.getId()).start();
+            new SendEmail(usuario.getEmail(), ""+bono.getValor(), nombreTienda, ""+entity.getId()).start();
         }
         return bonos;
     }

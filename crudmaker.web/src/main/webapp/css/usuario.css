@@ -16,9 +16,11 @@ body {
 }
 
 .CSSTableGenerator {
-margin:20px;padding:0px;
-width:100%;
-box-shadow: 240px 10px 5px #888888;
+margin-left: 10px;
+margin:20px;
+padding:0px 0px 0px 0px;
+width:90%;
+box-shadow: 10px 10px 5px #888888;
 border:1px solid ‪#‎f9f4f4‬;
 
 -moz-border-radius-bottomleft:8px;
@@ -39,7 +41,7 @@ border-top-left-radius:8px;
 }.CSSTableGenerator table{
 border-collapse: collapse;
 border-spacing: 0;
-width:100%;
+width:76%;
 height:100%;
 margin:0px;padding:0px;
 }.CSSTableGenerator tr:last-child td:last-child {
@@ -72,9 +74,9 @@ background-color:‪#‎56aaff‬;
 
 border:1px solid #f9f4f4;
 border-width:0px 1px 1px 0px;
-text-align:left;
-padding:10px 0px 10px 0px;
-font-size:9px;
+text-align:right;
+padding:10px 10px 10px 10px;
+font-size:14px;
 font-family:Courier;
 font-weight:normal;
 color:‪#‎1225ed‬;

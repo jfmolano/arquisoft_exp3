@@ -246,6 +246,8 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
         verAmigo: function(response) {
             var self = this;
             console.log('ver amigo '+response.id);
+            self.bonoNuevo = new App.Model.BonoModel();
+            self.bonoNuevo.set('usuariobnId', response.id);
             self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
             
             FB.api('/'+response.id+'/likes', function (res){
@@ -427,8 +429,10 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
         agregarBono: function(params){
             var self = this;
             var model = $('#' + this.componentId + '-bonoForm').serializeObject();
-            self.bonoNuevo = new App.Model.BonoModel();
-            self.bonoNuevo.set(model);
+            
+            console.log('agregar el bono: '+ JSON.stringify(model));
+            self.bonoNuevo.set('valor', model.valor);
+            self.bonoNuevo.set('tiendafId', params.tFb);
             
             self.bonosNuevos = new App.Model.BonoList ();
             self.bonosNuevos.models.push(self.bonoNuevo);
