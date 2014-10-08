@@ -65,6 +65,7 @@ public abstract class _TiendaService {
                 if(!encontrado)
                 {
 		tiendaLogicService.createTienda(tiendaAct);
+                resp.add(tiendaAct);
                 }
             }
             return resp;

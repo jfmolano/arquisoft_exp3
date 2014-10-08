@@ -142,7 +142,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
                 self.currentUsuarioModel,
             
                 function(data) {
-                console.log("Registrarse respuesta: "+JSON.stringify(data))
+                console.log("Registrarse respuesta: "+JSON.stringify(data));
                 self.currentUsuarioModel=new App.Model.UsuarioModel(data);
                 self.usuarioActual = self.currentUsuarioModel;
                 //self._renderLogin();
@@ -223,7 +223,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
                             self.usuarioActual,
 
                             function(data) {
-                            console.log("Registrarse respuesta: "+JSON.stringify(data))
+                            console.log("Registrarse respuesta: "+JSON.stringify(data));
                             self.currentUsuarioModel=new App.Model.UsuarioModel(data);
                             self.usuarioActual = self.currentUsuarioModel;
                            self.agregarDatosFacebook(response);

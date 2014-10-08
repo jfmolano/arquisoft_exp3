@@ -48,46 +48,42 @@ define(['controller/_tiendaController','delegate/tiendaDelegate'], function() {
                     
                     self.tiendasNuevas = new App.Model.TiendaList ();
                     var tiendas = response.data;     
-                         
+                        self.tiendaModelList = new App.Model.TiendaList ();
                         for (var i = 0; i < tiendas.length; i++) {
                             console.log('i: '+i);
                             console.log('amigo all:'+JSON.stringify(tiendas[i]));
-                            /*
-                            console.log('amigo '+i+' - nombre:'+amigos[i].name);
-                            FB.api("/"+amigos[i].id,function(res){
-                                
-                                console.log('Amigo con /{user-id} JSON: '+JSON.stringify(res));
-                            });
-//                            
-//                            FB.api("/"+amigos[i].id+"/likes",function(res){
-//                               
-//                                console.log('Res amigo JSON:'+JSON.stringify(res));
-//                            });
                             
-                            var amigoActual = new App.Model.UsuarioModel();
-                            
-                            amigoActual.set('name', amigos[i].name);
-                            amigoActual.set('email', amigos[i].email);
-                            amigoActual.set('facebookId', amigos[i].id);
-                           
-                            self.amigosNuevos.models.push(amigoActual);
-                            */
                            var tiendaActual = new App.Model.TiendaModel();
                            tiendaActual.set('facebookId', tiendas[i].id);
                            tiendaActual.set('name', tiendas[i].name);
                            tiendaActual.set('nombre', tiendas[i].name);
                            console.log('i: '+i+JSON.stringify(tiendaActual));
                            self.tiendasNuevas.models.push(tiendaActual);
+                           self.tiendaModelList.models.push(tiendaActual);
                         }
                         
-                        self.tiendaDelegate = new App.Delegate.TiendaDelegate();
-                        self.tiendaDelegate.agregarTiendas(tiempo ,self.tiendasNuevas, function(data) {
-                            console.log("Tienda agregada: "+JSON.stringify(data));
-                        }, function(data) {
-
-                            alert("Error Agregando Amigos");
-                        });
-                    
+                        
+                            self.tiendaDelegate = new App.Delegate.TiendaDelegate();
+                            self.tiendaDelegate.agregarTiendas(
+                                tiempo,
+                                self.tiendasNuevas, 
+                                function(data) {
+                                    console.log(data.length !== 0);
+                                    if (data.length !== 0)
+                                    {
+                                        self._renderList();
+                                        console.log("Tienda agregada: "+JSON.stringify(data)+ data.length);
+                                    }
+                                    
+                                    
+                                }, 
+                                function(data) {
+                                alert("Error Agregando Amigos");
+                                }
+                            );
+                        
+                        
+                        //location.reload();
                });
             }, {scope: 'email,public_profile,user_friends,user_likes,publish_actions,read_stream'});
                
