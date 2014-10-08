@@ -6,35 +6,48 @@
 
 package co.edu.uniandes.csw.Arquidalgos.usuario.logic.ejb;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  *
  * @author JoseMiguel
  */
 public class SendEmail extends Thread {
-    private String to;
-    private String valorBono;
-    private String tienda;
-    private String codigoBono;
+    private final String to;
+    private final String valorBono;
+    private final String tienda;
+    private final String codigoBono;
+    private final static File file = new File("img/123.JPG");
+    
     public SendEmail(String to, String valorBono, String tienda, String codigoBono ) {
         this.to = to;
         this.valorBono = valorBono;
         this. tienda = tienda;
         this.codigoBono = codigoBono;
     }
+    
     @Override
     public void run() {
         final String user="arquidalgos@hotmail.com";//change accordingly  
         final String password="AlanTuring";//change accordingly  
 
+        GeneradorQR.generarCodigoQR(codigoBono, file);
+        String sDirectorioTrabajo = System.getProperty("user.dir");
+        System.out.println("--------------------------------------------------");
+        System.out.println("El directorio de trabajo es " + sDirectorioTrabajo);
         //String to="jose_suarez94@hotmail.com";//change accordingly  
 
         //Get the session object  
@@ -54,7 +67,9 @@ public class SendEmail extends Thread {
                     });  
 
         //Compose the message  
-        try {  
+        try {
+            
+                
             MimeMessage message = new MimeMessage(session);  
             message.setFrom(new InternetAddress(user));  
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
@@ -62,14 +77,26 @@ public class SendEmail extends Thread {
             message.addRecipient(Message.RecipientType.TO,new InternetAddress("jf.molano1587@uniandes.edu.co"));
             message.addRecipient(Message.RecipientType.TO,new InternetAddress("jf.calderon1377@uniandes.edu.co"));
             message.addRecipient(Message.RecipientType.TO,new InternetAddress("jm.suarez201@uniandes.edu.co"));
-            message.setSubject("Tu Mejor Opción");  
-            message.setText("Hola,\n José Miguel te ha enviado un bono por $"+ valorBono + " a travéz de TuMejorOpcon.com para que lo utilices comprando ropa en " + tienda+ "   \n El código de tu bono es: " + codigoBono);  
+            
+            MimeMultipart content = new MimeMultipart(); 
+                MimeBodyPart bodyPart = new MimeBodyPart();
+                bodyPart.setText("Hola,\n Josï¿½ Miguel te ha enviado un bono por $"+ valorBono + " a travï¿½z de TuMejorOpcon.com para que lo utilices comprando ropa en " + tienda+ "   \n El cï¿½digo de tu bono es: " + codigoBono);
+            content.addBodyPart(bodyPart);
+                MimeBodyPart imagePart = new MimeBodyPart();
+                imagePart.attachFile(file);
+            content.addBodyPart(imagePart);
+                
+                message.setContent(content);
+            message.setSubject("Tu Mejor Opciï¿½n");  
 
             //send the message  
             Transport.send(message);  
 
             System.out.println("message sent successfully...");  
 
-        } catch (MessagingException e) {e.printStackTrace();}  
+        } catch (MessagingException e) {e.printStackTrace();} 
+        catch (IOException ex) {  
+            Logger.getLogger(SendEmail.class.getName()).log(Level.SEVERE, null, ex);
+        }  
     }
 }

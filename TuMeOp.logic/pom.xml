@@ -48,5 +48,10 @@
       		<artifactId>TuMeOp.api</artifactId>
       		<version>0.0.1-SNAPSHOT</version>
     	</dependency>
-    </dependencies>
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>javase</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+  </dependencies>
 </project>
