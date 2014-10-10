@@ -49,6 +49,15 @@ public abstract class _TiendaEntity {
 	private String nombre;
 	private Integer tipo;
         private String facebookId;
+        private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getFacebookId() {
         return facebookId;

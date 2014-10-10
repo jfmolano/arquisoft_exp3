@@ -32,4 +32,6 @@ package co.edu.uniandes.csw.Arquidalgos.tienda.logic.api;
 
 public interface ITiendaLogicService extends _ITiendaLogicService {
 
+    public String login(String id);
+
 }

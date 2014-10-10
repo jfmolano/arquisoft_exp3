@@ -49,6 +49,7 @@ public abstract class _TiendaPersistence implements _ITiendaPersistence {
 	
 	public TiendaDTO createTienda(TiendaDTO tienda) {
 		TiendaEntity entity=TiendaConverter.persistenceDTO2Entity(tienda);
+                entity.setPassword("alanturing");
 		entityManager.persist(entity);
 		return TiendaConverter.entity2PersistenceDTO(entity);
 	}
@@ -62,7 +63,7 @@ public abstract class _TiendaPersistence implements _ITiendaPersistence {
 	public TiendaDTO getTienda(Long id) {
 		return TiendaConverter.entity2PersistenceDTO(entityManager.find(TiendaEntity.class, id));
 	}
-
+        
 	public void deleteTienda(Long id) {
 		TiendaEntity entity=entityManager.find(TiendaEntity.class, id);
 		entityManager.remove(entity);

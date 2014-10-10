@@ -57,6 +57,7 @@ public abstract class _BonoDTO {
 	private Long tienda_bonoId;
 
         private String tiendafId;
+        
 
     public String getTiendafId() {
         return tiendafId;

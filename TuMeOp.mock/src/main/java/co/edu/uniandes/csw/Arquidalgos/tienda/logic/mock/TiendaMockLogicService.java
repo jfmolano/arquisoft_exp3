@@ -35,5 +35,9 @@ import javax.inject.Singleton;
 import co.edu.uniandes.csw.Arquidalgos.tienda.logic.api.ITiendaLogicService;
 @Singleton
 public class TiendaMockLogicService extends _TiendaMockLogicService implements ITiendaLogicService {
+
+    public String login(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 	
 }
