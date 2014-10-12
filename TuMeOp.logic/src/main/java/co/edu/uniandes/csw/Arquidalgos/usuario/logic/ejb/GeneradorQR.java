@@ -38,7 +38,7 @@ public class GeneradorQR {
             BufferedImage image = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
             for (int y = 0; y < ancho; y++) {
                 for (int x = 0; x < alto; x++) {
-                    int grayValue = (bm.get(x, y) ? 1 : 0) & 0xff;
+                    int grayValue = (bm.get(x, y) ? 0 : 1) & 0xff;
                     image.setRGB(x, y, (grayValue == 0 ? 0 : 0xFFFFFF));
                 }
             }
