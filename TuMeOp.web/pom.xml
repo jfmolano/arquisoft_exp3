@@ -68,6 +68,12 @@
             <groupId>co.edu.uniandes.csw.Arquidalgos</groupId>
             <artifactId>TuMeOp.logic</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>        
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.6</version>
+            <type>jar</type>
+        </dependency>
     </dependencies> 
 </project>

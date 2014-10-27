@@ -20,6 +20,16 @@ public class UsuarioAmigosDTO {
     
     protected String facebookId;
    
+    private String hash;
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+    
     
     
     public String getFacebookId() {
@@ -38,7 +48,29 @@ public class UsuarioAmigosDTO {
     public List<UsuarioDTO> getAmigos(){ return amigos; };
     public void setCreateAmigos(List<UsuarioDTO> amigos){ this.amigos=amigos; };
 	
-	
-}
+    @Override
+    public String toString (){
+       
+        
+       
+        String fbId = "\"facebookId\":\""+facebookId+"\"";
+        
+        String sAmigos = "\"amigos\":[";
+        
+        for (int i = 0; i < amigos.size(); i++) {
+            
+            sAmigos += amigos.get(i).toStringSinEmail();
+            
+            if ( i < amigos.size()-1){
+                
+                sAmigos +=",";
+            }
+            
+        }
+        sAmigos+="]";
+        return ((("{"+fbId+","+sAmigos+"}").replace("Ã©", "é")).replace("Ã¡", "á"));
+    }
+    
+   }
 
 

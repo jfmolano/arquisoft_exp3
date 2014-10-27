@@ -43,14 +43,25 @@ define(['delegate/_usuarioDelegate'], function() {
                 callbackError(data);
             }, this));
         },
-        agregarAmigos: function(id,amigos,  callback,callbackError){
+        agregarAmigos: function(id,amigos,  callback,callbackError,hashJson){
 	    
+            
+            var json = '{"facebookId":' +  JSON.stringify(id) 
+                          + ',"amigos":' +  JSON.stringify(amigos.models) 
+                          + '}';
+            console.log('AgregarAmigos Delegate: JSON - '+json);      
+            var hash = CryptoJS.HmacSHA256(JSON.stringify(json), "123");
+            console.log('SEGURIDAD HASH AgregarAmigos DELEGATE: '+hash);
+            
+            hashJson = hash.toString();
+            console.log('AgregarAmigos Delegate: Hash JSON= '+hashJson);
             console.log("Agregar Amigos Delegate id: "+id+" amigos: "+JSON.stringify(amigos));
             $.ajax({
 	          url: '/TuMeOp.web/webresources/Usuario/agregarAmigos',
 	          type: 'POST',
-	          data: '{ "facebookId":' +  JSON.stringify(id) 
-                          + ', "amigos":' +  JSON.stringify(amigos.models) 
+	          data: '{"facebookId":' +  JSON.stringify(id) 
+                          + ',"amigos":' +  JSON.stringify(amigos.models) 
+                          + ',"hash":' + JSON.stringify(hashJson)
                           + '}',
 	          contentType: 'application/json'
 	      }).done(_.bind(function(data){
@@ -61,6 +72,15 @@ define(['delegate/_usuarioDelegate'], function() {
 	},
         verAmigosDelegate: function(usuario,  callback,callbackError){
 	    
+            
+            console.log('VerAmigos Delegate: JSON - '+JSON.stringify(usuario));      
+            var hash = CryptoJS.HmacSHA256(JSON.stringify(usuario), "123");
+            console.log('SEGURIDAD HASH VerAmigos DELEGATE: '+hash);
+            
+            var hashJson = hash.toString();
+            usuario.set('hash',hashJson);
+            console.log('VerAmigos Delegate: Hash JSON= '+hashJson);
+            
             console.log("Ver Amigos Delegate: "+JSON.stringify(usuario));
             $.ajax({
 	          url: '/TuMeOp.web/webresources/Usuario/darAmigos',

@@ -37,6 +37,8 @@ import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioBonosDTO;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioTiendasDTO;
 import java.util.List;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -44,6 +46,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.apache.commons.codec.binary.Hex;
 
 @Path("/Usuario")
 @Stateless
@@ -62,13 +65,52 @@ public class UsuarioService extends _UsuarioService {
     @POST
     @Path("/agregarAmigos")
     public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos) throws Exception {
+        
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        String key = "123";
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+
+        String x = usuarioAmigos.toString();
+        System.out.println("TO String: "+x);
+
+        String hash = Hex.encodeHexString(sha256_HMAC.doFinal(x.getBytes()));
+        System.out.println("CODIGO HASH: "+hash);
+        System.out.println("CODIGO HASH JSON "+usuarioAmigos.getHash());
+
+        boolean alterado = !(hash.equalsIgnoreCase(usuarioAmigos.getHash()));
+        System.out.println("Alterado: "+alterado);
+
+        
+        
+        if ( alterado){
+            System.out.println("Alterado el sistema");
+        }
         return this.usuarioLogicService.agregarAmigos(usuarioAmigos);
     }
     
     @POST
     @Path("/darAmigos")
-    public List<UsuarioDTO> darAmigos(UsuarioDTO usuario) {
+    public List<UsuarioDTO> darAmigos(UsuarioDTO usuario) throws Exception {
         System.out.println("Dar amigos service de: "+usuario.getFacebookId());
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        String key = "123";
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+
+        System.out.println("TO String: "+usuario.toString());
+
+        String hash = Hex.encodeHexString(sha256_HMAC.doFinal(usuario.toString().getBytes()));
+        System.out.println("CODIGO HASH: "+hash);
+        System.out.println("CODIGO HASH JSON "+usuario.getHash());
+
+        boolean alterado = !(hash.equalsIgnoreCase(usuario.getHash()));
+        System.out.println("Alterado: "+alterado);
+
+        if ( alterado){
+            throw new Exception("Se han alterado los datos");
+        }
+        
         return this.usuarioLogicService.darAmigosUsuario(usuario.getFacebookId());
     }
     

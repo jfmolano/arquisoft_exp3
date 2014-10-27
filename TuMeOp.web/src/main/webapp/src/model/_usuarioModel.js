@@ -31,9 +31,9 @@ define([], function() {
     App.Model._UsuarioModel = Backbone.Model.extend({
         defaults: {
                  'email': '',
-		 'name' : '' ,  
-		 'contrasena' : '' ,
-                 'facebookId' :'' },
+		 'name' : '' ,
+                 'hash' : '' , 
+		 'facebookId' :'' },
         initialize: function() {
           var self = this;
           this.on('invalid',function(error){

@@ -95,5 +95,27 @@ public abstract class _UsuarioDTO {
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
 	}
+        
+        @Override
+        public String toString(){
+            
+            return "{\"email\":\""+email+"\",\"name\":\""+name+"\",\"hash\":\"\",\"facebookId\":\""+facebookId+"\"}";
+            
+        }
+        
+        public String toStringSinEmail(){
+            
+            return "{\"name\":\""+name+"\",\"hash\":\"\",\"facebookId\":\""+facebookId+"\"}";
+        }
+        
+        private String hash;
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 	
 }

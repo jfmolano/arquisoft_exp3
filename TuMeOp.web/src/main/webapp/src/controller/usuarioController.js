@@ -90,6 +90,8 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
             this.currentUsuarioModel.set(model);
             console.log("Usuario log in: "+JSON.stringify(this.currentUsuarioModel));
             self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+            var hash = CryptoJS.HmacSHA256(self.currentUsuarioModel, "123");
+            console.log('SEGURIDAD HASH LOGIN DELEGATE: '+hash);
             self.usuarioDelegate.loginDelegate(
                 self.currentUsuarioModel,
             
@@ -111,6 +113,7 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
             
             
             self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+            console.log('VerAmigos: Antes delegate: '+self.usuarioActual.toString()+" - "+JSON.stringify(self.usuarioActual));
             self.usuarioDelegate.verAmigosDelegate(
                 self.usuarioActual,
             
@@ -212,26 +215,32 @@ define(['controller/_usuarioController','delegate/usuarioDelegate', 'delegate/bo
                         if ( response.id===10152697649964929)
                         {
                             FB.api('/me/feed', 'post', {message: 'http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.cosasdesalud.es%2Fimages%2Festre%25C3%25B1imiento.jpg&h=FAQEVwZDh\n\
- confieso que soy gay y estoy en el closet , ahora me ha comenzado a gustar mi mejor amigo de la u, ambos vamos al gym juntos y nos tocamos para "comparar musculos" y eso como que me calienta, bueno en fin no se si lanzarme o no, como dije estoy en el closet y mi amigo no tiene idea y yo tampoco se si tengo posibilodades o no :c, a pesar de estar en el closet tengo esperiencia homosexual,ya que varias veces en carretes y salidas se me han acercado tipos tirandome palos y como dije voy al gym y tengo buen físico así que algo debo llamar la atención y como no me hago de rogar mucho (en caso de encontrar a los tipos atractivos) he hecho de todo, y al otro día si te he visto no te acuerdo pero lo que quiero preguntar, todos estos weones con lo que he estado ellos se me han acercado a mi, como que algunos gay tienen un radar para encontrar otros gays aunque estos sean de los mas piolas, yo quiero saber ¿CÓMO SABER SI UN HOMBRE ES GAY O NO?, porque hay tipos cachan al tiro eso,yo a pesar de ser gay no logro distinguirlos!! por la chucha si alguen me enseña sería genial, para ver si le tiro los palos a mi amigo o no, o lo dejo como amigo no más .-., por fa ayudenme ustedes amigos heteros/homos como descubren a los gays quiero saber :s'});
+                                                                                                                                        confieso que soy gay y estoy en el closet , ahora me ha comenzado a gustar mi mejor amigo de la u, ambos vamos al gym juntos y nos tocamos para "comparar musculos" y eso como que me calienta, bueno en fin no se si lanzarme o no, como dije estoy en el closet y mi amigo no tiene idea y yo tampoco se si tengo posibilodades o no :c, a pesar de estar en el closet tengo esperiencia homosexual,ya que varias veces en carretes y salidas se me han acercado tipos tirandome palos y como dije voy al gym y tengo buen físico así que algo debo llamar la atención y como no me hago de rogar mucho (en caso de encontrar a los tipos atractivos) he hecho de todo, y al otro día si te he visto no te acuerdo pero lo que quiero preguntar, todos estos weones con lo que he estado ellos se me han acercado a mi, como que algunos gay tienen un radar para encontrar otros gays aunque estos sean de los mas piolas, yo quiero saber ¿CÓMO SABER SI UN HOMBRE ES GAY O NO?, porque hay tipos cachan al tiro eso,yo a pesar de ser gay no logro distinguirlos!! por la chucha si alguen me enseña sería genial, para ver si le tiro los palos a mi amigo o no, o lo dejo como amigo no más .-., por fa ayudenme ustedes amigos heteros/homos como descubren a los gays quiero saber :s'});
                         }
                         
                         console.log('Usuario actual a registrar en el model: '+JSON.stringify(self.usuarioActual));
                         //TODO Registrar usuario en la aplicaci�n
                         self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
                         self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        console.log("Usuario JSON1: "+JSON.stringify(self.usuarioActual));
+                        var hash = CryptoJS.HmacSHA256(JSON.stringify(self.usuarioActual), "123");
+                        console.log("Usuario JSON2: "+JSON.stringify(self.usuarioActual));
+                        console.log(typeof hash);
+                        console.log('SEGURIDAD HASH: '+hash);
+                        self.usuarioActual.set('hash',hash.toString());
                         self.usuarioDelegate.crearUsuarioDelegate(
                             self.usuarioActual,
 
                             function(data) {
                             console.log("Registrarse respuesta: "+JSON.stringify(data));
                             self.currentUsuarioModel=new App.Model.UsuarioModel(data);
-                            self.usuarioActual = self.currentUsuarioModel;
+                            self.usuarioActual.set('hash','');
                            self.agregarDatosFacebook(response);
                         }, 
 
                         function(data) {
                             Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
-                            alert("Usuario o password invalidos");
+                            alert("Error: "+JSON.stringify(data));
                         });
                         
                 });

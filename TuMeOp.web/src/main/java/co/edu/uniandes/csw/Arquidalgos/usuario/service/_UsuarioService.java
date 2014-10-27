@@ -42,12 +42,19 @@ import javax.inject.Inject;
 
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.api.IUsuarioLogicService;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Hex;
 
 
 public abstract class _UsuarioService {
 
 	@Inject
 	protected IUsuarioLogicService usuarioLogicService;
+ 
 	
 	@POST
 	public UsuarioDTO createUsuario(UsuarioDTO usuario){
@@ -56,7 +63,25 @@ public abstract class _UsuarioService {
         
         @POST
         @Path("/crearUsuario")
-        public UsuarioDTO crearUsuario(UsuarioDTO usuario) {
+        public UsuarioDTO crearUsuario(UsuarioDTO usuario) throws Exception {
+            
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            String key = "123";
+            SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            
+            System.out.println("TO String: "+usuario.toString());
+            
+            String hash = Hex.encodeHexString(sha256_HMAC.doFinal(usuario.toString().getBytes()));
+            System.out.println("CODIGO HASH: "+hash);
+            System.out.println("CODIGO HASH JSON "+usuario.getHash());
+            
+            boolean alterado = !(hash.equalsIgnoreCase(usuario.getHash()));
+            System.out.println("Alterado: "+alterado);
+            
+            if ( alterado){
+                throw new Exception("Se han alterado los datos");
+            }
             return createUsuario(usuario);
         }
 	
