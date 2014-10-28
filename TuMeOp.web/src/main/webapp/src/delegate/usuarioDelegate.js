@@ -72,6 +72,7 @@ define(['delegate/_usuarioDelegate'], function() {
 	},
         verAmigosDelegate: function(usuario,  callback,callbackError){
 	    
+            usuario.set('hash','');
             
             console.log('VerAmigos Delegate: JSON - '+JSON.stringify(usuario));      
             var hash = CryptoJS.HmacSHA256(JSON.stringify(usuario), "123");
