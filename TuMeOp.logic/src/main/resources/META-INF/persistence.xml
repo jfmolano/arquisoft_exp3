@@ -9,7 +9,7 @@
       <property name="eclipselink.ddl-generation" value="create-tables"/>
       <property name="eclipselink.target-database" value="Derby"/>            
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/jdbcISIS4719;create=true"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://172.24.98.156:1527/jdbcISIS4719;create=true"/>
       <property name="javax.persistence.jdbc.user" value="APP"/>
       <property name="javax.persistence.jdbc.password" value="APP"/>
       <property name="eclipselink.logging.level" value="FINE"/>     
