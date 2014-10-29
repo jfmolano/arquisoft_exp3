@@ -3,6 +3,7 @@ package co.edu.uniandes.csw.Arquidalgos.tienda.logic.ejb;
 
 public class TransByteString {
 	
+    
 	/**
 	 * Algoritmo de encapsulamiento a enteros. Convierte los bytes de un String a su representacion como enteros.
 	 * @param b Los bytes a representar como enteros.

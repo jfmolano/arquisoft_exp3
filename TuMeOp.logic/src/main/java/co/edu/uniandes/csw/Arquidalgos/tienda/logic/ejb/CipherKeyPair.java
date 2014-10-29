@@ -24,7 +24,7 @@ public class CipherKeyPair {
     public static String cifrar(String pwd) {
         try {
             System.out.println("Descifrado: " + pwd);
-            PublicKey key = KeyIOLoader.getKeyPair().getPublic();
+            PublicKey key = KeyIOLoader.getKeyPairRSA().getPublic();
             Cipher cipher = Cipher.getInstance(ALGORITMO);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte [] clearText = pwd.getBytes();
@@ -42,7 +42,7 @@ public class CipherKeyPair {
     public static String descifrar(String cipheredText) {
         try {
             System.out.println("Cifrado: " + cipheredText);
-            PrivateKey key = KeyIOLoader.getKeyPair().getPrivate();
+            PrivateKey key = KeyIOLoader.getKeyPairRSA().getPrivate();
             byte[] bytesCifrados = TransByteString.destransformar(cipheredText);
             Cipher cipher = Cipher.getInstance(ALGORITMO);
             cipher.init(Cipher.DECRYPT_MODE, key);

@@ -30,7 +30,7 @@ public class SendEmail extends Thread {
     private final String valorBono;
     private final String tienda;
     private final String codigoBono;
-    private final static File file = new File("img/123.JPG");
+    private final static File file = new File("QRcode.JPG");
     
     public SendEmail(String to, String valorBono, String tienda, String codigoBono ) {
         this.to = to;
@@ -43,8 +43,9 @@ public class SendEmail extends Thread {
     public void run() {
         final String user="arquidalgos@hotmail.com";//change accordingly  
         final String password="AlanTuring";//change accordingly  
-
+        System.out.println("Filecomplto:" + file.getAbsoluteFile());
         GeneradorQR.generarCodigoQR(codigoBono, file);
+        
         String sDirectorioTrabajo = System.getProperty("user.dir");
         System.out.println("--------------------------------------------------");
         System.out.println("El directorio de trabajo es " + sDirectorioTrabajo);
