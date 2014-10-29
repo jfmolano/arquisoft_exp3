@@ -74,7 +74,7 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
                 System.out.println("Amigo agregado: "+amigo.getFacebookId()+" - "+amigo.getName());
             }
         }
-        
+                                                                                                            
         
         return resp;
     }
@@ -124,8 +124,10 @@ public class UsuarioPersistence extends _UsuarioPersistence  implements IUsuario
             if (getUsuarioFacebookId(amigoActual.getFacebookId())==null){
                 
                 
-                UsuarioEntity entity=UsuarioConverter.persistenceDTO2Entity(amigoActual);
-		entityManager.persist(entity);              
+//                UsuarioEntity entity=UsuarioConverter.persistenceDTO2Entity(amigoActual);
+//		entityManager.persist(entity);     
+                
+                createUsuario(amigoActual);
                 
                 
             }
@@ -225,5 +227,7 @@ public List<BonoDTO> agregarBonos(String facebookId, List<BonoDTO> bonos) {
         return false;
         
     }
+    
+    
     
 }

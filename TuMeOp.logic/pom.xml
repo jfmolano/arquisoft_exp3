@@ -16,7 +16,12 @@
             <artifactId>jsr311-api</artifactId>
             <version>1.1.1</version>
         </dependency>
-        
+        <!-- Mongo -->
+        <dependency>  
+            <groupId>org.mongodb</groupId>  
+       <artifactId>mongo-java-driver</artifactId>  
+       <version>2.11.1</version>  
+     </dependency>
         <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
