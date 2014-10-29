@@ -87,25 +87,33 @@ public abstract class _BonoService {
 
     @GET
     @Path("/cancelar/{id}")
-    public PrecioDTO cancelarBono(@PathParam("id") Long id) {
-        BonoDTO bono_ant = bonoLogicService.getBono(id);
-        if (bono_ant != null) {
-            BonoDTO bono = new BonoDTO();
-            bono.setFecha(bono_ant.getFecha());
-            bono.setId(bono_ant.getId());
-            bono.setName(bono_ant.getName());
-            bono.setTienda_bonoId(bono_ant.getTienda_bonoId());
-            bono.setUsuariobnId(bono_ant.getUsuariobnId());
-            bono.setValor(0 - bono_ant.getValor());
-            bonoLogicService.updateBono(bono);
-            PrecioDTO p = new PrecioDTO();
-            p.setValor(bono.getValor());
-            return p;
-        } else {
-            PrecioDTO p = new PrecioDTO();
-            p.setValor(0);
-            return p;
+    public PrecioDTO cancelarBono(@PathParam("id") String idEncode) {
+        Long id;
+        try {
+            id = Long.parseLong(GenaerateDigsetHex.verificarAndGetMessage(idEncode));
+
+            BonoDTO bono_ant = bonoLogicService.getBono(id);
+            if (bono_ant != null) {
+                BonoDTO bono = new BonoDTO();
+                bono.setFecha(bono_ant.getFecha());
+                bono.setId(bono_ant.getId());
+                bono.setName(bono_ant.getName());
+                bono.setTienda_bonoId(bono_ant.getTienda_bonoId());
+                bono.setUsuariobnId(bono_ant.getUsuariobnId());
+                bono.setValor(0 - bono_ant.getValor());
+                bonoLogicService.updateBono(bono);
+                PrecioDTO p = new PrecioDTO();
+                p.setValor(bono.getValor());
+                return p;
+            } else {
+                PrecioDTO p = new PrecioDTO();
+                p.setValor(0);
+                return p;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(_BonoService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return new PrecioDTO();
     }
 
     @GET

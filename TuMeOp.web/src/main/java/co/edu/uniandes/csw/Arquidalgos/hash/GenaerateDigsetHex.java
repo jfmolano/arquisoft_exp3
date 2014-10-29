@@ -23,7 +23,7 @@ public class GenaerateDigsetHex {
 
             System.out.println("D:" + datos);
             System.out.println("S:" + TransByteString.transformar(signature));
-            return datos + "%" + TransByteString.transformar(signature);
+            return datos + "Z" + TransByteString.transformar(signature);
             
         } catch (NoSuchAlgorithmException e) {
             System.out.println("Excepcion: " + e.getMessage());
@@ -40,7 +40,8 @@ public class GenaerateDigsetHex {
     public static String verificarAndGetMessage( String documentoFirmado) throws Exception {
         try {
             PublicKey pub = KeyIOLoader.getKeyPairDSA().getPublic();
-            String[] messageParts = documentoFirmado.split("%");
+            System.out.println("Documento firmado" + documentoFirmado);
+            String[] messageParts = documentoFirmado.split("Z");
             System.out.println("D:" + messageParts[0]);
             System.out.println("S:" + messageParts[1]);
 
