@@ -31,5 +31,17 @@
       <artifactId>javase</artifactId>
       <version>3.1.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20080701</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>6.0</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
 </project>
