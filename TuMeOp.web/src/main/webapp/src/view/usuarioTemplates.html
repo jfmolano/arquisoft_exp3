@@ -425,13 +425,15 @@
 		 <td>Amigo</td>
 		 <td>Tienda</td>
                  <td>Valor</td>
+                 <td>Estado</td>
     </tr>
     <% _.each(bonos, function(bono) { %>
     <tr>
 		<td><%= htmlEncode(bono.getDisplay('fecha')) %></td>
                 <td><%= htmlEncode(bono.getDisplay('usuariobnId')) %></td>
 		<td><%= htmlEncode(bono.getDisplay('tiendafId')) %></td>
-		<td><%= htmlEncode(bono.getDisplay('valor')) %></td>   
+		<td><%= htmlEncode(bono.getDisplay('valor')) %></td>  
+                <td><%= htmlEncode(bono.getDisplay('estado')) %></td>  
     </tr>
     <% }); %>
     </table>
@@ -446,8 +448,6 @@
       
 
     </div><!--/.fluid-container-->
-    
-    
     
 </script>
 

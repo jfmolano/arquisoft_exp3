@@ -44,21 +44,39 @@ define([], function() {
           });
         },
         getDisplay: function(name) {
-             if(name=='fecha'){
-                   var dateConverter = App.Utils.Converter.date;
-                   return dateConverter.unserialize(this.get('fecha'), this);
-             }
-			 if(name=='usuariobnId'){  
-                 var value = App.Utils.getModelFromCache('usuarioComponent',this.get('usuariobnId'));
-                 if(value) 
-                 return value.get('name');
-             }
-			 if(name=='tienda_bonoId'){  
-                 var value = App.Utils.getModelFromCache('tiendaComponent',this.get('tienda_bonoId'));
-                 if(value) 
-                 return value.get('name');
-             }
-         return this.get(name);
+             if (name == 'fecha') {
+                var dateConverter = App.Utils.Converter.date;
+                return dateConverter.unserialize(this.get('fecha'), this);
+            }
+            if (name == 'usuariobnId') {
+                var value = App.Utils.getModelFromCache('usuarioComponent', this.get('usuariobnId'));
+                if (value)
+                    return value.get('name');
+            }
+            if (name == 'tienda_bonoId') {
+                var value = App.Utils.getModelFromCache('tiendaComponent', this.get('tienda_bonoId'));
+                if (value)
+                    return value.get('name');
+            }
+            if (name== 'valor')
+            {
+                if (this.get('valor') <0)
+                {
+                    return  -(parseInt(this.get('valor')) + "<br>");
+                }
+            }
+            if (name == 'estado')
+            {
+                if ( this.get('valor') <0)
+                {
+                    return 'Redimido';
+                }
+                else
+                {
+                    return 'Sin redimir';
+                }
+            }
+            return this.get(name);
         }
     });
 
