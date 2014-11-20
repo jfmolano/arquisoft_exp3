@@ -120,33 +120,35 @@
 
 <script type="text/template" id="amigos">
     <div class="personal">Amigos</div>
-    <table class="table striped">
-        <thead>
-            <tr>
-               <th>Name</th>
-               <th>Email</th>
-               <th>Actions</th>
-           </tr>
-       </thead>
-       <tbody>
+    <div>
+        <div class="titulosTablas" style="width: 50%">
+            Nombre
+        </div>
+        <div class="titulosTablas" style="width: 50%">
+            Correo
+        </div>
+    </div>
+    <div style ="overflow:scroll; height:300px; clear:both">
         <% _.each(amigos, function(amigo) { %>
-        <tr>
-            <td><%= htmlEncode(amigo.getDisplay('name')) %></td>
-            <td><%= htmlEncode(amigo.getDisplay('email')) %></td>
-            <td>
-
-
-               <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success"              
-                onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.getDisplay('facebookId')%>, name:'<%= amigo.getDisplay('name')%>'})"
-
-                type="button" class="btn btn-success">
-                Ver
-                </button>
-            </td>
-        </tr>
+        <div class="TableButton" style = "clear:both; height:50px;" onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.getDisplay('facebookId')%>, name:'<%= amigo.getDisplay('name')%>'})">
+            <div class="contenidoTablas" style="width: 48%">
+                <%= htmlEncode(amigo.getDisplay('name')) %>
+            </div>
+            <div class="contenidoTablas" style="width: 48%">
+                <%= htmlEncode(amigo.getDisplay('email')) %>
+            </div>
+        </div>
+        <div class="TableButton" style = "clear:both; height:50px;" onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.getDisplay('facebookId')%>, name:'<%= amigo.getDisplay('name')%>'})">
+            <div class="contenidoTablas" style="width: 48%">
+                <%= htmlEncode(amigo.getDisplay('name')) %>
+            </div>
+            <div class="contenidoTablas" style="width: 48%">
+                <%= htmlEncode(amigo.getDisplay('email')) %>
+            </div>
+        </div>
         <% }); %>
-        </tbody>
-    </table>
+    </div>
+
             
     
 </script>
