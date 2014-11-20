@@ -9,48 +9,44 @@
         <link rel="stylesheet" href="css/datepicker.css">
         <link href="./css/bootstrap.css" rel="stylesheet">
         <style type="text/css">
-            body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
-          }
 
-          .form-signin {
-            max-width: 300px;
-            padding: 19px 29px 29px;
-            margin: 0 auto 20px;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
-            -webkit-border-radius: 5px;
-               -moz-border-radius: 5px;
-                    border-radius: 5px;
-            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-               -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                    box-shadow: 0 1px 2px rgba(0,0,0,.05);
-          }
-          .form-signin .form-signin-heading,
-          .form-signin .checkbox {
-            margin-bottom: 10px;
-          }
-          .form-signin input[type="text"],
-          .form-signin input[type="password"] {
-            font-size: 16px;
-            height: auto;
-            margin-bottom: 15px;
-            padding: 7px 9px;
-          }
+
+            .form-signin {
+                max-width: 300px;
+                padding: 19px 29px 29px;
+                margin: 0 auto 20px;
+                background-color: #fff;
+                border: 1px solid #e5e5e5;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            }
+            .form-signin .form-signin-heading,
+            .form-signin .checkbox {
+                margin-bottom: 10px;
+            }
+            .form-signin input[type="text"],
+            .form-signin input[type="password"] {
+                font-size: 16px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 7px 9px;
+            }
 
         </style>
         <script>
             loadComponents = [
-            {
-                    name: 'component/usuarioComponent', 
+                {
+                    name: 'component/usuarioComponent',
                     render: true,
                     domElementId: 'main'
-            }
+                }
             ];
         </script>
-         <link href="./css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="./css/bootstrap-responsive.css" rel="stylesheet">
         <script src="./js/vendor/jquery-1.9.1.js"></script>
         <script src="./js/vendor/bootstrap.min.js"></script>
         <script src="./js/vendor/underscore-min.js"></script>
@@ -65,82 +61,106 @@
         <![endif]-->
     </head>
     <body>
-        <div class="container">
-            <div id="main" ></div>
+        <div>
+            <div style="float:left"> 
+                <img src="img/TuMeOpPortada.png"/>
+            </div>
+            <div style="font-size: 80px; height: 90px; background-color: rgb(0, 0, 0); padding-top: 30px; padding-left: 160px;" class="personal">
+                Tu Mejor Opcion
+            </div>        
         </div>
-        
- 
+        <div id="inic" ></div>
+        <div id = "menu" class ="panel-out" style="padding:30px;margin:10px;display:none;height:540px">
+            <div   style="width: 38.46%; float: left; padding-right: 30px;">
+                <div class="personal">Menu</div>
+                <div class="MenuButton" onclick="Backbone.trigger('-verAmigos', {});return false">
+                    Amigos
+                </div>
+                <div class="MenuButton" onclick="Backbone.trigger('-importarAmigos', {});return false">
+                    Importar Amigos
+                </div>
+                <div class="MenuButton" onclick="Backbone.trigger('-verHistorialBonos', {});return false">
+                    Historial de Bonos
+                </div>
+            </div>
+            <div id="main" style="width:61.54%; float:left"></div>
+        </div>
+
+
+
         <script>
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '658856234210405',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
-  });
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '658856234210405',
+                    cookie: true, // enable cookies to allow the server to access 
+                    // the session
+                    xfbml: true, // parse social plugins on this page
+                    version: 'v2.1' // use version 2.1
+                });
 
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
+                // Now that we've initialized the JavaScript SDK, we call 
+                // FB.getLoginStatus().  This function gets the state of the
+                // person visiting this page and can return one of three states to
+                // the callback you provide.  They can be:
+                //
+                // 1. Logged into your app ('connected')
+                // 2. Logged into Facebook, but not your app ('not_authorized')
+                // 3. Not logged into Facebook and can't tell if they are logged into
+                //    your app or not.
+                //
+                // These three cases are handled in the callback function.
 
- 
 
-  };
 
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+            };
 
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-    });
-  }
-</script>
+            // Load the SDK asynchronously
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
 
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
+            // Here we run a very simple test of the Graph API after login is
+            // successful.  See statusChangeCallback() for when this call is made.
+            function testAPI() {
+                console.log('Welcome!  Fetching your information.... ');
+                FB.api('/me', function(response) {
+                    console.log('Successful login for: ' + response.name);
+                    document.getElementById('status').innerHTML =
+                            'Thanks for logging in, ' + response.name + '!';
+                });
+            }
+        </script>
 
-<!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>-->
+        <!--
+          Below we include the Login Button social plugin. This button uses
+          the JavaScript SDK to present a graphical Login button that triggers
+          the FB.login() function when clicked.
+        -->
 
-<div id="status">
-</div>
-<script src="./js/vendor/jquery.js"></script>
-    <script src="./js/vendor/bootstrap-transition.js"></script>
-    <script src="./js/vendor/bootstrap-alert.js"></script>
-    <script src="./js/vendor/bootstrap-modal.js"></script>
-    <script src="./js/vendor/bootstrap-dropdown.js"></script>
-    <script src="./js/vendor/bootstrap-scrollspy.js"></script>
-    <script src="./js/vendor/bootstrap-tab.js"></script>
-    <script src="./js/vendor/bootstrap-tooltip.js"></script>
-    <script src="./js/vendor/bootstrap-popover.js"></script>
-    <script src="./js/vendor/bootstrap-button.js"></script>
-    <script src="./js/vendor/bootstrap-collapse.js"></script>
-    <script src="./js/vendor/bootstrap-carousel.js"></script>
-    <script src="./js/vendor/bootstrap-typeahead.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
+        <!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>-->
+
+        <div id="status">
+        </div>
+        <script src="./js/vendor/jquery.js"></script>
+        <script src="./js/vendor/bootstrap-transition.js"></script>
+        <script src="./js/vendor/bootstrap-alert.js"></script>
+        <script src="./js/vendor/bootstrap-modal.js"></script>
+        <script src="./js/vendor/bootstrap-dropdown.js"></script>
+        <script src="./js/vendor/bootstrap-scrollspy.js"></script>
+        <script src="./js/vendor/bootstrap-tab.js"></script>
+        <script src="./js/vendor/bootstrap-tooltip.js"></script>
+        <script src="./js/vendor/bootstrap-popover.js"></script>
+        <script src="./js/vendor/bootstrap-button.js"></script>
+        <script src="./js/vendor/bootstrap-collapse.js"></script>
+        <script src="./js/vendor/bootstrap-carousel.js"></script>
+        <script src="./js/vendor/bootstrap-typeahead.js"></script>
+        <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
     </body>
 </html>

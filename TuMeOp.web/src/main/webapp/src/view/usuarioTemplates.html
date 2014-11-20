@@ -53,12 +53,13 @@
 <script type="text/template" id="usuarioList">
         <% console.log('logIn id:'+componentId); %>
      
-     <div class="container">
+     <div style="width :429px; margin: 0px auto;">
 
+        <div>
+            <img src= "img/TuMeOpPrincipal.jpg" width="429px"/>
+        </div>
         <table>
-        
-            <tr>        
-                <td></td>
+            <tr>       
                 <td>
                     <button id="<%= componentId %>-loginFacebook" class="btn btn-large btn-primary" 
                         onclick="Backbone.trigger('<%= componentId %>-loginFacebook',{}); return false" 
@@ -67,16 +68,13 @@
                     Ingresa con Facebook
                     </button>
                 </td>
-                <td></td>
                 <td>
                     <button id="<%= componentId %>-loginGoogle" class="btn btn-large btn-danger" 
                         onclick="Backbone.trigger('<%= componentId %>-loginGoogle',{}); return false" 
                         type="button" class="btn btn-info">
-
-                    Ingresa con Google+
+                        Ingresa con Google+ 
                     </button>
                 </td>
-                <td></td>
             </tr>
         </table>
      
@@ -116,306 +114,58 @@
 <script type="text/template" id="principal">
     
     
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Tu Mejor Opcion</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-     </div>
     
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active" 
-                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
-                <a> Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
-                   <a> Importar Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-verHistorialBonos',{}); return false">
-                   <a> Historial de Bonos </a>
-              </li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        
-
-      <hr>
-
-      
-
-    </div><!--/.fluid-container-->
     
 </script>
 
 <script type="text/template" id="amigos">
+    <div class="personal">Amigos</div>
+    <table class="table striped">
+        <thead>
+            <tr>
+               <th>Name</th>
+               <th>Email</th>
+               <th>Actions</th>
+           </tr>
+       </thead>
+       <tbody>
+        <% _.each(amigos, function(amigo) { %>
+        <tr>
+            <td><%= htmlEncode(amigo.getDisplay('name')) %></td>
+            <td><%= htmlEncode(amigo.getDisplay('email')) %></td>
+            <td>
 
-    
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Tu Mejor Opcion</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-     </div>
-    
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active" 
-                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
-                <a> Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
-                   <a> Importar Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-verHistorialBonos',{}); return false">
-                   <a> Historial de Bonos </a>
-              </li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <table class="table striped">
-                <thead>
-                <tr>
-                             <th>Name</th>
-                             <th>Email</th>
-                            <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <% _.each(amigos, function(amigo) { %>
-                <tr>
-                            <td><%= htmlEncode(amigo.getDisplay('name')) %></td>
-                            <td><%= htmlEncode(amigo.getDisplay('email')) %></td>
-                <td>
-                
-                
-                 <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success"              
-                        onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.getDisplay('facebookId')%>})"
-                        
-                    type="button" class="btn btn-success">
-                        Ver
-                 </button>
-                </td>
-                </tr>
-                <% }); %>
-                </tbody>
-                </table>
-            </div>
-        
-        </div>
 
-      <hr>
+               <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success"              
+                onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.getDisplay('facebookId')%>, name:'<%= amigo.getDisplay('name')%>'})"
 
-      
-    </div><!--/.fluid-container-->
+                type="button" class="btn btn-success">
+                Ver
+                </button>
+            </td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+            
     
 </script>
 
 <script type="text/template" id="importarAmigos">
 
-    
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Tu Mejor Opcion</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-     </div>
-    
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active" 
-                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
-                <a> Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
-                   <a> Importar Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-verHistorialBonos',{}); return false">
-                   <a> Historial de Bonos </a>
-              </li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class"span9">
-            
-            <div class="span4"></div>
-            <div class="span4">
+   
                 <button id="<%= componentId %>-importarFacebook" class="btn btn-medium btn-primary" 
                 onclick="Backbone.trigger('<%= componentId %>-importarFacebook',{}); return false" 
                 type="button" class="btn btn-primary">
 
                 Importar Amigos Facebook
                 </button>
-            <div>
-            <div class="span4"></div>
-        </div>
-
-      <hr>
-
-      
-
-    </div><!--/.fluid-container-->
+            
     
 </script>
 <script type="text/template" id="bonoList">
     
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Tu Mejor Opcion</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-     </div>
-     <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active" 
-                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
-                <a> Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
-                   <a> Importar Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-verHistorialBonos',{}); return false">
-                   <a> Historial de Bonos </a>
-              </li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class"span9">
+   
                       
     <div class="CSSTableGenerator">
     <!-- Default panel contents -->
@@ -452,64 +202,8 @@
 </script>
 
 <script type="text/template" id="likesList">
-    
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Tu Mejor Opcion</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-     </div>
-    
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active" 
-                onclick="Backbone.trigger('<%= componentId %>-verAmigos',{}); return false">
-                <a> Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-importarAmigos',{}); return false">
-                   <a> Importar Amigos </a>
-              </li>
-              <li  onclick="Backbone.trigger('<%= componentId %>-verHistorialBonos',{}); return false">
-                   <a> Historial de Bonos </a>
-              </li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
-            <div class="panel panel-default">
+    <div class="personal">Amigos: <%= htmlEncode(amigoSelec.name) %> </div>
+    <div>
                 <!-- Default panel contents -->
                 <table class="table striped">
                 <thead>
@@ -554,12 +248,8 @@
                 </table>
             </div>
         
-        </div>
+        
 
-      <hr>
-
-      
-    </div><!--/.fluid-container-->
     
     
     
