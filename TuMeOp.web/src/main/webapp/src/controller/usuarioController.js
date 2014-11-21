@@ -35,6 +35,11 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
             Backbone.on(this.componentId + '-loginFacebook', function(params) {
                 self.permisosFacebook(params);
             });
+            
+            Backbone.on('-loginGoogle', function(params) {
+                console.log("- - - - - - - - - - - - - - - 1. Botón G+ - - - - - - - - - - - - - - -");
+                self.loginGoogle(params);
+            });
 
             Backbone.on(this.componentId + '-renderRegistrarse', function(params) {
                 self.renderRegistrarse(params);
@@ -83,6 +88,51 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
 
 
         },
+        loginGoogle: function() {
+            var self = this;
+            console.log("2. G+ - - - - - - - - -");
+            gapi.client.plus.people.get({
+            'userId': 'me'
+      }).then(function(res) {
+        var profile = res.result;
+        console.log(profile);
+      }, function(err) {
+          
+      });
+            /*- - - - - - - - - - - - */
+            gapi.client.plus.people.list({
+        'userId': 'me',
+        'collection': 'visible'
+      }).then(function(res) {
+        var people = res.result;/*
+        $('#visiblePeople').empty();
+        $('#visiblePeople').append('Number of people visible to this app: ' +
+            people.totalItems + '<br/>');*/
+        for (var personIndex in people.items) {
+          person = people.items[personIndex];
+	  console.log(person);
+          /*$('#visiblePeople').append('<img src="' + person.image.url + '">');*/
+        }
+      });
+      /*- - - - - - - - - - - - */
+        },
+        peopleGoogle: function() {
+            console.log("3. People Google - - - - - - - - -");
+      gapi.client.plus.people.list({
+        'userId': 'me',
+        'collection': 'visible'
+      }).then(function(res) {
+        var people = res.result;/*
+        $('#visiblePeople').empty();
+        $('#visiblePeople').append('Number of people visible to this app: ' +
+            people.totalItems + '<br/>');*/
+        for (var personIndex in people.items) {
+          person = people.items[personIndex];
+	  console.log(person);
+          /*$('#visiblePeople').append('<img src="' + person.image.url + '">');*/
+        }
+      });
+    },
         loginFacebook: function() {
             var self = this;
             console.log("component id1: " + this.componentId);
