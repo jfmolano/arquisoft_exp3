@@ -70,9 +70,9 @@
             </div>        
         </div>
         <div id="inic" ></div>
-        <div id = "menu" class ="panel-out" style="padding:30px;margin:10px;display:none;height:540px">
+        <div id = "menu" class ="panel-out" style="padding:30px;margin:10px;display:none;height:580px">
             <div   style="width: 38.46%; float: left; padding-right: 30px;">
-                <div class="personal">Menu</div>
+                <div class="personal" style="height:45px;">Menu</div>
                 <div class="MenuButton" onclick="Backbone.trigger('-verAmigos', {});return false">
                     Amigos
                 </div>
@@ -82,6 +82,8 @@
                 <div class="MenuButton" onclick="Backbone.trigger('-verHistorialBonos', {});return false">
                     Historial de Bonos
                 </div>
+                <div class="personal" style="height:45px;margin-top:30px;">Bono TuMeOp: </div>
+                <img src="img/TuMeOpInfoBono.png" alt="Información del bono"/>
             </div>
             <div id="main" style="width:61.54%; float:left"></div>
         </div>
