@@ -73,6 +73,11 @@ public class UsuarioLogicService extends _UsuarioLogicService implements IUsuari
         
     }
     
+    public List<TiendaDTO> darTodasTiendas(){
+        
+        return persistance.getTiendas();
+        
+    }
     
 
     public List<BonoDTO> agregarBonos(UsuarioBonosDTO usuarioBonos) {

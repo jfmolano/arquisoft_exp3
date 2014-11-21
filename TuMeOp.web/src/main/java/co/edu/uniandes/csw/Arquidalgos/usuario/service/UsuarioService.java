@@ -121,7 +121,7 @@ public class UsuarioService extends _UsuarioService {
         System.out.print("Service usuarioID: "+usuarioTiendas.getFacebookId());
         return this.usuarioLogicService.darLikesUsuario(usuarioTiendas);
     }
-    
+
     @POST
     @Path("/agregarBonos")
     public List<BonoDTO> agregarBonos(UsuarioBonosDTO usuarioBonos) throws Exception {

@@ -62,25 +62,18 @@
             <tr>       
                 <td>
                     <button id="<%= componentId %>-loginFacebook" class="btn btn-large btn-primary" 
-                        onclick="Backbone.trigger('<%= componentId %>-loginFacebook',{}); return false" 
+                        onclick="Backbone.trigger('<%= componentId %>-loginFacebook',{});console.log('console log:');console.log('<%= componentId %>'); return false" 
                         type="button" class="btn btn-info">
 
                     Ingresa con Facebook
                     </button>
                 </td>
                 <td>
-                    <button id="<%= componentId %>-loginGoogle" class="btn btn-large btn-danger" 
-                        onclick="Backbone.trigger('<%= componentId %>-loginGoogle',{}); return false" 
-                        type="button" class="btn btn-info">
-                        Ingresa con Google+ 
-                    </button>
                 </td>
             </tr>
-        </table>
-     
-
+        </table> 
+        
     </div>
-    
 </script>
 <script type="text/template" id="registrarse">
         <% console.log('logIn id:'+componentId); %>
