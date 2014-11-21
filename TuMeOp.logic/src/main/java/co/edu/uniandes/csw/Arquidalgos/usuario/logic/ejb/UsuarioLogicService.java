@@ -37,6 +37,7 @@ import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioAmigosDTO;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioBonosDTO;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioTiendasDTO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -68,8 +69,21 @@ public class UsuarioLogicService extends _UsuarioLogicService implements IUsuari
     
     public List<TiendaDTO> darLikesUsuario(UsuarioTiendasDTO usuarioTiendas){
         System.out.print("Logic service usuarioID: "+usuarioTiendas.getFacebookId());
-        
-        return persistance.darLikesUsuario(usuarioTiendas.getFacebookId(), usuarioTiendas.getTiendas());
+        List<TiendaDTO> listaFin = new ArrayList<TiendaDTO>();
+        List<TiendaDTO> lista1 = persistance.darLikesUsuario(usuarioTiendas.getFacebookId(), usuarioTiendas.getTiendas());
+        for (int i = 0; i < lista1.size(); i++) {
+            listaFin.add(lista1.get(i));
+        }
+        TiendaDTO separador = new TiendaDTO();
+        separador.setName("Separador");
+        separador.setNombre("Separador");
+        separador.setId(0L);
+        listaFin.add(separador);
+        List<TiendaDTO> lista2 = persistance.getTiendas();
+        for (int i = 0; i < lista2.size(); i++) {
+            listaFin.add(lista2.get(i));
+        }
+        return listaFin;
         
     }
     

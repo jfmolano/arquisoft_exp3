@@ -211,6 +211,9 @@
                 </thead>
                 <tbody>
                 <% _.each(amigos, function(amigo) { %>
+                <% if(amigo.getDisplay('name')==='Separador') {%>
+                <tr><td colspan="4" style="background-color:white;color:black;">Todas las tiendas</td></tr> 
+                <% } else { %> 
                 <tr>
                     
                     
@@ -237,7 +240,7 @@
                         </button>
                     </td>
                     
-                </tr>
+                </tr><% }%>
                 <% }); %>
                 </tbody>
                 </table>
