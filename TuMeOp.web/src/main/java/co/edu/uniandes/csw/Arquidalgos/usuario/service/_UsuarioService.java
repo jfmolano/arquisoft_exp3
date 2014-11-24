@@ -79,7 +79,7 @@ public abstract class _UsuarioService {
             
             boolean alterado = !(hash.equalsIgnoreCase(usuario.getHash()));
             System.out.println("Alterado: "+alterado);
-            
+
             if (alterado){
                 //throw new Exception("Se han alterado los datos");
             }

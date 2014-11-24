@@ -1,31 +1,17 @@
 <script type="text/template" id="tiendaList">
+     <div class="personal" style="height:45px;">Tiendas TuMeOp </div>
     <div class="panel panel-default">
     <!-- Default panel contents -->
     <table class="table striped">
     <thead>
     <tr>
-		 <th>Name</th>
-		 <th>Direccion</th>
 		 <th>Nombre</th>
-		 <th>Tipo</th>
-    <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <% _.each(tiendas, function(tienda) { %>
     <tr>
-		<td><%= htmlEncode(tienda.getDisplay('name')) %></td>
-		<td><%= htmlEncode(tienda.getDisplay('direccion')) %></td>
 		<td><%= htmlEncode(tienda.getDisplay('nombre')) %></td>
-		<td><%= htmlEncode(tienda.getDisplay('tipo')) %></td>
-    <td>
-    <% if(showEdit) {%>
-    <a onclick="Backbone.trigger('<%= componentId %>-tienda-edit',{id:<%= tienda.id %>}); return false" >Edit</a> |
-	<% } %> 
-	<% if(showDelete) {%>
-    <a onclick="Backbone.trigger('<%= componentId %>-tienda-delete',{id:<%= tienda.id %>}); return false" >Delete</a> 
-	<% } %>    
-	</td>
     </tr>
     <% }); %>
     </tbody>
