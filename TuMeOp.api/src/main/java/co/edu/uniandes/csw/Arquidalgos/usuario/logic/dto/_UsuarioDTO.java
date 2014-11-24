@@ -50,6 +50,7 @@ public abstract class _UsuarioDTO {
         private String email;
 
         private String facebookId;
+        private String googleId;
 
     public String getFacebookId() {
         return facebookId;
@@ -57,6 +58,19 @@ public abstract class _UsuarioDTO {
 
     public void setFacebookId(String facebookId) {
         this.facebookId = facebookId;
+    }
+    
+     public String getGoogleId() {
+         String resp="vacio";
+         if(googleId!=null)
+         {
+             resp = googleId;
+         }
+        return resp;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
         
         
@@ -99,13 +113,13 @@ public abstract class _UsuarioDTO {
         @Override
         public String toString(){
             
-            return "{\"email\":\""+email+"\",\"name\":\""+name+"\",\"hash\":\"\",\"facebookId\":\""+facebookId+"\"}";
+            return "{\"email\":\""+email+"\",\"name\":\""+name+"\",\"hash\":\"\",\"facebookId\":\""+facebookId+"\",\"googleId\":\""+googleId+"\"}";
             
         }
         
         public String toStringSinEmail(){
             
-            return "{\"name\":\""+name+"\",\"hash\":\"\",\"facebookId\":\""+facebookId+"\"}";
+            return "{\"name\":\""+name+"\",\"hash\":\"\",\"facebookId\":\""+facebookId+"\",\"googleId\":\""+googleId+"\"}";
         }
         
         private String hash;

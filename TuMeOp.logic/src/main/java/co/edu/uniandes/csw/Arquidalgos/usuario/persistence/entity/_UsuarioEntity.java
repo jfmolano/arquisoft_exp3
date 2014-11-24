@@ -48,13 +48,22 @@ public abstract class _UsuarioEntity {
 	private String contrasena;
         private String email;
         private String facebookId;
+        private String googleId;
 
     public String getFacebookId() {
         return facebookId;
     }
+    
+     public String getGoogleId() {
+        return googleId;
+    }
 
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
+    public void setFacebookId(String googleId) {
+        this.googleId = googleId;
+    }
+    
+     public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
         
         

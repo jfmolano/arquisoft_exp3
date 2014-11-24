@@ -55,16 +55,44 @@ public class UsuarioLogicService extends _UsuarioLogicService implements IUsuari
     
     public List<UsuarioDTO> darAmigosUsuario(String facebookId){
         System.out.println("Dar amigos ejb de: "+facebookId);
-        return persistance.darAmigosUsuario(facebookId);
+        List<UsuarioDTO> resp = new ArrayList<UsuarioDTO>();
+        List<UsuarioDTO> lista1 = persistance.darAmigosUsuarioGoogle(facebookId);
+        List<UsuarioDTO> lista2 = persistance.darAmigosUsuario(facebookId);
+        for (int i = 0; i < lista1.size(); i++) {
+            resp.add(lista1.get(i));
+        }
+        for (int i = 0; i < lista2.size(); i++) {
+            resp.add(lista2.get(i));
+        }
+        return resp;
+    }    
+    
+    public List<UsuarioDTO> darAmigosUsuarioGoogle(String gId){
+        System.out.println("Dar amigos ejb de: "+gId);
+        return persistance.darAmigosUsuarioGoogle(gId);
     }
     
     public List<UsuarioDTO> agregarAmigos ( String facebookId, List<UsuarioDTO> amigos){
         
         return persistance.agregarAmigos(facebookId, amigos);
     }
+    
+    public List<UsuarioDTO> unirUsuarios ( UsuarioDTO usG, UsuarioDTO usFb){
+        
+        return persistance.unirUsuarios(usG, usFb);
+    }
+    
+    public List<UsuarioDTO> agregarAmigosGoogle( String facebookId, List<UsuarioDTO> amigos){
+        
+        return persistance.agregarAmigosGoogle(facebookId, amigos);
+    }
 
     public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos) {
         return agregarAmigos(usuarioAmigos.getFacebookId(),usuarioAmigos.getAmigos());
+    }
+    
+    public List<UsuarioDTO> agregarAmigosGoogle(UsuarioAmigosDTO usuarioAmigos) {
+        return agregarAmigosGoogle(usuarioAmigos.getFacebookId(),usuarioAmigos.getAmigos());
     }
     
     public List<TiendaDTO> darLikesUsuario(UsuarioTiendasDTO usuarioTiendas){

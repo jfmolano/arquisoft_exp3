@@ -45,9 +45,15 @@ public interface IUsuarioLogicService extends _IUsuarioLogicService {
     public List<TiendaDTO> darLikesUsuario(UsuarioTiendasDTO usuarioTiendas);
             
     public List<UsuarioDTO> agregarAmigos(UsuarioAmigosDTO usuarioAmigos);
+    
+    public List<UsuarioDTO> agregarAmigosGoogle(UsuarioAmigosDTO usuarioAmigos);
 
     public List<UsuarioDTO> darAmigosUsuario(String facebookId);
     
     public List<BonoDTO> agregarBonos(UsuarioBonosDTO usuarioBonos);
+
+    public List<UsuarioDTO> darAmigosUsuarioGoogle(String idR);
+
+    public List<UsuarioDTO> unirUsuarios(UsuarioDTO usFb, UsuarioDTO usG);
 
 }

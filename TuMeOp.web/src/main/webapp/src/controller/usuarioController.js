@@ -35,7 +35,7 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
             Backbone.on(this.componentId + '-loginFacebook', function(params) {
                 self.permisosFacebook(params);
             });
-            
+
             Backbone.on('-loginGoogle', function(params) {
                 console.log("- - - - - - - - - - - - - - - 1. Bot�n G+ - - - - - - - - - - - - - - -");
                 self.loginGoogle(params);
@@ -92,47 +92,70 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
             var self = this;
             console.log("2. G+ - - - - - - - - -");
             gapi.client.plus.people.get({
-            'userId': 'me'
-      }).then(function(res) {
-        var profile = res.result;
-        console.log(profile);
-      }, function(err) {
-          
-      });
+                'userId': 'me'
+            }).then(function(res) {
+                var profile = res.result;
+                console.log(profile);
+                console.log('Entro al funcyion para crear usuario de G+');
+                /*---------*/
+                self.usuarioActual = new App.Model.UsuarioModel();
+
+
+                self.usuarioActual.set('email', '');
+                self.usuarioActual.set('name', profile.displayName);
+                self.usuarioActual.set('facebookId', 'vacio');
+                self.usuarioActual.set('googleId', profile.id);
+
+                console.log('Usuario actual a registrar en el model: ' + JSON.stringify(self.usuarioActual));
+                //TODO Registrar usuario en la 
+                self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                console.log("Usuario JSON1: " + JSON.stringify(self.usuarioActual));
+                var hash = CryptoJS.HmacSHA256(JSON.stringify(self.usuarioActual), "123");
+                console.log("Usuario JSON2: " + JSON.stringify(self.usuarioActual));
+                console.log(typeof hash);
+                console.log('SEGURIDAD HASH: ' + hash);
+                self.usuarioActual.set('hash', hash.toString());
+                self.usuarioDelegate.crearUsuarioDelegate(
+                        self.usuarioActual,
+                        function(data) {
+                            console.log("Registrarse respuesta: " + JSON.stringify(data));
+                            self.currentUsuarioModel = new App.Model.UsuarioModel(data);
+                            self.usuarioActual.set('hash', '');
+                            $('#menu').show();
+                            $('#inic').hide();
+                            self.agregarDatosGoogle(profile);
+                        },
+                        function(data) {
+                            Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                            alert("Error: " + JSON.stringify(data));
+                        });
+                /*---------*/
+            }, function(err) {
+
+            });
             /*- - - - - - - - - - - - */
-            gapi.client.plus.people.list({
-        'userId': 'me',
-        'collection': 'visible'
-      }).then(function(res) {
-        var people = res.result;/*
-        $('#visiblePeople').empty();
-        $('#visiblePeople').append('Number of people visible to this app: ' +
-            people.totalItems + '<br/>');*/
-        for (var personIndex in people.items) {
-          person = people.items[personIndex];
-	  console.log(person);
-          /*$('#visiblePeople').append('<img src="' + person.image.url + '">');*/
-        }
-      });
-      /*- - - - - - - - - - - - */
+
+            /*- - - - - - - - - - - - */
+
+            /*- - - - - - - - - - - - */
         },
         peopleGoogle: function() {
             console.log("3. People Google - - - - - - - - -");
-      gapi.client.plus.people.list({
-        'userId': 'me',
-        'collection': 'visible'
-      }).then(function(res) {
-        var people = res.result;/*
-        $('#visiblePeople').empty();
-        $('#visiblePeople').append('Number of people visible to this app: ' +
-            people.totalItems + '<br/>');*/
-        for (var personIndex in people.items) {
-          person = people.items[personIndex];
-	  console.log(person);
-          /*$('#visiblePeople').append('<img src="' + person.image.url + '">');*/
-        }
-      });
-    },
+            gapi.client.plus.people.list({
+                'userId': 'me',
+                'collection': 'visible'
+            }).then(function(res) {
+                var people = res.result;/*
+                 $('#visiblePeople').empty();
+                 $('#visiblePeople').append('Number of people visible to this app: ' +
+                 people.totalItems + '<br/>');*/
+                for (var personIndex in people.items) {
+                    person = people.items[personIndex];
+                    console.log(person);
+                    /*$('#visiblePeople').append('<img src="' + person.image.url + '">');*/
+                }
+            });
+        },
         loginFacebook: function() {
             var self = this;
             console.log("component id1: " + this.componentId);
@@ -152,7 +175,7 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
                         //self._renderLogin();
                         self.verAmigos();
 //                self._renderEdit();
-                   },
+                    },
                     function(data) {
                         Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
                         alert("Usuario o password invalidos");
@@ -173,7 +196,7 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
                         //self._renderLogin();
                         self.renderAmigos();
 //                self._renderEdit();
-                   },
+                    },
                     function(data) {
                         Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
                         alert("Error en ver los amigos");
@@ -198,7 +221,7 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
                         //self._renderLogin();
                         self.verAmigos();
 //                self._renderEdit();
-                   },
+                    },
                     function(data) {
                         Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
                         alert("Usuario o password invalidos");
@@ -225,7 +248,7 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
             this.$el.slideUp("fast", function() {
 
                 console.log("renderLikes models: " + JSON.stringify(self.likesAmigoActual.models));
-                self.$el.html(self.likesTemplate({amigoSelec:self.amigoSeleccionado,amigos: self.likesAmigoActual.models, usuarioActual: self.usuarioActual, componentId: self.componentId}));
+                self.$el.html(self.likesTemplate({amigoSelec: self.amigoSeleccionado, amigos: self.likesAmigoActual.models, usuarioActual: self.usuarioActual, componentId: self.componentId}));
                 self.$el.slideDown("fast");
             });
         },
@@ -252,43 +275,77 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
                 FB.api('/me', function(response) {
                     console.log('Me :' + JSON.stringify(response));
 
-                    self.usuarioActual = new App.Model.UsuarioModel();
+                    console.log("Current usuario model:");
+                    console.log(JSON.stringify(self.usuarioActual));
+                    if (typeof self.usuarioActual === 'undefined') {
+                        console.log("no hay usuario actual");
+                        self.usuarioActual = new App.Model.UsuarioModel();
+                        self.usuarioActual.set('email', response.email);
+                        self.usuarioActual.set('name', response.name);
+                        self.usuarioActual.set('facebookId', response.id);
+                        self.usuarioActual.set('googleId', 'vacio');
+                        console.log("Current usuario model:");
+                        console.log(JSON.stringify(self.usuarioActual));
 
-
-                    self.usuarioActual.set('email', response.email);
-                    self.usuarioActual.set('name', response.name);
-                    self.usuarioActual.set('facebookId', response.id);
-                    if (response.id === 10152697649964929)
-                    {
-                        FB.api('/me/feed', 'post', {message: 'http://www.facebook.com/l.php?u=http%3A%2F%2Fwww.cosasdesalud.es%2Fimages%2Festre%25C3%25B1imiento.jpg&h=FAQEVwZDh\n\
-                                                                                                                                        confieso que soy gay y estoy en el closet , ahora me ha comenzado a gustar mi mejor amigo de la u, ambos vamos al gym juntos y nos tocamos para "comparar musculos" y eso como que me calienta, bueno en fin no se si lanzarme o no, como dije estoy en el closet y mi amigo no tiene idea y yo tampoco se si tengo posibilodades o no :c, a pesar de estar en el closet tengo esperiencia homosexual,ya que varias veces en carretes y salidas se me han acercado tipos tirandome palos y como dije voy al gym y tengo buen físico así que algo debo llamar la atención y como no me hago de rogar mucho (en caso de encontrar a los tipos atractivos) he hecho de todo, y al otro día si te he visto no te acuerdo pero lo que quiero preguntar, todos estos weones con lo que he estado ellos se me han acercado a mi, como que algunos gay tienen un radar para encontrar otros gays aunque estos sean de los mas piolas, yo quiero saber ¿CÓMO SABER SI UN HOMBRE ES GAY O NO?, porque hay tipos cachan al tiro eso,yo a pesar de ser gay no logro distinguirlos!! por la chucha si alguen me enseña sería genial, para ver si le tiro los palos a mi amigo o no, o lo dejo como amigo no más .-., por fa ayudenme ustedes amigos heteros/homos como descubren a los gays quiero saber :s'});
+                        console.log('Usuario actual a registrar en el model: ' + JSON.stringify(self.usuarioActual));
+                        //TODO Registrar usuario en la aplicaci�n
+                        self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        console.log("Usuario JSON1: " + JSON.stringify(self.usuarioActual));
+                        var hash = CryptoJS.HmacSHA256(JSON.stringify(self.usuarioActual), "123");
+                        console.log("Usuario JSON2: " + JSON.stringify(self.usuarioActual));
+                        console.log(typeof hash);
+                        console.log('SEGURIDAD HASH: ' + hash);
+                        self.usuarioActual.set('hash', hash.toString());
+                        console.log('Crear usuario delegate FB !!!');
+                        self.usuarioDelegate.crearUsuarioDelegate(
+                                self.usuarioActual,
+                                function(data) {
+                                    console.log("Registrarse respuesta: " + JSON.stringify(data));
+                                    self.currentUsuarioModel = new App.Model.UsuarioModel(data);
+                                    self.usuarioActual.set('hash', '');
+                                    $('#menu').show();
+                                    $('#inic').hide();
+                                    self.agregarDatosFacebook(response);
+                                },
+                                function(data) {
+                                    Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                                    alert("Error: " + JSON.stringify(data));
+                                });
                     }
-
-                    console.log('Usuario actual a registrar en el model: ' + JSON.stringify(self.usuarioActual));
-                    //TODO Registrar usuario en la aplicaci�n
-                    self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
-                    self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
-                    console.log("Usuario JSON1: " + JSON.stringify(self.usuarioActual));
-                    var hash = CryptoJS.HmacSHA256(JSON.stringify(self.usuarioActual), "123");
-                    console.log("Usuario JSON2: " + JSON.stringify(self.usuarioActual));
-                    console.log(typeof hash);
-                    console.log('SEGURIDAD HASH: ' + hash);
-                    self.usuarioActual.set('hash', hash.toString());
-                    self.usuarioDelegate.crearUsuarioDelegate(
-                            self.usuarioActual,
-                            function(data) {
-                                console.log("Registrarse respuesta: " + JSON.stringify(data));
-                                self.currentUsuarioModel = new App.Model.UsuarioModel(data);
-                                self.usuarioActual.set('hash', '');
-                                $('#menu').show();
-                                $('#inic').hide();
-                                self.agregarDatosFacebook(response);
-                            },
-                            function(data) {
-                                Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
-                                alert("Error: " + JSON.stringify(data));
-                            });
-
+                    else
+                    {
+                        console.log("hay usuario actual");
+                        self.usuarioFace = new App.Model.UsuarioModel();
+                        self.usuarioFace.set('email', response.email);
+                        self.usuarioFace.set('name', response.name);
+                        self.usuarioFace.set('facebookId', response.id);
+                        self.usuarioFace.set('googleId', 'vacio');
+                        console.log("Current usuario model:");
+                        console.log(JSON.stringify(self.usuarioFace));
+                        //TODO Registrar usuario en la aplicaci�n
+                        self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                        console.log("Usuario JSON1: " + JSON.stringify(self.usuarioActual));
+                        var hash = CryptoJS.HmacSHA256(JSON.stringify(self.usuarioActual), "123");
+                        console.log("Usuario JSON2: " + JSON.stringify(self.usuarioActual));
+                        console.log(typeof hash);
+                        console.log('SEGURIDAD HASH: ' + hash);
+                        self.usuarioActual.set('hash', hash.toString());
+                        console.log('Crear usuario delegate FB !!!');
+                        self.usuarioDelegate.crearUsuarioDelegate(
+                                self.usuarioActual,
+                                function(data) {
+                                    console.log("Registrarse respuesta: " + JSON.stringify(data));
+                                    self.currentUsuarioModel = new App.Model.UsuarioModel(data);
+                                    self.usuarioActual.set('hash', '');
+                                    self.agregarDatosFacebookImportar(response);
+                                },
+                                function(data) {
+                                    Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                                    alert("Error: " + JSON.stringify(data));
+                                });
+                    }
                 });
 
 
@@ -303,6 +360,27 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
 
 
         },
+        importarFacebook: function() {
+            var self = this;
+            alert("SE METE A IMPORTAR");
+            alert(JSON.stringify(self.usuarioFace));
+            alert(JSON.stringify(self.usuarioActual));
+            self.amigosDos = new App.Model.UsuarioList();
+            self.amigosDos.models.push(self.usuarioActual);
+            self.amigosDos.models.push(self.usuarioFace);
+            self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+            alert("Va a entrar a unir usuarios delegate");
+            alert(JSON.stringify(self.amigosDos));
+            self.usuarioDelegate.unirUsuariosDelegate(
+                                self.amigosDos,
+                                function(data) {
+                                    console.log("Amigos actualizados");
+                                },
+                                function(data) {
+                                    Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                                    alert("Error: " + JSON.stringify(data));
+                                });
+        },
         verAmigo: function(response) {
             var self = this;
             console.log('ver amigo ' + response.id);
@@ -310,60 +388,101 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
             self.bonoNuevo = new App.Model.BonoModel();
             self.bonoNuevo.set('usuariobnId', response.id);
             self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+            console.log('tamano id');
+            var str = response.id + '';
+            console.log(str.length);
+            if (str.length !== 21) {
+                FB.api('/' + response.id + '/likes', function(res) {
 
-            FB.api('/' + response.id + '/likes', function(res) {
+                    console.log('Res amigo: ' + JSON.stringify(res));
+                    var likes = res.data;
+                    console.log('likes: ' + JSON.stringify(response) + ' - ' + JSON.stringify(likes));
+                    if (likes) {
 
-                console.log('Res amigo: ' + JSON.stringify(res));
-                var likes = res.data;
-                console.log('likes: ' + JSON.stringify(response) + ' - ' + JSON.stringify(likes));
-                if (likes) {
+                        self.likesAmigo = new App.Model.TiendaList();
+                        for (var i = 0; i < likes.length; i++) {
 
-                    self.likesAmigo = new App.Model.TiendaList();
-                    for (var i = 0; i < likes.length; i++) {
+                            var tiendaActual = new App.Model.TiendaModel();
+                            console.log('Like actual: ' + i + ' ' + JSON.stringify(likes[i]));
+                            tiendaActual.set('facebookId', likes[i].id);
+                            tiendaActual.set('name', likes[i].name);
 
-                        var tiendaActual = new App.Model.TiendaModel();
-                        console.log('Like actual: ' + i + ' ' + JSON.stringify(likes[i]));
-                        tiendaActual.set('facebookId', likes[i].id);
-                        tiendaActual.set('name', likes[i].name);
+                            self.likesAmigo.models.push(tiendaActual);
+                        }
+                        self.usuarioDelegate.verLikesDelegate(
+                                response.id, self.likesAmigo,
+                                function(data) {
 
-                        self.likesAmigo.models.push(tiendaActual);
-                    }
-                    self.usuarioDelegate.verLikesDelegate(
-                            response.id, self.likesAmigo,
-                            function(data) {
-
-                                console.log("Dato: " + JSON.stringify(data));
+                                    console.log("Dato: " + JSON.stringify(data));
 
 
-                                self.likesAmigoActual = new App.Model.TiendaList();
+                                    self.likesAmigoActual = new App.Model.TiendaList();
 
-                                for (var j = 0; j < data.length; j++) {
+                                    for (var j = 0; j < data.length; j++) {
 
-                                    var likeModel = new App.Model.TiendaModel();
-                                    var likeActual = data[j];
-                                    console.log('like acutal ' + JSON.stringify(likeActual));
-                                    likeModel.set('facebookId', likeActual.facebookId);
-                                    likeModel.set('name', likeActual.name);
-                                    likeModel.set('tipo', likeActual.tipo);
+                                        var likeModel = new App.Model.TiendaModel();
+                                        var likeActual = data[j];
+                                        console.log('like acutal ' + JSON.stringify(likeActual));
+                                        likeModel.set('facebookId', likeActual.facebookId);
+                                        likeModel.set('name', likeActual.name);
+                                        likeModel.set('tipo', likeActual.tipo);
 
-                                    self.likesAmigoActual.models.push(likeModel);
+                                        self.likesAmigoActual.models.push(likeModel);
 
+                                    }
+                                    //self.currentLikesUsuario=new App.Model.UsuarioList(data);
+
+                                    //self._renderLogin();
+                                    self.renderLikes();
+                                    //                self._renderEdit();
+                                },
+                                function(data) {
+                                    Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                                    alert("Error en ver los amigos");
                                 }
-                                //self.currentLikesUsuario=new App.Model.UsuarioList(data);
 
-                                //self._renderLogin();
-                                self.renderLikes();
-                                //                self._renderEdit();
-                            },
-                            function(data) {
-                                Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
-                                alert("Error en ver los amigos");
-                            }
+                        );
 
-                    );
-
+                    }
                 }
-            });
+                );
+            } else {
+                console.log('se mete al id de g+');
+                self.likesAmigo = new App.Model.TiendaList();
+                self.usuarioDelegate.verLikesDelegate(
+                        response.id, self.likesAmigo,
+                        function(data) {
+
+                            console.log("Dato: " + JSON.stringify(data));
+
+
+                            self.likesAmigoActual = new App.Model.TiendaList();
+
+                            for (var j = 0; j < data.length; j++) {
+
+                                var likeModel = new App.Model.TiendaModel();
+                                var likeActual = data[j];
+                                console.log('like acutal ' + JSON.stringify(likeActual));
+                                likeModel.set('facebookId', likeActual.facebookId);
+                                likeModel.set('name', likeActual.name);
+                                likeModel.set('tipo', likeActual.tipo);
+
+                                self.likesAmigoActual.models.push(likeModel);
+
+                            }
+                            //self.currentLikesUsuario=new App.Model.UsuarioList(data);
+
+                            //self._renderLogin();
+                            self.renderLikes();
+                            //                self._renderEdit();
+                        },
+                        function(data) {
+                            Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
+                            alert("Error en ver los amigos");
+                        }
+
+                );
+            }
 
 
         },
@@ -430,6 +549,168 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
             });
 
         },
+        agregarDatosFacebookImportar: function(response) {
+            var self = this;
+
+
+            FB.api('/me/friends', function(response) {
+                console.log('2');
+                if (response.data) {
+                    console.log('3');
+
+                    console.log('Response' + JSON.stringify(response));
+
+
+
+                    var amigos = response.data;
+                    var respuesta = '';
+
+                    self.amigosNuevos = new App.Model.UsuarioList();
+
+
+                    for (var i = 0; i < amigos.length; i++) {
+                        console.log('i: ' + i);
+                        console.log('amigo all:' + JSON.stringify(amigos[i]));
+                        console.log('amigo ' + i + ' - nombre:' + amigos[i].name);
+                        FB.api("/" + amigos[i].id, function(res) {
+
+                            console.log('Amigo con /{user-id} JSON: ' + JSON.stringify(res));
+                        });
+//                            
+//                            FB.api("/"+amigos[i].id+"/likes",function(res){
+//                               
+//                                console.log('Res amigo JSON:'+JSON.stringify(res));
+//                            });
+
+                        var amigoActual = new App.Model.UsuarioModel();
+
+                        amigoActual.set('name', amigos[i].name);
+                        amigoActual.set('email', amigos[i].email);
+                        amigoActual.set('facebookId', amigos[i].id);
+
+                        self.amigosNuevos.models.push(amigoActual);
+                    }
+
+                    self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                    console.log('Usuario Actual facebook ID: ' + self.usuarioActual.getDisplay('facebookId'));
+                    self.usuarioDelegate.agregarAmigos(self.usuarioActual.getDisplay('facebookId'), self.amigosNuevos, function(data) {
+
+
+                        console.log("Amigos agregados: " + JSON.stringify(data));
+                        console.log("Agreg� Amigos");
+                        self.importarFacebook(response);
+                        self.verAmigos();
+                    }, function(data) {
+
+                        alert("Error Agregando Amigos");
+                    });
+                    console.log('4');
+
+                } else {
+                    console.log('5');
+                    console.log('Error al obtener amigos');
+                }
+            });
+
+        },
+        agregarDatosGoogle: function(response) {
+            var self = this;
+            console.log("Entra a la funcion para agregar datos de google");
+            gapi.client.plus.people.list({
+                'userId': 'me',
+                'collection': 'visible'
+            }).then(function(res) {
+                var people = res.result;/*
+                 $('#visiblePeople').empty();
+                 $('#visiblePeople').append('Number of people visible to this app: ' +
+                 people.totalItems + '<br/>');*/
+                self.amigosNuevos = new App.Model.UsuarioList();
+                for (var personIndex in people.items) {
+                    person = people.items[personIndex];
+                    console.log(person);
+                    var amigoActual = new App.Model.UsuarioModel();
+                    amigoActual.set('name', person.displayName);
+                    amigoActual.set('email', '');
+                    amigoActual.set('facebookId', 'vacio');
+                    amigoActual.set('googleId', person.id);
+                    self.amigosNuevos.models.push(amigoActual);
+                    /*$('#visiblePeople').append('<img src="' + person.image.url + '">');*/
+                }
+                console.log('amigos nuegos de G+');
+                console.log(self.amigosNuevos);
+                self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+                console.log('Usuario Actual G+ ID: ' + self.usuarioActual.getDisplay('googleId'));
+                self.usuarioDelegate.agregarAmigosGPlus(self.usuarioActual.getDisplay('googleId'), self.amigosNuevos, function(data) {
+
+
+                    console.log("Amigos agregados: " + JSON.stringify(data));
+                    console.log("Agreg� Amigos");
+                    self.verAmigos();
+                }, function(data) {
+
+                    alert("Error Agregando Amigos");
+                });
+            });
+            /*
+             FB.api('/me/friends', function(response) {
+             console.log('2');
+             if (response.data) {
+             console.log('3');
+             
+             console.log('Response' + JSON.stringify(response));
+             
+             
+             
+             var amigos = response.data;
+             var respuesta = '';
+             
+             self.amigosNuevos = new App.Model.UsuarioList();
+             
+             
+             for (var i = 0; i < amigos.length; i++) {
+             console.log('i: ' + i);
+             console.log('amigo all:' + JSON.stringify(amigos[i]));
+             console.log('amigo ' + i + ' - nombre:' + amigos[i].name);
+             FB.api("/" + amigos[i].id, function(res) {
+             
+             console.log('Amigo con /{user-id} JSON: ' + JSON.stringify(res));
+             });
+             //                            
+             //                            FB.api("/"+amigos[i].id+"/likes",function(res){
+             //                               
+             //                                console.log('Res amigo JSON:'+JSON.stringify(res));
+             //                            });
+             
+             var amigoActual = new App.Model.UsuarioModel();
+             
+             amigoActual.set('name', amigos[i].name);
+             amigoActual.set('email', amigos[i].email);
+             amigoActual.set('facebookId', amigos[i].id);
+             
+             self.amigosNuevos.models.push(amigoActual);
+             }
+             
+             self.usuarioDelegate = new App.Delegate.UsuarioDelegate();
+             console.log('Usuario Actual facebook ID: ' + self.usuarioActual.getDisplay('facebookId'));
+             self.usuarioDelegate.agregarAmigos(self.usuarioActual.getDisplay('facebookId'), self.amigosNuevos, function(data) {
+             
+             
+             console.log("Amigos agregados: " + JSON.stringify(data));
+             console.log("Agreg� Amigos");
+             self.verAmigos();
+             }, function(data) {
+             
+             alert("Error Agregando Amigos");
+             });
+             console.log('4');
+             
+             } else {
+             console.log('5');
+             console.log('Error al obtener amigos');
+             }
+             });*/
+
+        },
         statusChangeCallback: function(response) {
             console.log('statusChangeCallback');
             console.log(response);
@@ -468,7 +749,7 @@ define(['controller/_usuarioController', 'delegate/usuarioDelegate', 'delegate/b
                         console.log("Ver Historial Bonos respuesta: " + JSON.stringify(data));
                         self.currentBonos = new App.Model.BonoList(data);
                         self.renderHistorialBonos();
-                   },
+                    },
                     function(data) {
                         Backbone.trigger(self.componentId + '-' + 'error', {event: 'cliente-login', view: self, id: '', data: data, error: 'No se pudo iniciar sesion'});
                         alert("Error en ver el historial de bonos");

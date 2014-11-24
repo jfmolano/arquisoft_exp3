@@ -42,6 +42,7 @@ import javax.inject.Inject;
 
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.api.IUsuarioLogicService;
 import co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto.UsuarioDTO;
+import com.sun.enterprise.deployment.node.ApplicationNode;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
@@ -79,10 +80,12 @@ public abstract class _UsuarioService {
             boolean alterado = !(hash.equalsIgnoreCase(usuario.getHash()));
             System.out.println("Alterado: "+alterado);
             
-            if ( alterado){
-                throw new Exception("Se han alterado los datos");
+            if (alterado){
+                //throw new Exception("Se han alterado los datos");
             }
-            return createUsuario(usuario);
+            UsuarioDTO resp = createUsuario(usuario);
+            System.out.println(resp);
+            return resp;
         }
 	
         

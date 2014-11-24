@@ -33,7 +33,8 @@ define([], function() {
                  'email': '',
 		 'name' : '' ,
                  'hash' : '' , 
-		 'facebookId' :'' },
+		 'facebookId' :'',
+                 'googleId' :''},
         initialize: function() {
           var self = this;
           this.on('invalid',function(error){

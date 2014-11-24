@@ -51,6 +51,7 @@ public abstract class _UsuarioConverter {
 					dto.setContrasena(entity.getContrasena());
                                         dto.setEmail(entity.getEmail());
                                         dto.setFacebookId(entity.getFacebookId());
+                                        dto.setGoogleId(entity.getGoogleId());
 			return dto;
 		}else{
 			return null;
@@ -67,6 +68,7 @@ public abstract class _UsuarioConverter {
 					entity.setContrasena(dto.getContrasena());
                                         entity.setEmail(dto.getEmail());
                                         entity.setFacebookId(dto.getFacebookId());
+                                        entity.setGoogleId(dto.getGoogleId());
 			return entity;
 		}else {
 			return null;

@@ -32,6 +32,8 @@ package co.edu.uniandes.csw.Arquidalgos.usuario.logic.dto;
 
 public class UsuarioDTO extends _UsuarioDTO {
 
+   
+
     
     
     

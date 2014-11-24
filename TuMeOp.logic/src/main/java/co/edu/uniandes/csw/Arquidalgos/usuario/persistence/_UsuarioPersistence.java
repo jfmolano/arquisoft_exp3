@@ -76,7 +76,8 @@ public abstract class _UsuarioPersistence extends MongoConfig implements _IUsuar
             doc.append("name", usuario.getName()); 
             doc.append("contrasena", usuario.getContrasena()); 
             doc.append("email", usuario.getEmail()); 
-            doc.append("facebookId", usuario.getFacebookId()); 
+            doc.append("facebookId", usuario.getFacebookId());
+            doc.append("googleId", usuario.getGoogleId());
             
         
            coll.insert(doc); 
@@ -99,7 +100,8 @@ public abstract class _UsuarioPersistence extends MongoConfig implements _IUsuar
          user.setName((String)dBObject.get("name")); 
          user.setContrasena((String)dBObject.get("contrasena")); 
          user.setEmail((String)dBObject.get("email")); 
-         user.setFacebookId((String)dBObject.get("facebookId")); 
+         user.setFacebookId((String)dBObject.get("facebookId"));
+         user.setGoogleId((String)dBObject.get("googleId"));
          
          //TODO imprimir usuarios
          listaUsuarios.add(user); 
@@ -158,7 +160,8 @@ public abstract class _UsuarioPersistence extends MongoConfig implements _IUsuar
                 .append("name", user.getName())
                 .append("contrasena", user.getContrasena())
                 .append("email", user.getEmail())          
-                .append("facebookId", user.getFacebookId());
+                .append("facebookId", user.getFacebookId())
+                .append("googleId", user.getGoogleId());
                 
     }
 

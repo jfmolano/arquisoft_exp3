@@ -40,10 +40,16 @@ public interface IUsuarioPersistence extends _IUsuarioPersistence {
     public List<UsuarioDTO> darAmigosUsuario( String facebookId);
     
     public List<UsuarioDTO> agregarAmigos( String facebookId, List<UsuarioDTO> amigos);
+    
+    public List<UsuarioDTO> agregarAmigosGoogle( String facebookId, List<UsuarioDTO> amigos);
 
     public List<TiendaDTO> getTiendas();
 
     public List<TiendaDTO> darLikesUsuario(String facebookId, List<TiendaDTO> tiendas);
     
     public List<BonoDTO> agregarBonos(String facebookId, List<BonoDTO> bonos);
+
+    public List<UsuarioDTO> darAmigosUsuarioGoogle(String facebookId);
+
+    public List<UsuarioDTO> unirUsuarios(UsuarioDTO usG, UsuarioDTO usFb);
 }

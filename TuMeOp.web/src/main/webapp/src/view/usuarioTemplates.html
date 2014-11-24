@@ -123,15 +123,7 @@
     </div>
     <div style ="overflow:scroll; height:300px; clear:both">
         <% _.each(amigos, function(amigo) { %>
-        <div class="TableButton" style = "clear:both; height:50px;" onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.getDisplay('facebookId')%>, name:'<%= amigo.getDisplay('name')%>'})">
-            <div class="contenidoTablas" style="width: 48%">
-                <%= htmlEncode(amigo.getDisplay('name')) %>
-            </div>
-            <div class="contenidoTablas" style="width: 48%">
-                <%= htmlEncode(amigo.getDisplay('email')) %>
-            </div>
-        </div>
-        <div class="TableButton" style = "clear:both; height:50px;" onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%= amigo.getDisplay('facebookId')%>, name:'<%= amigo.getDisplay('name')%>'})">
+        <div class="TableButton" style = "clear:both; height:50px;" onclick="Backbone.trigger('<%= componentId %>-verAmigo',{id:<%=(amigo.getDisplay('facebookId')==='vacio')?(amigo.getDisplay('googleId')):(amigo.getDisplay('facebookId'))%>, name:'<%= amigo.getDisplay('name')%>'})">
             <div class="contenidoTablas" style="width: 48%">
                 <%= htmlEncode(amigo.getDisplay('name')) %>
             </div>
@@ -150,7 +142,7 @@
 
    
                 <button id="<%= componentId %>-importarFacebook" class="btn btn-medium btn-primary" 
-                onclick="Backbone.trigger('<%= componentId %>-importarFacebook',{}); return false" 
+                onclick="Backbone.trigger('<%= componentId %>-loginFacebook',{});console.log('console log:');console.log('<%= componentId %>'); return false" 
                 type="button" class="btn btn-primary">
 
                 Importar Amigos Facebook
@@ -224,7 +216,7 @@
                     <td>
                         <div class="form-group"> 
                         <form role="form" id="<%= componentId %>-bonoForm"> 
-                            <input type="hidden" name="tienda_bonoId" value="<%= htmlEncode(amigo.getDisplay('facebookId')) %>"/> 
+                            <input type="hidden" name="tienda_bonoId" value="<%= htmlEncode(amigo.getDisplay('facebookId')==='vacio')?(amigo.getDisplay('googleId')):(amigo.getDisplay('facebookId')) %>"/> 
                             <select class="form-control" id="valor" name="valor">
                                 <option value="20000">$20.000</option>
                                 <option value="50000">$50.000</option>
@@ -235,7 +227,7 @@
                         </div>
                     </td>
                     <td>
-                        <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success" onclick="Backbone.trigger('<%= componentId %>-agregarBono',{usuaFacebookId:<%=usuarioActual.getDisplay('facebookId')%>, tFb:<%=amigo.getDisplay('facebookId')%>}); return false" type="button" class="btn btn-success"> 
+                        <button id="<%= componentId %>-verAmigo" class="btn btn-large btn-success" onclick="Backbone.trigger('<%= componentId %>-agregarBono',{usuaFacebookId:<%=(usuarioActual.getDisplay('facebookId')==='vacio')?(usuarioActual.getDisplay('googleId')):(usuarioActual.getDisplay('facebookId'))%>, tFb:<%=(amigo.getDisplay('facebookId')==='vacio')?(amigo.getDisplay('googleId')):(amigo.getDisplay('facebookId'))%>}); return false" type="button" class="btn btn-success"> 
                             Comprar Bono
                         </button>
                     </td>

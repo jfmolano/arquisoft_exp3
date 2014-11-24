@@ -84,9 +84,36 @@ public class UsuarioService extends _UsuarioService {
         
         
         if ( alterado){
-            System.out.println("Alterado el sistema");
+            //System.out.println("Alterado el sistema");
         }
         return this.usuarioLogicService.agregarAmigos(usuarioAmigos);
+    }
+    
+    @POST
+    @Path("/agregarAmigosGoogle")
+    public List<UsuarioDTO> agregarAmigosGoogle(UsuarioAmigosDTO usuarioAmigos) throws Exception {
+        
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        String key = "123";
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+
+        String x = usuarioAmigos.toString();
+        System.out.println("TO String: "+x);
+
+        String hash = Hex.encodeHexString(sha256_HMAC.doFinal(x.getBytes()));
+        System.out.println("CODIGO HASH: "+hash);
+        System.out.println("CODIGO HASH JSON "+usuarioAmigos.getHash());
+
+        boolean alterado = !(hash.equalsIgnoreCase(usuarioAmigos.getHash()));
+        System.out.println("Alterado: "+alterado);
+
+        
+        
+        if ( alterado){
+            //System.out.println("Alterado el sistema");
+        }
+        return this.usuarioLogicService.agregarAmigosGoogle(usuarioAmigos);
     }
     
     @POST
@@ -108,10 +135,20 @@ public class UsuarioService extends _UsuarioService {
         System.out.println("Alterado: "+alterado);
 
         if ( alterado){
-            throw new Exception("Se han alterado los datos");
+            //throw new Exception("Se han alterado los datos");
         }
-        
-        return this.usuarioLogicService.darAmigosUsuario(usuario.getFacebookId());
+        String idR="";
+        if(usuario.getFacebookId().equals("vacio"))
+        {
+            idR = usuario.getGoogleId();
+            return this.usuarioLogicService.darAmigosUsuarioGoogle(idR);
+        }
+        else
+        {
+            System.out.println("Entró al dar amigos de facebook");
+            idR = usuario.getFacebookId();
+            return this.usuarioLogicService.darAmigosUsuario(idR);
+        }
     }
     
     
@@ -120,6 +157,17 @@ public class UsuarioService extends _UsuarioService {
     public List<TiendaDTO> darLikesUsuario(UsuarioTiendasDTO usuarioTiendas) {
         System.out.print("Service usuarioID: "+usuarioTiendas.getFacebookId());
         return this.usuarioLogicService.darLikesUsuario(usuarioTiendas);
+    }
+    
+    @POST
+    @Path("/unirUsuarios")
+    public List<UsuarioDTO> unirUsuarios(List<UsuarioDTO> usuariosP) {
+        List<UsuarioDTO> resp = usuariosP;
+        System.out.print(usuariosP);
+        UsuarioDTO usG = usuariosP.get(0);
+        UsuarioDTO usFb = usuariosP.get(1);
+        usuarioLogicService.unirUsuarios(usG,usFb);
+        return resp;
     }
 
     @POST
